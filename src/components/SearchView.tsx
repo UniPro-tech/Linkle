@@ -1,86 +1,50 @@
 "use client";
+
 import React from "react";
-import { Controller } from "react-hook-form";
-import {
-    TextField,
-    Button,
-    Stack,
-    List,
-    ListItem,
-    Typography,
-    CircularProgress,
-    Alert,
-    ThemeProvider,
-} from "@mui/material";
-import useSearch from "@/hooks/useSearch";
-import searchClubs, { SearchClubsResponse, SearchClubsRequest } from "@/libs/searchers/clubs";
+import { Controller, useForm } from "react-hook-form";
+import { TextField, Button, Stack, ThemeProvider } from "@mui/material";
+import { useRouter } from "next/navigation"; // Next.js のルーターを使用
 import theme from "@/theme/primary";
 import formTheme from "@/theme/form";
 
-interface ClubSearchFormProps {
-    defaultValue: SearchClubsResponse;
-}
+const ClubSearchForm: React.FC = () => {
+    const { control, handleSubmit } = useForm<{ query: string }>({
+        defaultValues: { query: "" },
+    });
+    const router = useRouter();
 
-const ClubSearchForm: React.FC<ClubSearchFormProps> = (props) => {
-    const { defaultValue } = props;
-    const { form, search, results, isLoading, error } = useSearch<
-        SearchClubsRequest,
-        SearchClubsResponse
-    >({ defaultValue: defaultValue, searchServerAction: searchClubs });
-    const { control } = form;
+    const onSubmit = (data: { query: string }) => {
+        if (data.query.trim() !== "") {
+            router.push(`/search?query=${encodeURIComponent(data.query)}`);
+        }
+    };
+
     return (
         <ThemeProvider theme={theme}>
-            <div>
-                <form onSubmit={search}>
-                    <ThemeProvider theme={formTheme}>
-                        <Stack direction="row" spacing={2} justifyContent={"center"} justifyItems={"center"}>
-                            <Controller
-                                name="query"
-                                control={control}
-                                defaultValue=""
-                                render={({ field }) => (
-                                    <TextField
-                                        color="primary"
-                                        {...field}
-                                        label="同好会名"
-                                        variant="outlined"
-                                        fullWidth
-                                    />
-                                )}
-                            />
-                            <Button type="submit" variant="contained" color="primary">
-                                検索
-                            </Button>
-                        </Stack>
-                    </ThemeProvider>
-                </form>
-                <ThemeProvider theme={theme}>
-                    {isLoading && (
-                        <div style={{ textAlign: "center", marginTop: "20px" }}>
-                            <CircularProgress />
-                        </div>
-                    )}
-                    {error && (
-                        <Alert severity="error" style={{ marginTop: "20px" }}>
-                            error
-                        </Alert>
-                    )}
-
-                    {!isLoading && results && results.data.length > 0 && (
-                        <List>
-                            {results.data.map((club, index) => (
-                                <ListItem key={index}>
-                                    <Typography variant="h6" color={"text.primary"}>{club.name}</Typography>
-                                    <Typography variant="body2" color={"text.primary"}>{club.short_description}</Typography>
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <ThemeProvider theme={formTheme}>
+                    <Stack direction="row" spacing={2} justifyContent={"center"} justifyItems={"center"}>
+                        <Controller
+                            name="query"
+                            control={control}
+                            render={({ field }) => (
+                                <TextField
+                                    color="primary"
+                                    {...field}
+                                    label="同好会名"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            )}
+                        />
+                        <Button type="submit" variant="contained" color="primary">
+                            検索
+                        </Button>
+                    </Stack>
                 </ThemeProvider>
-            </div>
+            </form>
         </ThemeProvider>
     );
 };
 
 export default ClubSearchForm;
-
