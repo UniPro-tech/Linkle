@@ -4,6 +4,7 @@ enum AvailableOn {
 }
 
 type Club = {
+    id: number;
     name: string;
     slack_name: string;
     slack_link: string;
