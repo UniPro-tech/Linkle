@@ -1,50 +1,82 @@
 "use client";
 
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
-import { TextField, Button, Stack, ThemeProvider } from "@mui/material";
-import { useRouter } from "next/navigation"; // Next.js のルーターを使用
+import {
+    List,
+    ListItem,
+    Typography,
+    CircularProgress,
+    Alert,
+    ThemeProvider,
+} from "@mui/material";
+import { useSearchParams } from "next/navigation";
+import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
 import theme from "@/theme/primary";
-import formTheme from "@/theme/form";
 
-const ClubSearchForm: React.FC = () => {
-    const { control, handleSubmit } = useForm<{ query: string }>({
-        defaultValues: { query: "" },
-    });
-    const router = useRouter();
+const SearchResultsPage: React.FC = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("query") || "";
 
-    const onSubmit = (data: { query: string }) => {
-        if (data.query.trim() !== "") {
-            router.push(`/search?query=${encodeURIComponent(data.query)}`);
-        }
-    };
+    const [searchResult, setSearchResult] = React.useState<SearchClubsResponse | null>(null);
+    const [searchError, setSearchError] = React.useState<string | null>(null);
+    const [loading, setLoading] = React.useState(false);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            if (query) {
+                setLoading(true);
+                setSearchError(null);
+                try {
+                    const result = await searchClubs({ query });
+                    setSearchResult(result);
+                } catch (error: any) {
+                    setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchData();
+    }, [query]);
 
     return (
         <ThemeProvider theme={theme}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <ThemeProvider theme={formTheme}>
-                    <Stack direction="row" spacing={2} justifyContent={"center"} justifyItems={"center"}>
-                        <Controller
-                            name="query"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    color="primary"
-                                    {...field}
-                                    label="同好会名"
-                                    variant="outlined"
-                                    fullWidth
-                                />
-                            )}
-                        />
-                        <Button type="submit" variant="contained" color="primary">
-                            検索
-                        </Button>
-                    </Stack>
-                </ThemeProvider>
-            </form>
+            <div>
+                {loading && (
+                    <div style={{ textAlign: "center", marginTop: "20px" }}>
+                        <CircularProgress />
+                    </div>
+                )}
+                {searchError && (
+                    <Alert severity="error" style={{ marginTop: "20px" }}>
+                        {searchError}
+                    </Alert>
+                )}
+
+                {searchResult && searchResult.data.length > 0 && (
+                    <List>
+                        {searchResult.data.map((club, index) => (
+                            <ListItem key={index}>
+                                <Typography variant="h6" color={"text.primary"}>
+                                    {club.name}
+                                </Typography>
+                                <Typography variant="body2" color={"text.primary"}>
+                                    {club.short_description}
+                                </Typography>
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
+
+                {searchResult && searchResult.data.length === 0 && (
+                    <Typography style={{ marginTop: "20px", textAlign: "center" }} color="text.primary">
+                        検索結果が見つかりませんでした。
+                    </Typography>
+                )}
+            </div>
         </ThemeProvider>
     );
 };
 
-export default ClubSearchForm;
+export default SearchResultsPage;

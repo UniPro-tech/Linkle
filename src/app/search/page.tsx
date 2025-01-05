@@ -1,4 +1,5 @@
-import SearchBox from "@/components/SearchView";
+import SearchBox from "@/components/SearchBox";
+import SearchResultsPage from "@/components/SearchView";
 import { SearchClubsResponse } from "@/libs/searchers/clubs";
 import { Box } from "@mui/material";
 
@@ -7,7 +8,8 @@ export default function Home() {
   return (
     <>
       <Box sx={{ p: 2 }} >
-        <SearchBox defaultValue={res} />
+        <SearchBox />
+        <SearchResultsPage />
       </Box>
     </>);
 }
