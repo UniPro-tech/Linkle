@@ -1,6 +1,7 @@
 import { Box, Stack, ThemeProvider, Typography } from "@mui/material";
 import theme from "@/theme";
 import Link from "next/link";
+import PoweredByVercel from 'powered-by-vercel'
 
 export default function Footer() {
     return (
@@ -44,13 +45,20 @@ export default function Footer() {
                             また当団体は学外の団体の関連団体ですが、学外への情報提供は行っておりません。
                         </Typography>
                     </Box>
-                    <Stack p={2} textAlign='left' width={1 / 3} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
+                    <Stack p={2} textAlign='left' width={1 / 3} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} spacing={2}>
                         <iframe
                             src="https://uniproject.instatus.com/embed-status/3559d5ef/light-lg"
                             width="245"
                             height="61"
-                        >
-                        </iframe>
+                        />
+                        <PoweredByVercel
+                            utmSource="my-source"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            svgProps={{
+                                width: 245,
+                            }}
+                        />
                     </Stack>
                 </Stack>
                 <Stack bgcolor='primary.light' p={2} direction={"row"} textAlign='center'>
