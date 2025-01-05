@@ -18,6 +18,33 @@ const searchClubs = async (
     const response = await fetch(`${endpoint}/clubs?search=${data.query}`);
     const resultRaw = await response.json();
     const result = resultRaw.records;
+    // for test
+    /*const result = [
+        {
+            id: 1,
+            name: "同好会1",
+            slack_name: "slack_name1",
+            slack_link: "slack_link1",
+            available_on: "Chutobu",
+            short_description: "短い説明",
+            long_description: "同好会1の説明",
+            created_at: "2021-10-01",
+            updated_at: "2021-10-01",
+            image: "https://example.com/image.jpg",
+        },
+        {
+            id: 2,
+            name: "同好会2",
+            slack_name: "slack_name2",
+            slack_link: "slack_link2",
+            available_on: "HighSchool",
+            short_description: "短い説明",
+            long_description: "同好会2の説明",
+            created_at: "2021-10-01",
+            updated_at: "2021-10-01",
+            image: "https://example.com/image.jpg",
+        }
+    ];*/
     return {
         status: "200",
         data: result,
