@@ -1,11 +1,11 @@
-import { SearchClubsResponse } from "@/libs/searchers/clubs";
+import TitleLogo from "@/components/TitleLogo";
 import { Box } from "@mui/material";
 
 export default function Home() {
-  const res: SearchClubsResponse = { status: "200", data: [] };
   return (
     <>
       <Box sx={{ p: 2 }} >
+        <TitleLogo/>
       </Box>
     </>);
 }
