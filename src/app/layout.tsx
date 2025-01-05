@@ -3,7 +3,7 @@ import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '@/theme';
+import theme from '@/theme/primary';
 import { Grid2 } from "@mui/material";
 import Footer from "@/components/Footer";
 
@@ -31,7 +31,16 @@ export default function RootLayout({
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Grid2 bgcolor={'background.default'} height={'100vh'}>
+            <Grid2 bgcolor={'background.default'} height={'100vh'} sx={{
+              '& ::-webkit-scrollbar': {
+                display: "none"
+              },
+              '& :hover': {
+                '::-webkit-scrollbar': {
+                  display: "inline"
+                }
+              }
+            }}>
               {children}
             </Grid2>
           </ThemeProvider>
