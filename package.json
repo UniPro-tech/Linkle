@@ -1,5 +1,5 @@
 {
-  "name": "ns-clubs",
+  "name": "linkle",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,13 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mui/material": "^6.3.0",
-    "@mui/styled-engine-sc": "^6.3.0",
-    "next": "15.1.3",
-    "powered-by-vercel": "^1.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "styled-components": "^6.1.13"
+    "next": "15.1.3"
   },
   "devDependencies": {
     "typescript": "^5",
