@@ -1,5 +1,5 @@
 import { Box, Stack, ThemeProvider, Typography } from "@mui/material";
-import theme from "@/theme";
+import theme from "@/theme/primary";
 import Link from "next/link";
 import PoweredByVercel from 'powered-by-vercel'
 
