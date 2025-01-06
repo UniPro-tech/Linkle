@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import {
     List,
     ListItem,
@@ -79,4 +79,10 @@ const SearchResultsPage: React.FC = () => {
     );
 };
 
-export default SearchResultsPage;
+const SearchResultsPageWrapper = () => (
+    <Suspense fallback={<CircularProgress />}>
+        <SearchResultsPage />
+    </Suspense>
+);
+
+export default SearchResultsPageWrapper;
