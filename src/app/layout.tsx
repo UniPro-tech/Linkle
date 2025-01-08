@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Grid2 bgcolor={'background.default'} height={'100vh'} sx={{
+            <Grid2 bgcolor={'background.default'} minHeight={'100vh'} sx={{
               '& ::-webkit-scrollbar': {
                 display: "none"
               },
