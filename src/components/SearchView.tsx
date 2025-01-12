@@ -2,16 +2,15 @@
 
 import React, { Suspense } from "react";
 import {
-    List,
-    ListItem,
     Typography,
     CircularProgress,
     Alert,
-    ThemeProvider,
+    Grid2,
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
 import theme from "@/theme/primary";
+import ClubCard from "./ClubCard";
 
 const SearchResultsPage: React.FC = () => {
     const searchParams = useSearchParams();
@@ -41,41 +40,50 @@ const SearchResultsPage: React.FC = () => {
     }, [query]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <div>
-                {loading && (
-                    <div style={{ textAlign: "center", marginTop: "20px" }}>
-                        <CircularProgress />
-                    </div>
-                )}
-                {searchError && (
+        <Grid2
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={16}
+            p={3}
+            justifyContent="center"
+            maxWidth={320 * 4.3}
+        >
+            {searchError && (
+                <Grid2 size={16}>
                     <Alert severity="error" style={{ marginTop: "20px" }}>
                         {searchError}
                     </Alert>
-                )}
+                </Grid2>
+            )}
 
-                {searchResult && searchResult.data.length > 0 && (
-                    <List>
-                        {searchResult.data.map((club, index) => (
-                            <ListItem key={index}>
-                                <Typography variant="h6" color={"text.primary"}>
-                                    {club.name}
-                                </Typography>
-                                <Typography variant="body2" color={"text.primary"}>
-                                    {club.short_description}
-                                </Typography>
-                            </ListItem>
-                        ))}
-                    </List>
-                )}
+            {searchResult && searchResult.data.length > 0 && (
+                searchResult.data.map((club, index) => (
+                    <Grid2
+                        key={index}
+                        size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                        <ClubCard
+                            name={club.name}
+                            description={club.short_description}
+                            imageUrl={club.image}
+                            availableOn={club.available_on}
+                        />
+                    </Grid2>
+                ))
+            )}
 
-                {searchResult && searchResult.data.length === 0 && (
-                    <Typography style={{ marginTop: "20px", textAlign: "center" }} color="text.primary">
+            {searchResult && searchResult.data.length === 0 && (
+                <Grid2 size={16}>
+                    <Typography
+                        style={{ marginTop: "20px", textAlign: "center" }}
+                        color="text.primary"
+                    >
                         検索結果が見つかりませんでした。
                     </Typography>
-                )}
-            </div>
-        </ThemeProvider>
+                </Grid2>
+            )}
+        </Grid2>
     );
 };
 
