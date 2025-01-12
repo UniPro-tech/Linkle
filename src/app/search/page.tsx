@@ -1,15 +1,17 @@
-import SearchBox from "@/components/SearchBox";
+import ClubSearchForm from "@/components/SearchBox";
 import SearchResultsPage from "@/components/SearchView";
 import { SearchClubsResponse } from "@/libs/searchers/clubs";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 export default function Home() {
   const res: SearchClubsResponse = { status: "200", data: [] };
   return (
     <>
-      <Box sx={{ p: 2 }} >
-        <SearchBox />
+      <Stack sx={{ p: 2 }} flex={1} justifyContent="center" alignItems="center">
+        <Box width={2 / 5} sx={{ p: 5 }}>
+          <ClubSearchForm />
+        </Box>
         <SearchResultsPage />
-      </Box>
+      </Stack>
     </>);
 }
