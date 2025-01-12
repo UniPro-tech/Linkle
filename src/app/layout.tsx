@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme/primary';
 import { Grid2 } from "@mui/material";
 import Footer from "@/components/Footer";
+import Sidebar from "@/components/Sidebar";
 
 const notoSans = Noto_Sans_JP({
   weight: ['300', '400', '500', '700'],
@@ -30,21 +31,23 @@ export default function RootLayout({
         className={`${notoSans.variable} antialiased`}
       >
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <Grid2 bgcolor={'background.default'} minHeight={'100vh'} sx={{
-              '& ::-webkit-scrollbar': {
-                display: "none"
-              },
-              '& :hover': {
-                '::-webkit-scrollbar': {
-                  display: "inline"
+          <Sidebar>
+            <ThemeProvider theme={theme}>
+              <Grid2 bgcolor={'background.default'} minHeight={'100vh'} sx={{
+                '& ::-webkit-scrollbar': {
+                  display: "none"
+                },
+                '& :hover': {
+                  '::-webkit-scrollbar': {
+                    display: "inline"
+                  }
                 }
-              }
-            }}>
-              {children}
-            </Grid2>
-          </ThemeProvider>
-          <Footer />
+              }}>
+                {children}
+              </Grid2>
+            </ThemeProvider>
+            <Footer />
+          </Sidebar>
         </AppRouterCacheProvider>
       </body>
     </html>
