@@ -13,15 +13,9 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import LogoutIcon from '@mui/icons-material/Logout';
-import LoginIcon from '@mui/icons-material/Login';
 import Signin from './AccountBarBtn';
 import { SessionProvider } from 'next-auth/react';
+import MenuList from './SideMenuList';
 
 const drawerWidth = 240;
 
@@ -95,43 +89,6 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
         setOpen(false);
     };
 
-    const loginedMenuList = [
-        {
-            label: 'ダッシュボード',
-            href: '/dashboard',
-            icon: <DashboardIcon />,
-        },
-        // TODO: あとで実装する
-        /*{
-            label: 'クラブ一覧',
-            href: '/clubs',
-            icon: <DashboardIcon/>,
-        },
-        {
-            label: 'イベント一覧',
-            href: '/events',
-            icon: <DashboardIcon/>,
-        },
-        {
-            label: 'ユーザー一覧',
-            href: '/users',
-            icon: <DashboardIcon/>,
-        },*/
-        {
-            label: 'ログアウト',
-            href: '/logout',
-            icon: <LogoutIcon />,
-        },
-    ];
-
-    const noLoginedMenuList = [
-        {
-            label: 'ログイン',
-            href: '/login',
-            icon: <LoginIcon />,
-        },
-    ];
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -180,16 +137,9 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {loginedMenuList.map((item) => (
-                        <ListItem key={item.label} disablePadding>
-                            <ListItemButton href={item.href}>
-                                <ListItemIcon>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    <SessionProvider>
+                        <MenuList />
+                    </SessionProvider>
                 </List>
             </Drawer>
             <Main open={open} sx={{ p: 0 }}>
