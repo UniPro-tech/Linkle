@@ -20,6 +20,8 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
+import Signin from './AccountBarBtn';
+import { SessionProvider } from 'next-auth/react';
 
 const drawerWidth = 240;
 
@@ -152,6 +154,10 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                     <Typography variant="h5" sx={{ fontWeight: 'bold' }} noWrap component="div">
                         Linkle
                     </Typography>
+                    <div style={{ flexGrow: 1 }}></div>
+                    <SessionProvider>
+                        <Signin />
+                    </SessionProvider>
                 </Toolbar>
             </AppBar>
             <Drawer
