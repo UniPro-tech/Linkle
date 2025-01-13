@@ -6,15 +6,18 @@ import {
     CircularProgress,
     Alert,
     Grid2,
+    Pagination,
+    PaginationItem,
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
-import theme from "@/theme/primary";
 import ClubCard from "./ClubCard";
 
 const SearchResultsPage: React.FC = () => {
     const searchParams = useSearchParams();
     const query = searchParams.get("query") || "";
+    const page = searchParams.get("page");
 
     const [searchResult, setSearchResult] = React.useState<SearchClubsResponse | null>(null);
     const [searchError, setSearchError] = React.useState<string | null>(null);
@@ -55,22 +58,47 @@ const SearchResultsPage: React.FC = () => {
                     </Alert>
                 </Grid2>
             )}
+            {loading && (
+                <Grid2 size={16}>
+                    <CircularProgress />
+                </Grid2>
+            )}
 
             {searchResult && searchResult.data.length > 0 && (
-                searchResult.data.map((club, index) => (
-                    <Grid2
-                        key={index}
-                        size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                    >
-                        <ClubCard
-                            name={club.name}
-                            description={club.short_description}
-                            imageUrl={club.image}
-                            availableOn={club.available_on}
-                        />
-                    </Grid2>
-                ))
+                <>
+                    {searchResult.data.map((club, index) => {
+                        if (index < 12*(page ? parseInt(page) : 1) && index >= 12*(page ? parseInt(page) - 1 : 0)) {
+                            return (
+                                <Grid2
+                                    key={index}
+                                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                                    style={{ display: 'flex', justifyContent: 'center' }}
+                                >
+                                    <ClubCard
+                                        name={club.name}
+                                        description={club.short_description}
+                                        imageUrl={club.image}
+                                        availableOn={club.available_on}
+                                    />
+                                </Grid2>
+                            );
+                        }
+                    })}
+                    <Pagination
+                        page={page ? parseInt(page) : 1}
+                        count={Math.ceil(searchResult.data.length / 12)}
+                        renderItem={(item) => (
+                            <PaginationItem
+                                component={Link}
+                                href={`/search?query=${query}${item.page === 1 ? '' : `&page=${item.page}`}`}
+                                {...item}
+                                color="primary"
+                                variant="outlined"
+                            />
+                        )}
+                    />
+                </>
+
             )}
 
             {searchResult && searchResult.data.length === 0 && (
