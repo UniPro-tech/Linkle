@@ -16,6 +16,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Signin from './AccountBarBtn';
 import { SessionProvider } from 'next-auth/react';
 import MenuList from './SideMenuList';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -109,7 +110,9 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h5" sx={{ fontWeight: 'bold' }} noWrap component="div">
-                        Linkle
+                        <Link href="/" passHref>
+                            Linkle
+                        </Link>
                     </Typography>
                     <div style={{ flexGrow: 1 }}></div>
                     <SessionProvider>
