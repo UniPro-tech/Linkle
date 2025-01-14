@@ -1,6 +1,5 @@
 "use client"
 import { Avatar } from "@mui/material";
-import { signOut } from "next-auth/react"
 import { useSession } from "next-auth/react"
 
 import Link from 'next/link';
@@ -31,6 +30,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { redirect } from "next/navigation";
 
 export function AccountMenu({ displayName, avatar }: { displayName: string, avatar: string }) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -112,7 +112,9 @@ export function AccountMenu({ displayName, avatar }: { displayName: string, avat
                         設定
                     </Link>
                 </MenuItem>
-                <MenuItem href="/signout">
+                <MenuItem onClick={async () => {
+                    redirect('/signout');
+                }}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
