@@ -22,6 +22,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     providers,
     pages: {
         signIn: "/signin",
+        signOut: "/signout",
     },
     callbacks: {
         async signIn({ account, profile }) {
