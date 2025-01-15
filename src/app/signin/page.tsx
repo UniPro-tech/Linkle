@@ -26,7 +26,7 @@ export default async function SignInPage({
                         action={async () => {
                             "use server";
                             try {
-                                await signIn(provider.id, { redirectTo: `/checkStudent?redirect=${callbackUrl}` });
+                                await signIn(provider.id, { redirectTo: `/checkAuth?redirect=${callbackUrl}` });
                             } catch (error) {
                                 if (error instanceof AuthError) {
                                     return redirect(`?error=${error.type}`);

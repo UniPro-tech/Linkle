@@ -3,7 +3,9 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export default async function CheckStudent(
+const endpoint = process.env.DB_API_ENDPOINT;
+
+export default async function CheckAuthentication(
     props: {
         searchParams: Promise<{ redirect?: string }>;
     }
@@ -20,8 +22,21 @@ export default async function CheckStudent(
         session?.user?.email?.endsWith("@nnn.ac.jp");
 
     if (isStudentEmail) {
+        await checkNewUser(session?.user?.email);
         redirect(redirectURL);
     } else {
-        redirect("/error/notStudent");
+        redirect("/api/authErrorSignout");
     }
+}
+
+const checkNewUser = async (email?: string | null) => {
+    console.log(email);
+    const response = await fetch(`${endpoint}/users?search=${email}`);
+    const resultRaw = await response.json();
+    const result = resultRaw.records;
+    console.log(result);
+    if (result.length != 0) {
+        return;
+    }
+    redirect("/register");
 }
