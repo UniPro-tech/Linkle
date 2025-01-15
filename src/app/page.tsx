@@ -5,6 +5,8 @@ import { Box, Stack } from "@mui/material";
 
 import { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "ホーム - Linkle",
   description: "N/S高等学校同好会ポータルサイト「Linkle」です。自分の同好会のページをつくって宣伝したり、同好会を検索したりできます！",
