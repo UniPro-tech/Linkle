@@ -4,12 +4,12 @@ import { useSession } from "next-auth/react"
 
 import Link from 'next/link';
 
-export default function LoginButton() {
+export default function LoginButton({slack_name}: {slack_name: string}) {
     const { data: session } = useSession()
     if (session?.user) {
         return (
             <>
-                <AccountMenu displayName={session.user.name ?? 'unknown'} avatar={session.user.image ?? ''} />
+                <AccountMenu displayName={slack_name ?? 'unknown'} avatar={session.user.image ?? ''} />
             </>
         );
     }
