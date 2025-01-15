@@ -35,7 +35,7 @@ export default function MenuList() {
         },*/
         {
             label: 'ログアウト',
-            href: '/api/auth/signout',
+            href: '/signout',
             icon: <LogoutIcon />,
         },
     ];
@@ -43,7 +43,7 @@ export default function MenuList() {
     const noLoginedMenuList = [
         {
             label: 'ログイン',
-            href: '/api/auth/signin',
+            href: '/signin',
             icon: <LoginIcon />,
         },
     ];
