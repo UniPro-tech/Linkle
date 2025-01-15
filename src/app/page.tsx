@@ -15,11 +15,13 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Stack sx={{ p: 2 }} justifyContent="center" minHeight="100vh" justifyItems="center" alignItems="center">
-        <TitleLogo />
-        <Box width={2 / 5} sx={{ p: 5 }}>
-          <ClubSearchForm />
-        </Box>
+      <Stack sx={{ p: 2 }} justifyContent="center" minHeight="100vh" justifyItems="center" alignItems="center" spacing={20}>
+        <Stack justifyContent={"center"} alignItems={"center"} width="100%">
+          <TitleLogo />
+          <Box width={2 / 5} sx={{ p: 5 }}>
+            <ClubSearchForm />
+          </Box>
+        </Stack>
         <RecentCreatedClubs />
       </Stack>
     </>);
