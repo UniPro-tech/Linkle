@@ -3,11 +3,15 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export default async function CheckStudent({
-    searchParams,
-}: {
-    searchParams: { redirect?: string };
-}) {
+export default async function CheckStudent(
+    props: {
+        searchParams: Promise<{ redirect?: string }>;
+    }
+) {
+    const searchParams = await props.searchParams;
+    let redirectURL = searchParams?.redirect ?? "/";
+    if (redirectURL == "") redirectURL = "/";
+
     const session = await auth();
 
     const isStudentEmail =
@@ -16,8 +20,8 @@ export default async function CheckStudent({
         session?.user?.email?.endsWith("@nnn.ac.jp");
 
     if (isStudentEmail) {
-        redirect(searchParams.redirect ?? "/");
+        redirect(redirectURL);
     } else {
-        redirect("/api/checkStudent");
+        redirect("/error/notStudent");
     }
 }
