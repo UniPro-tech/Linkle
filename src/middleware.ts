@@ -1,7 +1,7 @@
 import { auth, signOut } from "@/auth"
 
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|signouted|error/).*)"],
 }
 
 export default auth(async (req) => {
