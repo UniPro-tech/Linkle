@@ -25,11 +25,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         signOut: "/signout",
     },
     callbacks: {
-        async signIn({ account, profile }) {
-            if (account?.provider === "google") {
-                return profile?.email_verified && (profile?.email?.endsWith("@nnn.ed.jp") || profile?.email?.endsWith("@n-jr.jp")) ? true : false;
-            }
-            return true;
-        },
     },
 })
