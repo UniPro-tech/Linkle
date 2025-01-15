@@ -1,3 +1,4 @@
+import RecentCreatedClubs from "@/components/RecentCreatedClubs";
 import ClubSearchForm from "@/components/SearchBox";
 import TitleLogo from "@/components/TitleLogo";
 import { Box, Stack } from "@mui/material";
@@ -17,6 +18,7 @@ export default function Home() {
         <Box width={2 / 5} sx={{ p: 5 }}>
           <ClubSearchForm />
         </Box>
+        <RecentCreatedClubs />
       </Stack>
     </>);
 }
