@@ -16,10 +16,10 @@ export default async function CheckAuthentication(
 
     const session = await auth();
 
-    const isStudentEmail =
-        session?.user?.email?.endsWith("@nnn.ed.jp") ||
-        session?.user?.email?.endsWith("@n-jr.jp") ||
-        session?.user?.email?.endsWith("@nnn.ac.jp");
+    const isStudentEmail = true;
+        //session?.user?.email?.endsWith("@nnn.ed.jp") ||
+        //session?.user?.email?.endsWith("@n-jr.jp") ||
+        //session?.user?.email?.endsWith("@nnn.ac.jp");
 
     if (isStudentEmail) {
         await checkNewUser(session?.user?.email);
@@ -31,7 +31,7 @@ export default async function CheckAuthentication(
 
 const checkNewUser = async (email?: string | null) => {
     console.log(email);
-    const response = await fetch(`${endpoint}/users?search=${email}`);
+    const response = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
     const resultRaw = await response.json();
     const result = resultRaw.records;
     console.log(result);

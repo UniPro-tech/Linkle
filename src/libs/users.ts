@@ -1,7 +1,7 @@
 const endpoint = process.env.DB_API_ENDPOINT;
 
 export async function getCurrentUser(email: string) {
-    const apiRes = await fetch(`${endpoint}/users?search=${email}`);
+    const apiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
     if (apiRes.ok) {
         const users = await apiRes.json();
         return users.records[0];
