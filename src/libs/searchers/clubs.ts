@@ -12,10 +12,10 @@ export interface SearchClubsResponse {
     status: string;
 }
 const searchClubs = async (
-    data: SearchClubsRequest
+    data?: SearchClubsRequest
 ): Promise<SearchClubsResponse> => {
     console.log(data);
-    const response = await fetch(`${endpoint}/clubs?search=${data.query}`);
+    const response = await fetch(`${endpoint}/clubs${data?.query?`?query=${data.query}`:""}`);
     const resultRaw = await response.json();
     const result = resultRaw.records;
     // for test
