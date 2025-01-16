@@ -16,10 +16,10 @@ export default async function CheckAuthentication(
 
     const session = await auth();
 
-    const isStudentEmail = true;
-        //session?.user?.email?.endsWith("@nnn.ed.jp") ||
-        //session?.user?.email?.endsWith("@n-jr.jp") ||
-        //session?.user?.email?.endsWith("@nnn.ac.jp");
+    const isStudentEmail =
+        session?.user?.email?.endsWith("@nnn.ed.jp") ||
+        session?.user?.email?.endsWith("@n-jr.jp") ||
+        session?.user?.email?.endsWith("@nnn.ac.jp");
 
     if (isStudentEmail) {
         await checkNewUser(session?.user?.email);

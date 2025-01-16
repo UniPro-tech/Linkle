@@ -17,6 +17,8 @@ import Signin from './AccountBarBtn';
 import { SessionProvider } from 'next-auth/react';
 import MenuList from '../SideMenuList';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { usePathname } from "next/navigation";
 
 const drawerWidth = 240;
 
@@ -78,7 +80,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function SidebarMain({ children, slack_name }: Readonly<{ children: React.ReactNode; slack_name: string }>) {
+export default function SidebarMain({ children, slack_name, notUser }: Readonly<{ children: React.ReactNode; slack_name: string; notUser: boolean }>) {
+    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/tos', '/about', '/privacy', '/api/authErrorSignout', '/signouted', '/error/notStudent', '/cookie'];
+    const pathname = usePathname();
+
+    if (notUser && !excludePaths.includes(pathname)) {
+        redirect('/checkAuth');
+    }
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
