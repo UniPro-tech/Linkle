@@ -72,7 +72,7 @@ export default function Footer() {
                             </Link>
                         </Typography>
                         <Typography variant='body1' color='text.secondary'>
-                            <Link href='https://wiki.uniproject.jp/share/6777b30da69c94671306a70c'>
+                            <Link href='/privacy'>
                                 &gt; プライバシーポリシー
                             </Link>
                         </Typography>

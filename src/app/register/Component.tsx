@@ -36,7 +36,7 @@ export default function RegisterComponet(
                                     利用規約
                                 </Link>
                                 および
-                                <Link href="https://wiki.uniproject.jp/share/6777b30da69c94671306a70c" className="text-blue-500" target="_blank">
+                                <Link href="/privacy" className="text-blue-500" target="_blank">
                                     UniProjectプライバシー・ポリシー
                                 </Link>
                                 に同意します。
