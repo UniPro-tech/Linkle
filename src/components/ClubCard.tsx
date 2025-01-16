@@ -6,35 +6,39 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
+import Link from 'next/link';
 
 type ClubCardProps = {
+    id: number;
     name: string;
     description: string;
     imageUrl: string;
     availableOn: number;
 };
 
-export default function ClubCard({ name, description, imageUrl, availableOn }: ClubCardProps) {
+export default function ClubCard({ id, name, description, imageUrl, availableOn }: ClubCardProps) {
     return (
-        <Card sx={{ maxWidth: 320, position: 'relative' }}>
-            <CardMedia
-                sx={{ height: 180, width: 320 }}
-                image={imageUrl}
-            />
-            {availableContents(availableOn)}
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {name}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {description}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-            </CardActions>
-        </Card>
+        <Link href={`/clubs/${id}`}>
+            <Card sx={{ maxWidth: 320, position: 'relative' }}>
+                <CardMedia
+                    sx={{ height: 180, width: 320 }}
+                    image={imageUrl}
+                />
+                {availableContents(availableOn)}
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {name}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {description}
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <Button size="small">Share</Button>
+                    <Button size="small">Learn More</Button>
+                </CardActions>
+            </Card>
+        </Link>
     );
 }
 

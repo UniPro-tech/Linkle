@@ -79,6 +79,7 @@ const SearchResultsPage: React.FC = () => {
                                         description={club.short_description}
                                         imageUrl={club.image}
                                         availableOn={club.available_on}
+                                        id={club.id}
                                     />
                                 </Grid2>
                             );

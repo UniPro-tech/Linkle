@@ -26,6 +26,7 @@ export default async function RecentCreatedClubs() {
                                     description={club.short_description}
                                     imageUrl={club.image}
                                     availableOn={club.available_on}
+                                    id={club.id}
                                 />
                             </Grid2>
                         );
