@@ -1,11 +1,17 @@
 "use client";
 import { useSession } from "next-auth/react"
-import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Stack, ThemeProvider, Typography } from "@mui/material";
+import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import { useState } from "react";
 import theme from "@/theme/primary";
 import formTheme from "@/theme/form";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useForm, Controller } from 'react-hook-form';
+
+interface SignUpFormData {
+    name: string;
+    tos: boolean;
+}
 
 export default function RegisterComponet(
     { redirectURL }: { redirectURL: string }
@@ -14,10 +20,33 @@ export default function RegisterComponet(
 
     const { data: session } = useSession()
 
-    const [slackName, setSlackName] = useState("");
-    const onChangeSlackName = (event: { target: { value: any; }; }) => {
-        setSlackName(event.target.value);
-    };
+    const { control, handleSubmit, watch } = useForm<SignUpFormData>({
+        defaultValues: {
+            name: '',
+            tos: false,
+        },
+    });
+
+    const onSubmit = (data: SignUpFormData) => {
+        console.log(data.name);
+        fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: session?.user?.email,
+                slackName: data.name,
+            }),
+        }).then((response) => {
+            if (response.ok) {
+                redirect(redirectURL);
+            }
+        });
+    }
+
+    const tos = watch('tos');
+    const name = watch('name');
 
     return (
         <>
@@ -28,37 +57,48 @@ export default function RegisterComponet(
                         登録を完了するために、以下の項目をご入力ください。
                     </Typography>
                     <ThemeProvider theme={formTheme}>
-                        <FormControl>
-                            <InputLabel htmlFor="SlackName">Slack名</InputLabel>
-                            <Input id="SlackName" aria-describedby="my-helper-text" onChange={onChangeSlackName} />
-                            <FormControlLabel required control={<Checkbox />} label={<>
-                                <Link href="/tos" className="text-blue-500" target="_blank">
-                                    利用規約
-                                </Link>
-                                および
-                                <Link href="/privacy" className="text-blue-500" target="_blank">
-                                    UniProjectプライバシー・ポリシー
-                                </Link>
-                                に同意します。
-                            </>} />
-                            <Button variant="contained" color="primary" onClick={() => {
-                                console.log(slackName);
-                                fetch("/api/register", {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                        email: session?.user?.email,
-                                        slackName: slackName,
-                                    }),
-                                }).then((response) => {
-                                    if (response.ok) {
-                                        redirect(redirectURL);
-                                    }
-                                });
-                            }}>登録</Button>
-                        </FormControl>
+                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 justify-center items-center">
+                            <Controller
+                                name="name"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Slack名"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="tos"
+                                control={control}
+                                render={({ field }) => (
+                                    <FormControl error={Boolean(field.value) === false}>
+                                        <FormControlLabel
+                                            control={<Checkbox {...field} />}
+                                            label={
+                                                <>
+                                                    <Link href="/tos" className="text-blue-500" target="_blank">
+                                                        利用規約
+                                                    </Link>
+                                                    および
+                                                    <Link href="/privacy" className="text-blue-500" target="_blank">
+                                                        UniProjectプライバシー・ポリシー
+                                                    </Link>
+                                                    に同意します。
+                                                </>
+                                            }
+                                        />
+                                        {Boolean(field.value) === false && (
+                                            <FormHelperText>利用規約とプライバシーポリシーに同意してください。</FormHelperText>
+                                        )}
+                                    </FormControl>
+                                )}
+                            />
+                            <Button variant="contained" color="primary" disabled={!tos || !name} fullWidth>登録</Button>
+                        </form>
                     </ThemeProvider>
                 </Stack>
             </ThemeProvider>
