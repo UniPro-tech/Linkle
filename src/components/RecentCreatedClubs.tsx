@@ -6,15 +6,16 @@ import primary from "@/theme/primary";
 const endpoint = process.env.DB_API_ENDPOINT;
 
 export default async function RecentCreatedClubs() {
-    const response = await fetch(`${endpoint}/clubs?size=8&order=created_at`);
+    const response = await fetch(`${endpoint}/clubs?size=8&order=created_at&filter1=visible,eq,1`);
     const resultRaw = await response.json();
     const result = resultRaw.records as Club[];
+    const clubs = await result.filter((club) => club.visible == true);
     return (
         <>
             <ThemeProvider theme={primary}>
                 <Stack width="100%" justifyContent="center" alignItems="center" spacing={2}>
                     <Typography variant="h4" color="text.primary" m={2}>最近作成された同好会</Typography>
-                    {result.map((club, index) => {
+                    {clubs.map((club, index) => {
                         return (
                             <Grid2
                                 key={index}
@@ -31,7 +32,7 @@ export default async function RecentCreatedClubs() {
                             </Grid2>
                         );
                     })}
-                    {result.length === 0 ? (
+                    {clubs.length === 0 ? (
                         <Typography variant="h6" color="text.primary">データがありません。</Typography>
                     ) : null}
                 </Stack>
