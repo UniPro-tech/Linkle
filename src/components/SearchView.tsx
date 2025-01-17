@@ -41,7 +41,7 @@ const SearchResultsPage: React.FC = () => {
         };
         fetchData();
     }, [query]);
-
+    const clubs = searchResult?.data.filter((club) => club.visible == true);
     return (
         <Stack spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Grid2
@@ -65,9 +65,9 @@ const SearchResultsPage: React.FC = () => {
                     </Grid2>
                 )}
 
-                {searchResult && searchResult.data.length > 0 && (
+                {clubs && clubs.length > 0 && (
                     <>
-                        {searchResult.data.map((club, index) => {
+                        {clubs.map((club, index) => {
                             if (index < 12 * (page ? parseInt(page) : 1) && index >= 12 * (page ? parseInt(page) - 1 : 0)) {
                                 return (
                                     <Grid2
@@ -89,7 +89,7 @@ const SearchResultsPage: React.FC = () => {
                     </>
                 )}
 
-                {searchResult && searchResult.data.length === 0 && (
+                {clubs && clubs.length === 0 && (
                     <Grid2 size={16}>
                         <Typography
                             style={{ marginTop: "20px", textAlign: "center" }}
@@ -100,10 +100,10 @@ const SearchResultsPage: React.FC = () => {
                     </Grid2>
                 )}
             </Grid2>
-            {searchResult && searchResult.data.length > 0 && (
+            {clubs && clubs.length > 0 && (
                 <Pagination
                     page={page ? parseInt(page) : 1}
-                    count={Math.ceil(searchResult.data.length / 12)}
+                    count={Math.ceil(clubs.length / 12)}
                     renderItem={(item) => (
                         <PaginationItem
                             component={Link}
