@@ -58,7 +58,7 @@ export function AccountMenu({ displayName, avatar }: { displayName: string, avat
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }} src={avatar} />
+                        <Avatar sx={{ width: 32, height: 32 }} src={ avatar as string} />
                         <Typography textAlign={"center"} alignContent={"center"}>{displayName}</Typography>
                     </Box>
                 </Tooltip>
