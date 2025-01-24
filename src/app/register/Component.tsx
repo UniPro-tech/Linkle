@@ -57,7 +57,24 @@ export default function RegisterComponet(
                         登録を完了するために、以下の項目をご入力ください。
                     </Typography>
                     <ThemeProvider theme={formTheme}>
-                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-2 justify-center items-center">
+                        <form action={
+                            (data:FormData) => {
+                                fetch("/api/register", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        email: session?.user?.email,
+                                        slackName: data.get("name"),
+                                    }),
+                                }).then((response) => {
+                                    if (response.ok) {
+                                        redirect(redirectURL);
+                                    }
+                                });
+                            }
+                        } className="flex flex-col space-y-2 justify-center items-center">
                             <Controller
                                 name="name"
                                 control={control}
@@ -97,7 +114,7 @@ export default function RegisterComponet(
                                     </FormControl>
                                 )}
                             />
-                            <Button variant="contained" color="primary" disabled={!tos || !name} fullWidth>登録</Button>
+                            <Button variant="contained" color="primary" disabled={!tos || !name} fullWidth type="submit">登録</Button>
                         </form>
                     </ThemeProvider>
                 </Stack>
