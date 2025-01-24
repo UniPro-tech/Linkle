@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify(payload),
     });
     if (apiRes.ok) {
-        return NextResponse.json({ status: 200 });;
+        const id = await apiRes.text();
+        return NextResponse.json({ status: 200, id: id });;
     } else {
         console.error(apiRes.statusText);
         console.error(apiRes.status);

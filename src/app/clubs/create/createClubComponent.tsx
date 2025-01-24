@@ -96,6 +96,12 @@ export default function CreateClub() {
                                 visible: 0
                             })
                         });
+                        if (res.ok) {
+                            const id = await res.json();
+                            redirect(`/clubs/${id}/edit`);
+                        } else {
+                            alert("エラーが発生しました。");
+                        }
                     }} className="w-full flex flex-col space-y-1">
                         <Controller
                             name="name"
