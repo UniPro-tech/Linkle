@@ -31,8 +31,8 @@ async function LongDescription({ description }: { description: string }) {
 
 async function KeyVisual({ club }: { club: ClubType }) {
     return (
-        <Box position={"relative"} width={"100%"} height={0} paddingBottom={"56.25%"}>
-            <Image src={club.image} alt={club.name} width={"5000"} height={0} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+        <Box position={"relative"} width={"100%"} height={0} paddingBottom={"56.25%"} overflow={"hidden"}>
+            <Image src={club.image || "/img/noClubImage.jpg"} alt={club.name} width={"5000"} height={0} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
             <Stack spacing={1} position={"absolute"} bottom={"15%"} left={0}>
                 <Typography variant="h1" bgcolor={"black"} color="white" p={3} sx={{ opacity: 0.8, fontWeight: 'bold' }}>{club.name}</Typography>
                 {club.available_on == 0 ? null : (
