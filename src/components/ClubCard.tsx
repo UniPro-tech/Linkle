@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import { Avatar, Box, Stack } from '@mui/material';
 import Link from 'next/link';
 
 type ClubCardProps = {
@@ -45,76 +45,78 @@ export default function ClubCard({ id, name, description, imageUrl, availableOn 
 const availableContents = (availableOn: number): undefined | React.JSX.Element => {
     if ((availableOn & 0x1) == 0x1 && (availableOn & 0x2) == 0x2) {
         return (
-            <>
-                <Box
-                    component="img"
-                    src="/img/jhs.png"
+            <Stack direction={'row'} spacing={1} m={1}>
+                <Avatar
                     sx={{
-                        position: 'absolute',
-                        top: 140,
-                        right: 8,
                         height: 35,
                         width: 35,
                         borderRadius: '50%',
                         border: '2px solid white',
                         boxShadow: 2,
+                        color: 'white',
+                        backgroundColor: '#006',
+                        outline: 'transparent',
+                        outlineColor: 'navy',
                     }}
-                    alt="Small logo"
-                />
-                <Box
-                    component="img"
-                    src="/img/kotobu.png"
+                    alt="高等部"
+                >
+                    高
+                </Avatar>
+                <Avatar
                     sx={{
-                        position: 'absolute',
-                        top: 140,
-                        right: 48,
                         height: 35,
                         width: 35,
                         borderRadius: '50%',
                         border: '2px solid white',
                         boxShadow: 2,
+                        backgroundColor: '#0ae',
+                        color: 'white'
                     }}
-                    alt="Small logo"
-                />
-            </>
+                    alt="中等部"
+                >
+                    中
+                </Avatar>
+            </Stack>
         );
     }
     if ((availableOn & 0x1) == 0x1) {
         return (
-            <Box
-                component="img"
-                src="/img/kotobu.png"
+            <Avatar
                 sx={{
-                    position: 'absolute',
-                    top: 140,
-                    right: 8,
                     height: 35,
                     width: 35,
                     borderRadius: '50%',
                     border: '2px solid white',
                     boxShadow: 2,
+                    color: 'white',
+                    backgroundColor: '#006',
+                    outline: 'transparent',
+                    outlineColor: 'navy',
+                    m: 1,
                 }}
-                alt="Small logo"
-            />
+                alt="高等部"
+            >
+                高
+            </Avatar>
         );
     }
     if ((availableOn & 0x2) == 0x2) {
         return (
-            <Box
-                component="img"
-                src="/img/jhs.png"
+            <Avatar
                 sx={{
-                    position: 'absolute',
-                    top: 140,
-                    right: 8,
                     height: 35,
                     width: 35,
                     borderRadius: '50%',
                     border: '2px solid white',
                     boxShadow: 2,
+                    m: 1,
+                    backgroundColor: '#0ae',
+                    color: 'white'
                 }}
-                alt="Small logo"
-            />
+                alt="中等部"
+            >
+                中
+            </Avatar>
         );
     }
     return undefined;

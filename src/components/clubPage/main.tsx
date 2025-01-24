@@ -1,6 +1,6 @@
 import searchClubs from "@/libs/searchers/clubs";
 import ClubType from "@/models/Club";
-import { Box, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';
 
 import ReactMarkdown from 'react-markdown';
@@ -62,32 +62,37 @@ export const availableContents = (availableOn: number, slack_link: string): unde
         return (
             <>
                 <Link href={`https://n-jr.slack.com/archives/${slack_link}`}>
-                    <Box
-                        component="img"
-                        src="/img/jhs.png"
+                    <Avatar
                         sx={{
                             height: 35,
                             width: 35,
                             borderRadius: '50%',
                             border: '2px solid white',
                             boxShadow: 2,
+                            backgroundColor: '#0ae',
                         }}
-                        alt="Small logo"
-                    />
+                        alt="中等部"
+                    >
+                        中
+                    </Avatar>
                 </Link>
                 <Link href={`https://n-highschool.slack.com/archives/${slack_link}`}>
-                    <Box
-                        component="img"
-                        src="/img/kotobu.png"
+                    <Avatar
                         sx={{
                             height: 35,
                             width: 35,
                             borderRadius: '50%',
                             border: '2px solid white',
                             boxShadow: 2,
+                            color: 'white',
+                            backgroundColor: '#006',
+                            outline: 'transparent',
+                            outlineColor: 'navy',
                         }}
-                        alt="Small logo"
-                    />
+                        alt="高等部"
+                    >
+                        高
+                    </Avatar>
                 </Link>
             </>
         );
@@ -95,36 +100,41 @@ export const availableContents = (availableOn: number, slack_link: string): unde
     if ((availableOn & 0x1) == 0x1) {
         return (
             <Link href={`https://n-highschool.slack.com/archives/${slack_link}`}>
-                <Box
-                    component="img"
-                    src="/img/kotobu.png"
+                <Avatar
                     sx={{
                         height: 35,
                         width: 35,
                         borderRadius: '50%',
                         border: '2px solid white',
                         boxShadow: 2,
+                        color: 'white',
+                        backgroundColor: '#006',
+                        outline: 'transparent',
+                        outlineColor: 'navy',
                     }}
-                    alt="Small logo"
-                />
+                    alt="高等部"
+                >
+                    高
+                </Avatar>
             </Link >
         );
     }
     if ((availableOn & 0x2) == 0x2) {
         return (
             <Link href={`https://n-jr.slack.com/archives/${slack_link}`}>
-                <Box
-                    component="img"
-                    src="/img/jhs.png"
+                <Avatar
                     sx={{
                         height: 35,
                         width: 35,
                         borderRadius: '50%',
                         border: '2px solid white',
                         boxShadow: 2,
+                        backgroundColor: '#0ae',
                     }}
-                    alt="Small logo"
-                />
+                    alt="中等部"
+                >
+                    中
+                </Avatar>
             </Link>
         );
     }
