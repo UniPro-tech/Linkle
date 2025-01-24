@@ -2,6 +2,7 @@
 import { Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Link, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import formTheme from "@/theme/form";
+import { redirect } from "next/navigation";
 
 export default function CreateClub() {
     interface ClubData {
@@ -31,6 +32,7 @@ export default function CreateClub() {
 
     const chutobu = watch("chutobu");
     const kotobu = watch("kotobu");
+    const slack_link = watch("slack_link");
 
     const { control: checkControl, handleSubmit: checkHandleSubmit, watch: checkWatch } = useForm<Check>({
         defaultValues: {
@@ -59,7 +61,8 @@ export default function CreateClub() {
                         const name = data.get("name");
                         const chutobu = data.get("chutobu");
                         const kotobu = data.get("kotobu");
-                        const slack_link = data.get("slack_link");
+                        const slack_linkRaw = data.get("slack_link")?.toString();
+                        const slack_link = slack_linkRaw?.split('/')[4];
                         const slack_name = data.get("slack_name");
                         const shortDescription = data.get("shortDescription");
                         const admin = data.get("admin");
@@ -79,7 +82,6 @@ export default function CreateClub() {
                         const chutobuBit = chutobu ? 1 : 0;
                         const kotobuBit = kotobu ? 2 : 0;
                         const availableBit = chutobuBit | kotobuBit;
-                        const apiBase = process.env.DB_API_ENDPOINT;
                         const res = await fetch(`/api/clubs`, {
                             method: "POST",
                             headers: {
@@ -145,7 +147,11 @@ export default function CreateClub() {
                                 <TextField {...field} label="Slackのリンク" variant="outlined" fullWidth required />
                             }
                         />
-                        <FormHelperText>高等部のリンクでも中等部のリンクでも構いません。</FormHelperText>
+                        {slack_link ?
+                            <>
+                                {slack_link.match(/https:\/\/.*\.slack\.com\/archives\/.*/) ? null : <FormHelperText error>httpsから始まるSlackのチャンネルリンクを入力してください。</FormHelperText>}
+                            </>
+                            : <FormHelperText>高等部のリンクでも中等部のリンクでも構いません。</FormHelperText>}
                         <Controller
                             name="slack_name"
                             control={control}
