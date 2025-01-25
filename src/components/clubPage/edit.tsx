@@ -1,6 +1,6 @@
 "use client";
 import searchClubs from "@/libs/searchers/clubs";
-import { Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Alert, Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import 'katex/dist/katex.min.css';
 import { notFound, redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -57,6 +57,11 @@ export default function ClubEdit({ id }: { id: string }) {
     });
     return (
         <Stack spacing={1} justifyContent={"center"} alignItems={"center"} minHeight={"100vh"} py={5}>
+            {searchError && (
+                <Alert severity="error" style={{ marginTop: "20px" }}>
+                    {searchError}
+                </Alert>
+            )}
             {loading && <Typography>読み込み中...</Typography>}
             {
                 searchResult && (
