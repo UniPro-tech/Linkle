@@ -98,7 +98,7 @@ export default function CreateClub() {
                         });
                         if (res.ok) {
                             const id = await res.json();
-                            redirect(`/clubs/${id}/edit`);
+                            redirect(`/clubs/${id.id}/edit`);
                         } else {
                             alert("エラーが発生しました。");
                         }
