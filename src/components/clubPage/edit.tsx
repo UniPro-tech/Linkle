@@ -2,7 +2,7 @@
 import { getClubById } from "@/libs/searchers/clubs";
 import { Alert, Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import 'katex/dist/katex.min.css';
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Club from "@/models/Club";
 import { Controller, useForm } from "react-hook-form";
@@ -267,9 +267,10 @@ export function AlertDialog({ id }: { id: string }) {
                     <DialogActions>
                         <Button onClick={handleClose} autoFocus>いいえ</Button>
                         <Button onClick={async () => {
-                            fetch(`/api/clubs/${id}`, {
+                            const res = await fetch(`/api/clubs/${id}`, {
                                 method: "DELETE",
                             });
+                            if (res.ok) { redirect("/dashboard") } else alert("削除に失敗しました。");
                         }} color="error">
                             はい
                         </Button>
