@@ -3,13 +3,10 @@ import ClubType from "@/models/Club";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';
 
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LongDescription } from "./md";
 
 export default async function Club({ id }: { id: string }) {
     const res = await searchClubs({ query: id });
@@ -21,14 +18,6 @@ export default async function Club({ id }: { id: string }) {
             <LongDescription description={club.long_description} />
         </>
     )
-}
-
-async function LongDescription({ description }: { description: string }) {
-    return (
-        <Stack flex={1} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} p={2}>
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} className={"markdown"}>{description}</ReactMarkdown>
-        </Stack>
-    );
 }
 
 async function KeyVisual({ club }: { club: ClubType }) {
