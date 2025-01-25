@@ -1,4 +1,4 @@
-import searchClubs from "@/libs/searchers/clubs";
+import { getClubById } from "@/libs/searchers/clubs";
 import ClubType from "@/models/Club";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';
@@ -9,8 +9,9 @@ import { notFound } from "next/navigation";
 import { LongDescription } from "./md";
 
 export default async function Club({ id }: { id: string }) {
-    const res = await searchClubs({ query: id });
+    const res = await getClubById(id);
     const club = res.data[0];
+    console.log(club);
     if (!club) notFound();
     return (
         <>

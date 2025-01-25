@@ -6,7 +6,6 @@ const endpoint = process.env.DB_API_ENDPOINT;
 export interface SearchClubsRequest {
     query: string;
 }
-
 export interface SearchClubsResponse {
     data: Club[];
     status: string;
@@ -233,3 +232,11 @@ const searchClubs = async (
 };
 export default searchClubs;
 
+export const getClubById = async (id: string): Promise<SearchClubsResponse> => {
+    const response = await fetch(`${endpoint}/clubs/?filter1=id,eq,${id}`);
+    const result = await response.json();
+    return {
+        status: "200",
+        data: result.records,
+    };
+}

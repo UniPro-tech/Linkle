@@ -1,8 +1,8 @@
 "use client";
-import searchClubs from "@/libs/searchers/clubs";
+import { getClubById } from "@/libs/searchers/clubs";
 import { Alert, Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import 'katex/dist/katex.min.css';
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 import Club from "@/models/Club";
 import { Controller, useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ export default function ClubEdit({ id }: { id: string }) {
                 setLoading(true);
                 setSearchError(null);
                 try {
-                    const result = await searchClubs({ query: id });
+                    const result = await getClubById(id);
                     const res = result?.data[0];
                     if (!res) notFound();
                     setSearchResult(res);
