@@ -79,8 +79,8 @@ export default function CreateClub() {
                             alert("全ての項目を入力してください。");
                             return;
                         }
-                        const chutobuBit = chutobu ? 1 : 0;
-                        const kotobuBit = kotobu ? 2 : 0;
+                        const kotobuBit = kotobu ? 0x1 : 0;
+                        const chutobuBit = chutobu ? 0x2 : 0;
                         const availableBit = chutobuBit | kotobuBit;
                         const res = await fetch(`/api/clubs`, {
                             method: "POST",
