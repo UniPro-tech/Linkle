@@ -9,7 +9,7 @@ type Club = {
     created_at: string;
     updated_at: string;
     image: string;
-    visible: boolean;
+    visible: number;
 };
 
 export default Club;

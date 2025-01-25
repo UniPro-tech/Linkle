@@ -41,7 +41,7 @@ const SearchResultsPage: React.FC = () => {
         };
         fetchData();
     }, [query]);
-    const clubs = searchResult?.data.filter((club) => club.visible == true);
+    const clubs = searchResult?.data.filter((club) => club.visible == 1);
     return (
         <Stack spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Grid2

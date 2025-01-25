@@ -14,13 +14,14 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
 import ClubCard from "./ClubCard";
+import Club from "@/models/Club";
 
 const SearchResultsPage: React.FC = () => {
     const searchParams = useSearchParams();
     const query = searchParams.get("query") || null;
     const page = searchParams.get("page");
 
-    const [searchResult, setSearchResult] = React.useState<SearchClubsResponse | null>(null);
+    const [searchResult, setSearchResult] = React.useState<Club[] | null>(null);
     const [searchError, setSearchError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState(false);
 
@@ -30,7 +31,8 @@ const SearchResultsPage: React.FC = () => {
             setSearchError(null);
             try {
                 const result = await searchClubs();
-                setSearchResult(result);
+                const clubs = result.data.filter((club) => club.visible == 1);
+                setSearchResult(clubs);
             } catch (error: any) {
                 setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
             } finally {
@@ -63,9 +65,9 @@ const SearchResultsPage: React.FC = () => {
                     </Grid2>
                 )}
 
-                {searchResult && searchResult.data.length > 0 && (
+                {searchResult && searchResult.length > 0 && (
                     <>
-                        {searchResult.data.map((club, index) => {
+                        {searchResult.map((club, index) => {
                             if (index < 12 * (page ? parseInt(page) : 1) && index >= 12 * (page ? parseInt(page) - 1 : 0)) {
                                 return (
                                     <Grid2
@@ -87,7 +89,7 @@ const SearchResultsPage: React.FC = () => {
                     </>
                 )}
 
-                {searchResult && searchResult.data.length === 0 && (
+                {searchResult && searchResult.length === 0 && (
                     <Grid2 size={16}>
                         <Typography
                             style={{ marginTop: "20px", textAlign: "center" }}
@@ -98,10 +100,10 @@ const SearchResultsPage: React.FC = () => {
                     </Grid2>
                 )}
             </Grid2>
-            {searchResult && searchResult.data.length > 0 && (
+            {searchResult && searchResult.length > 0 && (
                 <Pagination
                     page={page ? parseInt(page) : 1}
-                    count={Math.ceil(searchResult.data.length / 12)}
+                    count={Math.ceil(searchResult.length / 12)}
                     renderItem={(item) => (
                         <PaginationItem
                             component={Link}

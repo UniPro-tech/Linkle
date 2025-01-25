@@ -9,7 +9,7 @@ export default async function RecentCreatedClubs() {
     const response = await fetch(`${endpoint}/clubs?size=8&order=created_at&filter1=visible,eq,1`);
     const resultRaw = await response.json();
     const result = resultRaw.records as Club[];
-    const clubs = await result.filter((club) => club.visible == true);
+    const clubs = await result.filter((club) => club.visible == 1);
     return (
         <>
             <ThemeProvider theme={primary}>

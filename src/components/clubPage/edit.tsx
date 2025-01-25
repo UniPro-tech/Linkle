@@ -59,7 +59,7 @@ export default function ClubEdit({ id }: { id: string }) {
             image: searchResult?.image,
             chutobu: (searchResult?.available_on ? (searchResult.available_on & 0x2) == 0x2 : false),
             kotobu: (searchResult?.available_on ? (searchResult.available_on & 0x1) == 0x1 : false),
-            visible: searchResult?.visible,
+            visible: searchResult?.visible == 1,
         },
     });
 
@@ -87,7 +87,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     const slack_link = slack_linkRaw?.split('/')[4];
                                     const imgURL = data.get("image")?.toString();
                                     let URLres = "";
-                                    if (imgURL?.indexOf('drive.google.com', 0) == -1) URLres = imgURL;
+                                    if ((imgURL?.indexOf('drive.google.com', 0) == -1) && (imgURL?.indexOf('drive.google.com/uc', 0) == -1)) URLres = imgURL;
                                     else {
                                         let temp1 = imgURL?.split('/')[5];
                                         let temp2 = temp1?.split('?')[0];
@@ -101,6 +101,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                         slack_link: slack_link as string,
                                         image: URLres as string,
                                         available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
+                                        visible: data.get("visible") ? 1 : 0,
                                     };
                                     fetch(`/api/clubs/${id}`, {
                                         headers: { "Content-Type": "application/json" },
@@ -189,7 +190,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     )}
                                 />
                                 <FormHelperText>画像はクラブカードに表示されます。<br />
-                                GoogleDriveの共有リンクを入力してください。</FormHelperText>
+                                    GoogleDriveの共有リンクを入力してください。</FormHelperText>
                                 <Typography variant="h5">対象</Typography>
                                 <Controller
                                     name="chutobu"
@@ -229,7 +230,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     render={({ field }) => (
                                         <FormControl>
                                             <FormControlLabel
-                                                control={<Checkbox {...field} defaultChecked={searchResult?.visible} />}
+                                                control={<Checkbox {...field} defaultChecked={searchResult?.visible == 1} />}
                                                 label={
                                                     <>
                                                         公開

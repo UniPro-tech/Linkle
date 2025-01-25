@@ -17,7 +17,7 @@ export default async function Club({ id }: { id: string }) {
     const club = res.data[0];
     console.log(club);
     if (!club) notFound();
-    if (!isOwn && !club.visible) forbidden();
+    if (!isOwn && !(club.visible == 1)) forbidden();
     return (
         <>
             <KeyVisual club={club} />
