@@ -216,10 +216,66 @@ export default function ClubEdit({ id }: { id: string }) {
                         <Typography variant="h4">重要操作</Typography>
                         <Divider />
                         <Typography variant="body1">これより下は破壊的なアクションです。<br />本当に実行してもよいか十分に検討したうえで実行してください。</Typography>
-                        <Button variant="outlined" color="error" sx={{ width: "auto" }}>同好会を削除する</Button>
+                        <AlertDialog id={id} />
                     </Stack>
                 </>
             )}
         </Stack>
     )
+}
+
+import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+export function AlertDialog({ id }: { id: string }) {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <React.Fragment>
+            <Button variant="outlined" color="error" onClick={handleClickOpen}>
+                同好会を削除する
+            </Button>
+            <ThemeProvider theme={formTheme}>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        本当に削除しますか？
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            この操作を実行すると元には戻すことができません。
+                            それはLinkle管理者でも同じです。
+                            それでも削除しますか？
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} autoFocus>いいえ</Button>
+                        <Button onClick={async () => {
+                            fetch(`/api/clubs/${id}`, {
+                                method: "DELETE",
+                            });
+                        }} color="error">
+                            はい
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </ThemeProvider>
+        </React.Fragment>
+    );
 }
