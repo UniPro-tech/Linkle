@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                user_id: session?.user?.email,
-                club_id: id,
+                user: session?.user?.email,
+                club: id,
                 role: 1,
             }),
         });
