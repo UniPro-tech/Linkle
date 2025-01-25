@@ -74,8 +74,28 @@ export default function ClubEdit({ id }: { id: string }) {
                         <Divider />
                         <ThemeProvider theme={formTheme}>
                             <form action={
-                                (data: FormData) => {
-
+                                async (data: FormData) => {
+                                    const slack_linkRaw = data.get("slack_link")?.toString();
+                                    const slack_link = slack_linkRaw?.split('/')[4];
+                                    const pairoad = {
+                                        name: data.get("name") as string,
+                                        short_description: data.get("short_description") as string,
+                                        long_description: data.get("long_description") as string,
+                                        slack_name: data.get("slack_name") as string,
+                                        slack_link: slack_link as string,
+                                        image: data.get("image") as string,
+                                        available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
+                                    };
+                                    fetch(`/api/clubs/${id}`, {
+                                        headers: { "Content-Type": "application/json" },
+                                        method: "PUT",
+                                        body: pairoad ? JSON.stringify(pairoad) : null,
+                                    }).then((res) => {
+                                        if (res.ok) {
+                                            redirect(`/clubs/${id}`);
+                                        }
+                                        else alert("変更に失敗しました。");
+                                    });
                                 }
                             } className="flex flex-col space-y-2 justify-center items-left">
                                 <Controller
@@ -89,6 +109,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                             fullWidth
                                             margin="normal"
                                             defaultValue={searchResult.name}
+                                            required
                                         />
                                     )}
                                 />
@@ -103,6 +124,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                             fullWidth
                                             margin="normal"
                                             defaultValue={searchResult.slack_name}
+                                            required
                                         />
                                     )}
                                 />
@@ -117,6 +139,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                             fullWidth
                                             margin="normal"
                                             defaultValue={`https://n-highschool.slack.com/archive/${searchResult.slack_link}`}
+                                            required
                                         />
                                     )}
                                 />
