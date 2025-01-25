@@ -42,6 +42,7 @@ export default function ClubEdit({ id }: { id: string }) {
         image: string;
         chutobu: boolean;
         kotobu: boolean;
+        visible: boolean;
     }
     const { control, handleSubmit, watch } = useForm<ClubEditFormData>({
         defaultValues: {
@@ -53,6 +54,7 @@ export default function ClubEdit({ id }: { id: string }) {
             image: searchResult?.image,
             chutobu: (searchResult?.available_on ? (searchResult.available_on & 0x2) == 0x2 : false),
             kotobu: (searchResult?.available_on ? (searchResult.available_on & 0x1) == 0x1 : false),
+            visible: searchResult?.visible,
         },
     });
     return (
@@ -200,6 +202,22 @@ export default function ClubEdit({ id }: { id: string }) {
                                                 label={
                                                     <>
                                                         高等部
+                                                    </>
+                                                }
+                                            />
+                                        </FormControl>
+                                    )}
+                                />
+                                <Controller
+                                    name="visible"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <FormControl>
+                                            <FormControlLabel
+                                                control={<Checkbox {...field} defaultChecked={searchResult?.visible} />}
+                                                label={
+                                                    <>
+                                                        公開
                                                     </>
                                                 }
                                             />
