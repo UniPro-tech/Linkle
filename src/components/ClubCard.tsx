@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type ClubCardProps = {
     id: number;
@@ -19,10 +20,13 @@ type ClubCardProps = {
 export default function ClubCard({ id, name, description, imageUrl, availableOn }: ClubCardProps) {
     return (
         <Link href={`/clubs/${id}`}>
-            <Card sx={{ maxWidth: 320, position: 'relative' }}>
-                <CardMedia
-                    sx={{ height: 180, width: 320 }}
-                    image={imageUrl}
+            <Card sx={{ width: 320, position: 'relative' }}>
+                <Image
+                    src={imageUrl}
+                    alt={name}
+                    width={"320"}
+                    height={0}
+                    className='w-[320px] h-[180px]'
                 />
                 {availableContents(availableOn)}
                 <CardContent>
