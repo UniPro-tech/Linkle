@@ -157,7 +157,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     render={({ field }) => (
                                         <FormControl>
                                             <FormControlLabel
-                                                control={<Checkbox {...field} />}
+                                                control={<Checkbox {...field} defaultChecked={(searchResult.available_on && 0x1) == 0x1} />}
                                                 label={
                                                     <>
                                                         中等部
@@ -173,7 +173,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     render={({ field }) => (
                                         <FormControl>
                                             <FormControlLabel
-                                                control={<Checkbox {...field} />}
+                                                control={<Checkbox {...field} defaultChecked={(searchResult.available_on && 0x2) == 0x2} />}
                                                 label={
                                                     <>
                                                         高等部
