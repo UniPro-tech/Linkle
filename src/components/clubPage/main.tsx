@@ -1,18 +1,23 @@
-import searchClubs from "@/libs/searchers/clubs";
+import { getClubById } from "@/libs/searchers/clubs";
 import ClubType from "@/models/Club";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';
 
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import Link from "next/link";
+import { forbidden, notFound } from "next/navigation";
+import { LongDescription } from "./md";
+import { auth } from "@/auth";
+import { isOwner } from "@/libs/searchers/userClubData";
 
 export default async function Club({ id }: { id: string }) {
-    const res = await searchClubs({ query: id });
+    const session = await auth();
+    const isOwn = await isOwner(session?.user?.email ?? "", id);
+    const res = await getClubById(id);
     const club = res.data[0];
+    console.log(club);
+    if (!club) notFound();
+    if (!isOwn && !club.visible) forbidden();
     return (
         <>
             <KeyVisual club={club} />
@@ -21,18 +26,10 @@ export default async function Club({ id }: { id: string }) {
     )
 }
 
-async function LongDescription({ description }: { description: string }) {
-    return (
-        <Stack flex={1} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} p={2}>
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} className={"markdown"}>{description}</ReactMarkdown>
-        </Stack>
-    );
-}
-
 async function KeyVisual({ club }: { club: ClubType }) {
     return (
-        <Box position={"relative"} width={"100%"} height={0} paddingBottom={"56.25%"}>
-            <Image src={club.image} alt={club.name} width={"5000"} height={0} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+        <Box position={"relative"} width={"100%"} height={0} paddingBottom={"56.25%"} overflow={"hidden"}>
+            <Image src={club.image || "/img/noClubImage.jpg"} alt={club.name} width={"5000"} height={0} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
             <Stack spacing={1} position={"absolute"} bottom={"15%"} left={0}>
                 <Typography variant="h1" bgcolor={"black"} color="white" p={3} sx={{ opacity: 0.8, fontWeight: 'bold' }}>{club.name}</Typography>
                 {club.available_on == 0 ? null : (

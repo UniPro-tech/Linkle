@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
   },
   typescript: { // type checkをbuild時にoff
     ignoreBuildErrors: true,
-  }
+  },
+  experimental: {
+    authInterrupts: true,
+  },
+  images: {
+    domains: ["drive.google.com"],
+  },
 };
 
 export default nextConfig;
