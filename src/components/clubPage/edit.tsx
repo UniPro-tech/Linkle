@@ -2,16 +2,19 @@
 import { getClubById } from "@/libs/searchers/clubs";
 import { Alert, Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import 'katex/dist/katex.min.css';
-import { notFound, redirect } from "next/navigation";
+import { forbidden, notFound, redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Club from "@/models/Club";
 import { Controller, useForm } from "react-hook-form";
 import formTheme from "@/theme/form";
 import { LongDescription } from "./md";
+import { useSession } from "next-auth/react";
 
 export default function ClubEdit({ id }: { id: string }) {
+    const { data: session } = useSession();
     const [searchResult, setSearchResult] = useState<Club | null>(null);
     const [searchError, setSearchError] = useState<string | null>(null);
+    const [userClubData, setUserClubData] = useState<Club | null>(null);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
@@ -21,10 +24,12 @@ export default function ClubEdit({ id }: { id: string }) {
                 try {
                     const result = await getClubById(id);
                     const res = result?.data[0];
-                    if (!res) notFound();
+                    if (!res) window.location.href = "/notfound";
+                    const isOwn = await isOwner(session?.user?.email ?? "", res.id);
+                    if (!isOwn) window.location.href = "/forbidden";
                     setSearchResult(res);
                 } catch (error: any) {
-                    setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
+                    setSearchError("検索中にエラーが発生しました。もう一度お試しください。" + error);
                 } finally {
                     setLoading(false);
                 }
@@ -57,6 +62,7 @@ export default function ClubEdit({ id }: { id: string }) {
             visible: searchResult?.visible,
         },
     });
+
     return (
         <Stack spacing={1} justifyContent={"center"} alignItems={"center"} minHeight={"100vh"} py={5}>
             {searchError && (
@@ -271,6 +277,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { isOwner } from "@/libs/searchers/userClubData";
 
 export function AlertDialog({ id }: { id: string }) {
     const [open, setOpen] = React.useState(false);

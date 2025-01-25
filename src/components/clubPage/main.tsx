@@ -5,14 +5,19 @@ import Image from 'next/image';
 
 import 'katex/dist/katex.min.css';
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { forbidden, notFound } from "next/navigation";
 import { LongDescription } from "./md";
+import { auth } from "@/auth";
+import { isOwner } from "@/libs/searchers/userClubData";
 
 export default async function Club({ id }: { id: string }) {
+    const session = await auth();
+    const isOwn = await isOwner(session?.user?.email ?? "", id);
     const res = await getClubById(id);
     const club = res.data[0];
     console.log(club);
     if (!club) notFound();
+    if (!isOwn && !club.visible) forbidden();
     return (
         <>
             <KeyVisual club={club} />

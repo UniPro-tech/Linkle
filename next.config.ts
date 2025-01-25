@@ -6,7 +6,10 @@ const nextConfig: NextConfig = {
   },
   typescript: { // type checkをbuild時にoff
     ignoreBuildErrors: true,
-  }
+  },
+  experimental: {
+    authInterrupts: true,
+  },
 };
 
 export default nextConfig;
