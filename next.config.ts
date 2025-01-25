@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
+  images: {
+    domains: ["drive.google.com"],
+  },
 };
 
 export default nextConfig;

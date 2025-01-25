@@ -40,11 +40,11 @@ export default function ClubEdit({ id }: { id: string }) {
 
     interface ClubEditFormData {
         name: string;
-        short_description: string;
-        long_description: string;
+        short_description: string | undefined;
+        long_description: string | undefined;
         slack_name: string;
         slack_link: string;
-        image: string;
+        image: string | undefined;
         chutobu: boolean;
         kotobu: boolean;
         visible: boolean;
@@ -85,13 +85,21 @@ export default function ClubEdit({ id }: { id: string }) {
                                 async (data: FormData) => {
                                     const slack_linkRaw = data.get("slack_link")?.toString();
                                     const slack_link = slack_linkRaw?.split('/')[4];
+                                    const imgURL = data.get("image")?.toString();
+                                    let URLres = "";
+                                    if (imgURL?.indexOf('drive.google.com', 0) == -1) URLres = imgURL;
+                                    else {
+                                        let temp1 = imgURL?.split('/')[5];
+                                        let temp2 = temp1?.split('?')[0];
+                                        URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
+                                    }
                                     const pairoad = {
                                         name: data.get("name") as string,
                                         short_description: data.get("short_description") as string,
                                         long_description: data.get("long_description") as string,
                                         slack_name: data.get("slack_name") as string,
                                         slack_link: slack_link as string,
-                                        image: data.get("image") as string,
+                                        image: URLres as string,
                                         available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
                                     };
                                     fetch(`/api/clubs/${id}`, {
@@ -180,7 +188,8 @@ export default function ClubEdit({ id }: { id: string }) {
                                         />
                                     )}
                                 />
-                                <FormHelperText>画像はクラブカードに表示されます。</FormHelperText>
+                                <FormHelperText>画像はクラブカードに表示されます。<br />
+                                GoogleDriveの共有リンクを入力してください。</FormHelperText>
                                 <Typography variant="h5">対象</Typography>
                                 <Controller
                                     name="chutobu"
