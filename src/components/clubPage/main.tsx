@@ -9,10 +9,12 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function Club({ id }: { id: string }) {
     const res = await searchClubs({ query: id });
     const club = res.data[0];
+    if (!club) notFound();
     return (
         <>
             <KeyVisual club={club} />
