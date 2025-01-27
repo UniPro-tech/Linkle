@@ -14,9 +14,10 @@ type ClubCardProps = {
     description: string;
     imageUrl: string;
     availableOn: number;
+    isDashboard?: boolean;
 };
 
-export default function ClubCard({ id, name, description, imageUrl, availableOn }: ClubCardProps) {
+export default function ClubCard({ id, name, description, imageUrl, availableOn, isDashboard }: ClubCardProps) {
     return (
         <Link href={`/clubs/${id}`}>
             <Card sx={{ width: 320, position: 'relative' }}>
@@ -37,8 +38,8 @@ export default function ClubCard({ id, name, description, imageUrl, availableOn 
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Share</Button>
-                    <Button size="small">Learn More</Button>
+                    <Button size="small" href={`/clubs/${id}`}>もっと見る</Button>
+                    {isDashboard ?? <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
                 </CardActions>
             </Card>
         </Link>
