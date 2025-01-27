@@ -15,10 +15,9 @@ jobs:
         - name: Install Vercel CLI
           run: npm install -g vercel
         - name: Link Vercel Project
-          run: vercel link --token=${{secrets.VERCEL_TOKEN}} --project ${{secrets.VERCEL_PROJECT}} --yes
+          run: vercel link --token=${{secrets.VERCEL_TOKEN}} --project ${{vars.VERCEL_PROJECT}} --yes
         - name: Deploy with Vercel
           run: vercel deploy --prod --token=${{secrets.VERCEL_TOKEN}} >deployment-url.txt 2>error.txt
         - name: Set release url
           id: get_release_url
           run: echo release_url=$(cat deployment-url.txt) >> $GITHUB_OUTPUT
-        
