@@ -15,5 +15,5 @@ jobs:
           uses: yuito-it/GitHub-Vercel-Actions@v1.0.0
           with:
             vercel-token: ${{ secrets.VERCEL_TOKEN }}
-            vercel-project: ${{ var.VERCEL_PROJECT }}
+            vercel-project: ${{ vars.VERCEL_PROJECT }}
         
