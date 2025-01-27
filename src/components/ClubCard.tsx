@@ -43,7 +43,7 @@ export default function ClubCard({ id, name, description, imageUrl, availableOn,
                 </Link>
                 <CardActions>
                     <Button size="small" href={`/clubs/${id}`}>もっと見る</Button>
-                    {isDashboard ?? <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
+                    {isDashboard && <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
                 </CardActions>
             </Card>
         </ThemeProvider>
