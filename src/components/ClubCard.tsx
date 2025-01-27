@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import { Avatar, Box, Stack } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ThemeProvider } from '@emotion/react';
+import formTheme from '@/theme/form';
 
 type ClubCardProps = {
     id: number;
@@ -19,30 +21,32 @@ type ClubCardProps = {
 
 export default function ClubCard({ id, name, description, imageUrl, availableOn, isDashboard }: ClubCardProps) {
     return (
-        <Link href={`/clubs/${id}`}>
-            <Card sx={{ width: 320, position: 'relative' }}>
-                <Image
-                    src={imageUrl}
-                    alt={name}
-                    width={"320"}
-                    height={0}
-                    className='w-[320px] h-[180px]'
-                />
-                {availableContents(availableOn)}
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {name}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        {description}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small" href={`/clubs/${id}`}>もっと見る</Button>
-                    {isDashboard ?? <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
-                </CardActions>
-            </Card>
-        </Link>
+        <ThemeProvider theme={formTheme}>
+            <Link href={`/clubs/${id}`}>
+                <Card sx={{ width: 320, position: 'relative' }}>
+                    <Image
+                        src={imageUrl}
+                        alt={name}
+                        width={"320"}
+                        height={0}
+                        className='w-[320px] h-[180px]'
+                    />
+                    {availableContents(availableOn)}
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                            {description}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small" href={`/clubs/${id}`}>もっと見る</Button>
+                        {isDashboard ?? <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
+                    </CardActions>
+                </Card>
+            </Link>
+        </ThemeProvider>
     );
 }
 
