@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Avatar, Box, Stack } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
 import formTheme from '@/theme/form';
 
 type ClubCardProps = {
