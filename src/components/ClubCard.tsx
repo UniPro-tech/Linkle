@@ -22,8 +22,8 @@ type ClubCardProps = {
 export default function ClubCard({ id, name, description, imageUrl, availableOn, isDashboard }: ClubCardProps) {
     return (
         <ThemeProvider theme={formTheme}>
-            <Link href={`/clubs/${id}`}>
-                <Card sx={{ width: 320, position: 'relative' }}>
+            <Card sx={{ width: 320, position: 'relative' }}>
+                <Link href={`/clubs/${id}`}>
                     <Image
                         src={imageUrl}
                         alt={name}
@@ -40,12 +40,12 @@ export default function ClubCard({ id, name, description, imageUrl, availableOn,
                             {description}
                         </Typography>
                     </CardContent>
-                    <CardActions>
-                        <Button size="small" href={`/clubs/${id}`}>もっと見る</Button>
-                        {isDashboard ?? <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
-                    </CardActions>
-                </Card>
-            </Link>
+                </Link>
+                <CardActions>
+                    <Button size="small" href={`/clubs/${id}`}>もっと見る</Button>
+                    {isDashboard ?? <Button size="small" href={`/clubs/${id}/edit`}>編集する</Button>}
+                </CardActions>
+            </Card>
         </ThemeProvider>
     );
 }
