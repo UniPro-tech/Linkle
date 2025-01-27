@@ -1,5 +1,5 @@
 import Club from "@/models/Club";
-import { Grid2, Stack, ThemeProvider, Typography } from "@mui/material";
+import { Button, Grid2, Stack, ThemeProvider, Typography } from "@mui/material";
 import ClubCard from "./ClubCard";
 import primary from "@/theme/primary";
 
@@ -13,23 +13,26 @@ export default async function RecentCreatedClubs() {
     return (
         <>
             <ThemeProvider theme={primary}>
-                <Stack width="100%" justifyContent="center" alignItems="center" spacing={2}>
-                    <Typography variant="h4" color="text.primary" m={2}>最近作成された同好会</Typography>
+                <Stack width="100%" justifyContent="center" alignItems="center" spacing={5} >
+                    <Typography variant="h4" color="text.primary">最近作成された同好会</Typography>
                     {clubs.map((club, index) => {
                         return (
-                            <Grid2
-                                key={index}
-                                size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                                style={{ display: 'flex', justifyContent: 'center' }}
-                            >
-                                <ClubCard
-                                    name={club.name}
-                                    description={club.short_description}
-                                    imageUrl={club.image}
-                                    availableOn={club.available_on}
-                                    id={club.id}
-                                />
-                            </Grid2>
+                            <>
+                                <Grid2
+                                    key={index}
+                                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                                    style={{ display: 'flex', justifyContent: 'center' }}
+                                >
+                                    <ClubCard
+                                        name={club.name}
+                                        description={club.short_description}
+                                        imageUrl={club.image}
+                                        availableOn={club.available_on}
+                                        id={club.id}
+                                    />
+                                </Grid2>
+                                <Button href="/clubs" variant="contained" color="primary">もっと見る</Button>
+                            </>
                         );
                     })}
                     {clubs.length === 0 ? (
