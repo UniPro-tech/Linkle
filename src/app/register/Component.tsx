@@ -27,24 +27,6 @@ export default function RegisterComponet(
         },
     });
 
-    const onSubmit = (data: SignUpFormData) => {
-        console.log(data.name);
-        fetch("/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: session?.user?.email,
-                slackName: data.name,
-            }),
-        }).then((response) => {
-            if (response.ok) {
-                redirect(redirectURL);
-            }
-        });
-    }
-
     const tos = watch('tos');
     const name = watch('name');
 
@@ -58,8 +40,8 @@ export default function RegisterComponet(
                     </Typography>
                     <ThemeProvider theme={formTheme}>
                         <form action={
-                            (data:FormData) => {
-                                fetch("/api/register", {
+                            (data: FormData) => {
+                                fetch("/api/user", {
                                     method: "POST",
                                     headers: {
                                         "Content-Type": "application/json",
