@@ -43,14 +43,14 @@ const SearchResultsPage: React.FC = () => {
     }, [query]);
     const clubs = searchResult?.data.filter((club) => club.visible == 1);
     return (
-        <Stack spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
+        <Stack width={"100%"} spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Grid2
                 container
                 spacing={{ xs: 2, md: 3 }}
                 columns={16}
                 p={3}
                 justifyContent="center"
-                maxWidth={320 * 4.3}
+                width={"100%"}
             >
                 {searchError && (
                     <Grid2 size={16}>
