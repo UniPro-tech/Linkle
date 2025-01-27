@@ -81,7 +81,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SidebarMain({ children, slack_name, notUser }: Readonly<{ children: React.ReactNode; slack_name: string; notUser: boolean }>) {
-    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/tos', '/about', '/privacy', '/api/authErrorSignout', '/signouted', '/error/notStudent', '/cookie'];
+    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/tos', '/about', '/privacy', '/api/authErrorSignout', '/signouted', '/error/notStudent', '/cookie', '/api/register'];
     const pathname = usePathname();
 
     if (notUser && !excludePaths.includes(pathname)) {
