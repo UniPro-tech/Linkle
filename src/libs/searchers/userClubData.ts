@@ -10,11 +10,14 @@ export interface SearchClubsResponse {
 }
 
 export const getMyClub = async (email: string): Promise<SearchClubsResponse> => {
-    const response = await fetch(`${endpoint}/user_club/?filter1=user,eq,${email}`);
+    const response = await fetch(`${endpoint}/user_club/?filter1=user,eq,${email}&join=club,clubs`);
     const result = await response.json();
+    const result2 = result.records.map((record: any) => {
+        return record.club;
+    });
     return {
         status: "200",
-        data: result.records,
+        data: result2,
     };
 }
 
