@@ -15,14 +15,13 @@ export default async function RecentCreatedClubs() {
             <ThemeProvider theme={primary}>
                 <Stack width="100%" justifyContent="center" alignItems="center" spacing={5} >
                     <Typography variant="h4" color="text.primary">最近作成された同好会</Typography>
-                    {clubs.map((club, index) => {
-                        return (
-                            <>
-                                <Grid2
-                                    key={index}
-                                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                                    style={{ display: 'flex', justifyContent: 'center' }}
-                                >
+                    <Grid2
+                        size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                        {clubs.map((club, index) => {
+                            return (
+                                <>
                                     <ClubCard
                                         name={club.name}
                                         description={club.short_description}
@@ -30,11 +29,11 @@ export default async function RecentCreatedClubs() {
                                         availableOn={club.available_on}
                                         id={club.id}
                                     />
-                                </Grid2>
-                                <Button href="/clubs" variant="contained" color="primary">もっと見る</Button>
-                            </>
-                        );
-                    })}
+                                </>
+                            );
+                        })}
+                    </Grid2>
+                    <Button href="/clubs" variant="contained" color="primary">もっと見る</Button>
                     {clubs.length === 0 ? (
                         <Typography variant="h6" color="text.primary">データがありません。</Typography>
                     ) : null}
