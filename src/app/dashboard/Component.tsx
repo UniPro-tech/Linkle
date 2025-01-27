@@ -74,6 +74,7 @@ export default function Dashboard() {
                                             imageUrl={club.image}
                                             availableOn={club.available_on}
                                             id={club.id}
+                                            isDashboard={true}
                                         />
                                     </Grid2>
                                 );
