@@ -137,6 +137,14 @@ export default function SidebarMain({ children, slack_name, notUser }: Readonly<
                         width: drawerWidth,
                         boxSizing: 'border-box',
                     },
+                    '& ::-webkit-scrollbar': {
+                        display: "none"
+                    },
+                    '& :hover': {
+                        '::-webkit-scrollbar': {
+                            display: "inline"
+                        }
+                    }
                 }}
                 variant="persistent"
                 anchor="left"
@@ -158,6 +166,6 @@ export default function SidebarMain({ children, slack_name, notUser }: Readonly<
                 <DrawerHeader />
                 {children}
             </Main>
-        </Box>
+        </Box >
     );
 }
