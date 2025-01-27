@@ -4,7 +4,7 @@ import { Box, Stack, Typography } from "@mui/material";
 
 export default function Home() {
     return (
-        <Stack sx={{ p: 2 }} flex={1} justifyContent="center" alignItems="center" justifyItems={"center"} spacing={5} minHeight={"100vh"}>
+        <Stack sx={{ p: 2 }} justifyContent="center" alignItems="center" justifyItems={"center"} spacing={5} minHeight={"100vh"}>
             <Typography variant="h4" gutterBottom mt={5}>
                 同好会一覧
             </Typography>
