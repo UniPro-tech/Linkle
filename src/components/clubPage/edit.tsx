@@ -2,7 +2,7 @@
 import { getClubById } from "@/libs/searchers/clubs";
 import { Alert, Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import 'katex/dist/katex.min.css';
-import { forbidden, notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import Club from "@/models/Club";
 import { Controller, useForm } from "react-hook-form";
@@ -87,8 +87,9 @@ export default function ClubEdit({ id }: { id: string }) {
                                     const slack_link = slack_linkRaw?.split('/')[4];
                                     const imgURL = data.get("image")?.toString();
                                     let URLres = "";
-                                    if ((imgURL?.indexOf('drive.google.com', 0) == -1) && (imgURL?.indexOf('drive.google.com/uc', 0) == -1)) URLres = imgURL;
-                                    else {
+                                    if (imgURL?.indexOf('drive.google.com/uc', 0) != -1) {
+                                        URLres = imgURL as string;
+                                    } else if (imgURL?.indexOf('drive.google.com', 0) != -1) {
                                         let temp1 = imgURL?.split('/')[5];
                                         let temp2 = temp1?.split('?')[0];
                                         URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
