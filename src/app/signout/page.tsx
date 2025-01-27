@@ -1,5 +1,11 @@
 import { signOut } from "@/auth"
 import { Button, Stack, Typography } from "@mui/material"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "サインアウト - Linkle",
+    description: "Linkleからサインアウトしました。",
+}
 
 export default function SignOutPage() {
     return (

@@ -3,6 +3,12 @@ import { signIn, providerMap } from "@/auth";
 import { AuthError } from "next-auth";
 import { Stack, Typography } from "@mui/material";
 import ThirdPartySigninSection from "@/components/ThirdPartySigninSection";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "サインイン - Linkle",
+    description: "Linkleにサインインします。",
+}
 
 export default async function SignInPage({
     searchParams,

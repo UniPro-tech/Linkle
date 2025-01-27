@@ -1,4 +1,10 @@
 import { Link, Stack, Typography } from "@mui/material";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "403 Forbidden - Linkle",
+    description: "You do not have permission to access this page.",
+}
 
 export default async function forbidden() {
     return (

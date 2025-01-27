@@ -3,6 +3,12 @@ import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "クッキーポリシー - Linkle",
+    description: "Linkleのクッキーポリシーです。",
+}
 
 export default async function TOS() {
     const description = `
