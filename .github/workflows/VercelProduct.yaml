@@ -4,16 +4,19 @@ on:
     branches:
       - main
 jobs:
-    deployment:
-        runs-on: ubuntu-latest
-        concurrency: Production
-        environment:
-            name: Production
-            url: ${{ steps.get_release_url.outputs.release_url }}
-        steps:
-        - id: get_release_url
-          uses: yuito-it/GitHub-Vercel-Actions@v1.0.0
-          with:
-            vercel-token: ${{ secrets.VERCEL_TOKEN }}
-            vercel-project: ${{ vars.VERCEL_PROJECT }}
-        
+  deployment:
+    runs-on: ubuntu-latest
+    concurrency: Production
+    environment:
+        name: Production
+        url: ${{ steps.get_release_url.outputs.release_url }}
+    steps:
+    - uses: yuito-it/GitHub-Vercel-Actions@v1.0.0
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-project: ${{ vars.VERCEL_PROJECT }}
+    - name: Set release url
+      shell: bash
+      id: get_release_url
+      run: echo release_url=$(cat deployment-url.txt) >> $GITHUB_OUTPUT
+      
