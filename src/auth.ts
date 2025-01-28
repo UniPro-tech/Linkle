@@ -1,26 +1,10 @@
 import NextAuth from "next-auth"
 import type { Provider } from "next-auth/providers"
-import Credentials from "next-auth/providers/credentials"
 
 import Google from "next-auth/providers/google"
-import { getInvite } from "./libs/invite"
 
 const providers: Provider[] = [
     Google,
-    Credentials({
-        credentials: {
-            email: {},
-            password: {},
-        },
-        authorize: async (credentials) => {
-            let user = null
-            user = await getInvite(credentials.email as string, credentials.password as string)
-            if (!user) {
-                throw new Error("Invalid credentials.")
-            }
-            return user
-        },
-    }),
 ]
 
 export const providerMap = providers

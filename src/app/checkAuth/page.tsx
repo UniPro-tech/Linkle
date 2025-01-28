@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import RedirectPath from "./component";
 
 const endpoint = process.env.DB_API_ENDPOINT;
 
@@ -23,7 +24,8 @@ export default async function CheckAuthentication(
 
     if (isStudentEmail) {
         await checkNewUser(session?.user?.email);
-        redirect(redirectURL);
+        console.log("redirecting to", redirectURL);
+        return (<RedirectPath redirect={redirectURL} />);
     } else {
         redirect("/api/authErrorSignout");
     }

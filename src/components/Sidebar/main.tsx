@@ -19,6 +19,8 @@ import MenuList from '../SideMenuList';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { usePathname } from "next/navigation";
+import { useEffect } from 'react';
+import User from '@/models/User';
 
 const drawerWidth = 240;
 
@@ -80,13 +82,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function SidebarMain({ children, slack_name, notUser }: Readonly<{ children: React.ReactNode; slack_name: string; notUser: boolean }>) {
+export default function SidebarMain({ children, email }: Readonly<{ children: React.ReactNode; email: string; }>) {
     const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/tos', '/about', '/privacy', '/api/authErrorSignout', '/signouted', '/error/notStudent', '/cookie'];
     const pathname = usePathname();
-
-    if (notUser && !excludePaths.includes(pathname)) {
-        redirect('/checkAuth');
-    }
+    const [user, setUser] = React.useState<User | undefined>(undefined);
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch('/api/user?email=' + email);
+            const data = await res.json();
+            setUser(data.data);
+            if (!data.data && !excludePaths.includes(pathname)) {
+                redirect('/checkAuth');
+            }
+        }
+        fetchData();
+    },[]);
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -125,7 +135,7 @@ export default function SidebarMain({ children, slack_name, notUser }: Readonly<
                     </Typography>
                     <div style={{ flexGrow: 1 }}></div>
                     <SessionProvider>
-                        <Signin slack_name={slack_name} />
+                        <Signin slack_name={user?.slack_name} />
                     </SessionProvider>
                 </Toolbar>
             </AppBar>

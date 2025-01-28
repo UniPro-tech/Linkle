@@ -13,9 +13,9 @@ export default function Dashboard() {
     const { data: session } = useSession();
     const [searchResult, setSearchResult] = useState<SearchClubsResponse | null>(null);
     const [searchError, setSearchError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        setLoading(true);
+        if (!loading) return;
         setSearchError(null);
         const fetchData = async () => {
             try {

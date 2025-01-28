@@ -44,3 +44,11 @@ export async function PUT(req: NextRequest) {
         return NextResponse.error();
     }
 }
+
+export async function GET(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams
+    const email = searchParams.get('email');
+    const apiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
+    const data = await apiRes.json();
+    return NextResponse.json({data: data.records[0]}, { status: 200 });
+}

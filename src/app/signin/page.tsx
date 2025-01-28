@@ -4,7 +4,6 @@ import { AuthError } from "next-auth";
 import { Stack, Typography } from "@mui/material";
 import ThirdPartySigninSection from "@/components/ThirdPartySigninSection";
 import { Metadata } from "next";
-import SigninWithInvite from "@/components/SigninWithInvite";
 
 export const metadata: Metadata = {
     title: "サインイン - Linkle",
@@ -47,8 +46,6 @@ export default async function SignInPage({
                     </form>
                 ))}
             </Stack>
-            <Typography variant="body1">または、招待を使用してサインインすることもできます。</Typography>
-            <SigninWithInvite />
         </Stack>
     );
 }

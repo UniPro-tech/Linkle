@@ -6,7 +6,7 @@ export default async function Sidebar({ children }: Readonly<{ children: React.R
     const session = await auth();
     const user = await getCurrentUser(session?.user?.email ?? '');
     return (
-        <SidebarMain slack_name={user?.slack_name ?? (session?.user?.name ?? session?.user?.email)} notUser={!user && !(session == null || session == undefined)}>
+        <SidebarMain email={session?.user?.email as string}>
             {children}
         </SidebarMain>
     )
