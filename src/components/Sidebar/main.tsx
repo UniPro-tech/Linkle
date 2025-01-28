@@ -96,7 +96,7 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
             }
         }
         fetchData();
-    },[]);
+    }, []);
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -110,10 +110,10 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex' }} width={{ xs: "100vw" }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open} color="default">
-                <Toolbar>
+            <AppBar position="fixed" open={open} color="default" sx={{ width: "100vw" }}>
+                <Toolbar sx={{ width: "100vw" }}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
