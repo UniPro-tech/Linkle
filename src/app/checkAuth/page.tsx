@@ -24,7 +24,6 @@ export default async function CheckAuthentication(
 
     if (isStudentEmail) {
         await checkNewUser(session?.user?.email);
-        console.log("redirecting to", redirectURL);
         return (<RedirectPath redirect={redirectURL} />);
     } else {
         redirect("/api/authErrorSignout");
@@ -32,11 +31,9 @@ export default async function CheckAuthentication(
 }
 
 const checkNewUser = async (email?: string | null) => {
-    console.log(email);
     const response = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
     const resultRaw = await response.json();
     const result = resultRaw.records;
-    console.log(result);
     if (result.length != 0) {
         return;
     }

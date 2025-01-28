@@ -4,7 +4,6 @@ const endpoint = process.env.DB_API_ENDPOINT;
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
-    console.log(body);
     const payload = {
         email: body.email,
         slack_name: body.slackName,

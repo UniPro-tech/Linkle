@@ -21,7 +21,6 @@ export default function Dashboard() {
             try {
                 const result = await getMyClub(session?.user?.email || "");
                 setSearchResult(result);
-                console.log(result);
             } catch (error: any) {
                 setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
             } finally {

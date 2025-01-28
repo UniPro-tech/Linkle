@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
         visible: 0,
         short_description: body.short_description,
     }
-    console.log(payload);
     const apiRes = await fetch(`${endpoint}/clubs`, {
         method: "POST",
         headers: {

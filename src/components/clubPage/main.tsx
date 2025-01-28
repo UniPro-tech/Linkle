@@ -15,7 +15,6 @@ export default async function Club({ id }: { id: string }) {
     const isOwn = await isOwner(session?.user?.email ?? "", id);
     const res = await getClubById(id);
     const club = res.data[0];
-    console.log(club);
     if (!club) notFound();
     if (!isOwn && !(club.visible == 1)) forbidden();
     return (

@@ -13,7 +13,6 @@ export interface SearchClubsResponse {
 const searchClubs = async (
     data?: SearchClubsRequest
 ): Promise<SearchClubsResponse> => {
-    console.log(data);
     const response = await fetch(`${endpoint}/clubs?${data?.query?`&search=${data.query}`:""}`);
     const resultRaw = await response.json();
     const result = resultRaw.records;
