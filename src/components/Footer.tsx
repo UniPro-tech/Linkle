@@ -6,9 +6,9 @@ import PoweredByVercel from 'powered-by-vercel'
 export default function Footer() {
     return (
         <ThemeProvider theme={theme}>
-            <Stack width={{ xs: "100vw", lg: (1 / 3) }}>
-                <Stack component='footer' direction={{ xs: "column", xl: "row" }} width={{ xs: "100vw", lg: (1 / 3) }} bgcolor='secondary.main' flexGrow={0} justifyContent={"center"} justifyItems={"center"}>
-                    <Box p={2} textAlign='left' width={{ xs: "100vw", lg: (1/3) }} margin={5}>
+            <Stack width={"100vw"}>
+                <Stack component='footer' direction={{ xs: "column", xl: "row" }} width={"100vw"} bgcolor='secondary.main' flexGrow={0} justifyContent={"center"} justifyItems={"center"}>
+                    <Box p={2} textAlign='left' width={{ xs: "100vw", lg: (1 / 3) }} margin={5}>
                         <Typography variant='h2' color='text.secondary'>
                             Linkle
                         </Typography>
