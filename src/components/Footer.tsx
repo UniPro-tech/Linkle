@@ -8,7 +8,7 @@ export default function Footer() {
         <ThemeProvider theme={theme}>
             <Stack width={"100%"}>
                 <Stack component='footer' direction={{ xs: "column", xl: "row" }} width={"100%"} bgcolor='secondary.main' flexGrow={0} justifyContent={"center"} justifyItems={"center"}>
-                    <Box p={2} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} margin={5}>
+                    <Box p={2} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} margin={{ xs: 0, xl: 5 }}>
                         <Typography variant='h2' color='text.secondary'>
                             Linkle
                         </Typography>
@@ -34,7 +34,7 @@ export default function Footer() {
                             </Typography>
                         </Box>
                     </Box>
-                    <Stack p={2} py={10} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} justifyContent={"center"} justifyItems={"center"}>
+                    <Stack p={2} py={{ xs: 0, xl: 10 }} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} justifyContent={"center"} justifyItems={"center"}>
                         <Typography variant='h5' color='text.secondary'>
                             免責事項
                         </Typography>
