@@ -11,7 +11,7 @@ export default function Home() {
             <Typography variant="body1" gutterBottom>
                 Linkleに登録されている同公開一覧です。
             </Typography>
-            <Box width={2 / 5} p={5}>
+            <Box width={{ xs: "100%", xl: (2 / 5) }} p={5}>
                 <ClubSearchForm />
             </Box>
             <ClubList />

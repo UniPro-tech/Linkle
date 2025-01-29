@@ -18,7 +18,7 @@ export default function Settings({ name }: { name: string }) {
     return (
         <Stack spacing={2} alignItems="center" pt={10} minHeight={"100vh"}>
             <Typography variant="h3">ユーザー設定</Typography>
-            <Stack spacing={1} width={"50%"}>
+            <Stack spacing={1} width={{ xs: "90%", xl: "40%" }}>
                 <Typography variant="h4">
                     ユーザー情報
                 </Typography>

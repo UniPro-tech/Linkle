@@ -41,16 +41,16 @@ const SearchResultsPage: React.FC = () => {
         };
         fetchData();
     }, [query]);
-
+    const clubs = searchResult;
     return (
-        <Stack spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
+        <Stack width={"100%"} spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Grid2
                 container
                 spacing={{ xs: 2, md: 3 }}
                 columns={16}
                 p={3}
                 justifyContent="center"
-                maxWidth={320 * 4.3}
+                width={"100%"}
             >
                 {searchError && (
                     <Grid2 size={16}>
@@ -65,9 +65,9 @@ const SearchResultsPage: React.FC = () => {
                     </Grid2>
                 )}
 
-                {searchResult && searchResult.length > 0 && (
+                {clubs && clubs.length > 0 && (
                     <>
-                        {searchResult.map((club, index) => {
+                        {clubs.map((club, index) => {
                             if (index < 12 * (page ? parseInt(page) : 1) && index >= 12 * (page ? parseInt(page) - 1 : 0)) {
                                 return (
                                     <Grid2
@@ -89,7 +89,7 @@ const SearchResultsPage: React.FC = () => {
                     </>
                 )}
 
-                {searchResult && searchResult.length === 0 && (
+                {clubs && clubs.length === 0 && (
                     <Grid2 size={16}>
                         <Typography
                             style={{ marginTop: "20px", textAlign: "center" }}
@@ -100,10 +100,10 @@ const SearchResultsPage: React.FC = () => {
                     </Grid2>
                 )}
             </Grid2>
-            {searchResult && searchResult.length > 0 && (
+            {clubs && clubs.length > 0 && (
                 <Pagination
                     page={page ? parseInt(page) : 1}
-                    count={Math.ceil(searchResult.length / 12)}
+                    count={Math.ceil(clubs.length / 12)}
                     renderItem={(item) => (
                         <PaginationItem
                             component={Link}

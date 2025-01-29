@@ -21,6 +21,7 @@ import { redirect } from 'next/navigation';
 import { usePathname } from "next/navigation";
 import { useEffect } from 'react';
 import User from '@/models/User';
+import { Stack } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -54,24 +55,24 @@ interface AppBarProps extends MuiAppBarProps {
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme }) => ({
+})<AppBarProps>(({ theme, open }) => ({
     transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    variants: [
-        {
-            props: ({ open }) => open,
-            style: {
-                width: `calc(100% - ${drawerWidth}px)`,
-                marginLeft: `${drawerWidth}px`,
-                transition: theme.transitions.create(['margin', 'width'], {
-                    easing: theme.transitions.easing.easeOut,
-                    duration: theme.transitions.duration.enteringScreen,
-                }),
-            },
-        },
-    ],
+    overflow: "hidden",
+    ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: `${drawerWidth}px`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+    [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginLeft: 0,
+    },
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -96,7 +97,7 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
             }
         }
         fetchData();
-    },[]);
+    }, []);
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -110,33 +111,57 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', width: '100vw', overflow: 'hidden' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open} color="default">
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={[
-                            {
-                                mr: 2,
-                            },
-                            open && { display: 'none' },
-                        ]}
+                <Toolbar
+                    sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        maxWidth: '100vw',
+                        overflowX: 'hidden'
+                    }}
+                >
+                    <Stack
+                        direction="row"
+                        spacing={2}
+                        alignItems="center"
+                        sx={{ minWidth: 0 }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold' }} noWrap component="div">
-                        <Link href="/" passHref>
-                            Linkle
-                        </Link>
-                    </Typography>
-                    <div style={{ flexGrow: 1 }}></div>
-                    <SessionProvider>
-                        <Signin slack_name={user?.slack_name} />
-                    </SessionProvider>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={[
+                                { mr: 2 },
+                                open && { display: 'none' },
+                            ]}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontWeight: 'bold',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                            }}
+                            noWrap
+                            component="div"
+                        >
+                            <Link href="/" passHref>
+                                Linkle
+                            </Link>
+                        </Typography>
+                    </Stack>
+                    <Box sx={{ minWidth: 0, flexShrink: 1 }}>
+                        <SessionProvider>
+                            <Signin slack_name={user?.slack_name} />
+                        </SessionProvider>
+                    </Box>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -176,6 +201,6 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
                 <DrawerHeader />
                 {children}
             </Main>
-        </Box >
+        </Box>
     );
 }

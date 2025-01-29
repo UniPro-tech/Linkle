@@ -101,7 +101,7 @@ export function AccountMenu({ displayName, avatar }: { displayName: string, avat
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar src={avatar} /> プロフィール
+                    <Avatar src={avatar} /> {displayName}
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleClose}>

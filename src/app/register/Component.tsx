@@ -33,7 +33,7 @@ export default function RegisterComponet(
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Stack spacing={2} flex={1} justifyContent="center" alignItems="center" justifyItems={"center"} minHeight={"100vh"}>
+                <Stack spacing={2} flex={1} justifyContent="center" alignItems="center" justifyItems={"center"} minHeight={"100vh"} textAlign={"center"} p={{ xs: 2, xl: 0 }}>
                     <Typography variant="h3">登録する</Typography>
                     <Typography variant="body1">
                         登録を完了するために、以下の項目をご入力ください。
@@ -56,7 +56,7 @@ export default function RegisterComponet(
                                     }
                                 });
                             }
-                        } className="flex flex-col space-y-2 justify-center items-center">
+                        } className="flex flex-col space-y-2 justify-center items-center text-left">
                             <Controller
                                 name="name"
                                 control={control}
@@ -78,7 +78,7 @@ export default function RegisterComponet(
                                         <FormControlLabel
                                             control={<Checkbox {...field} />}
                                             label={
-                                                <>
+                                                <Typography variant="body2" textAlign={"left"}>
                                                     <Link href="/tos" className="text-blue-500" target="_blank">
                                                         利用規約
                                                     </Link>
@@ -87,7 +87,7 @@ export default function RegisterComponet(
                                                         UniProjectプライバシー・ポリシー
                                                     </Link>
                                                     に同意します。
-                                                </>
+                                                </Typography>
                                             }
                                         />
                                         {Boolean(field.value) === false && (

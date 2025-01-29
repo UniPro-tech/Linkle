@@ -42,7 +42,7 @@ export default function CreateClub() {
     });
 
     return (
-        <Stack minHeight={"100vh"} justifyContent={"center"} alignItems={"center"} spacing={2} pt={10} pb={10}>
+        <Stack minHeight={"100vh"} justifyContent={"center"} alignItems={"center"} spacing={2} pt={10} pb={10} textAlign={"center"} p={{ xs: 2, lg: 0 }}>
             <Typography variant="h3">同好会を登録</Typography>
             <Typography variant="body1">同好会を登録することで、Linkleを使用した同好会検索に掲載されるようになります。</Typography>
             <Stack spacing={2} bgcolor={"lightgray"} padding={2} borderRadius={2} minWidth={"75%"}>
@@ -55,7 +55,7 @@ export default function CreateClub() {
             </Stack>
             <Divider />
             <ThemeProvider theme={formTheme}>
-                <Stack minWidth={"75%"} spacing={2} p={3} justifyContent={"center"} alignItems={"center"}>
+                <Stack minWidth={"75%"} spacing={2} p={3} justifyContent={"center"} alignItems={"center"} textAlign={"left"}>
                     <Typography variant="h4">基礎情報</Typography>
                     <form action={async (data: FormData) => {
                         const name = data.get("name");
