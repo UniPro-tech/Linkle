@@ -30,12 +30,12 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${notoSans.variable} antialiased`}
+        className={`${notoSans.variable} antialiased w-full`}
       >
         <AppRouterCacheProvider>
           <Sidebar>
             <ThemeProvider theme={theme}>
-              <Grid2 bgcolor={'background.default'} minHeight={'100vh'} width={"100vw"} sx={{
+              <Grid2 bgcolor={'background.default'} minHeight={'100vh'} width={"100%"} sx={{
                 '& ::-webkit-scrollbar': {
                   display: "none"
                 },
