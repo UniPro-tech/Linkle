@@ -25,7 +25,7 @@ export default function ClubCard({ id, name, description, imageUrl, availableOn,
             <Card sx={{ width: 320, position: 'relative' }}>
                 <Link href={`/clubs/${id}`}>
                     <Image
-                        src={imageUrl}
+                        src={imageUrl == "" ? "/img/noClubImage.jpg" : imageUrl}
                         alt={name}
                         width={"320"}
                         height={0}
