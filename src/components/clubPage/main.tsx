@@ -29,14 +29,14 @@ async function KeyVisual({ club }: { club: ClubType }) {
     return (
         <Box position={"relative"} width={"100%"} height={0} paddingBottom={"56.25%"} overflow={"hidden"}>
             <Image src={club.image || "/img/noClubImage.jpg"} alt={club.name} width={"5000"} height={0} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
-            <Stack spacing={1} position={"absolute"} bottom={"15%"} left={0}>
-                <Typography variant="h1" bgcolor={"black"} color="white" p={3} sx={{ opacity: 0.8, fontWeight: 'bold' }}>{club.name}</Typography>
+            <Stack spacing={1} position={"absolute"} bottom={{ xs: "6%", xl: "15%" }} left={0}>
+                <Typography variant="h1" bgcolor={"black"} color="white" p={{ xs: 1, xl: 3 }} sx={{ opacity: 0.8, fontWeight: 'bold', fontSize: { xs: "34px", xl: "94px" } }}>{club.name}</Typography>
                 {club.available_on == 0 ? null : (
                     <Stack direction={"row"} spacing={1} pl={1}>
                         {availableContents(club.available_on, club.slack_link)}
                     </Stack>
                 )}
-                <Typography variant="body1" bgcolor={"black"} color="white" p={3} sx={{ opacity: 0.8 }}>{club.short_description}</Typography>
+                <Typography variant="body1" bgcolor={"black"} color="white" p={{ xs: 1, xl: 3 }} sx={{ opacity: 0.8 }}>{club.short_description}</Typography>
             </Stack>
         </Box>
     );
