@@ -11,7 +11,7 @@ jobs:
         name: Production
         url: ${{ steps.get_release_url.outputs.release_url }}
     steps:
-    - uses: yuito-it/GitHub-Vercel-Actions@v1.0.1
+    - uses: yuito-it/GitHub-Vercel-Actions@v1.0.2
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}
         vercel-project: ${{ vars.VERCEL_PROJECT }}
