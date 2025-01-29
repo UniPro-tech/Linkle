@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function SignOutPage() {
     return (
-        <Stack justifyContent={"center"} alignItems={"center"} spacing={2} justifyItems={"center"} height={"100vh"}>
-            <Typography variant="h3">Linkleからサインアウト</Typography>
+        <Stack justifyContent={"center"} alignItems={"center"} spacing={2} p={{xs: 2, xl: 0}} justifyItems={"center"} height={"100vh"} textAlign={"center"}>
+            <Typography variant="h3">Linkleから<wbr/>サインアウト</Typography>
             <Typography variant="body1">サインアウトしますか？サインアウトした場合、もう一度ログインし直さなければなりません。</Typography>
             <form
                 action={async (formData) => {
