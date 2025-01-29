@@ -1,7 +1,7 @@
 "use client";
 import ClubCard from "@/components/ClubCard";
 import { getMyClub, SearchClubsResponse } from "@/libs/searchers/userClubData";
-import { Alert, CircularProgress, Grid2, Link, Pagination, PaginationItem, Stack, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress, Grid2, Link, Pagination, PaginationItem, Stack, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -36,6 +36,7 @@ export default function Dashboard() {
         <Stack spacing={2} pt={10} p={{xs: 2, xl: 10}} justifyContent={"center"} alignItems={"center"} width={"100%"}>
             <Typography variant="h3">ダッシュボード</Typography>
             <Typography variant="body1">あなたが管理しているクラブの一覧です。</Typography>
+            <Button variant="contained" color="primary" href="/clubs/create">新しいクラブを作成</Button>
             <Grid2
                 container
                 spacing={{ xs: 2, md: 3 }}
