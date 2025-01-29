@@ -33,7 +33,7 @@ export default function Dashboard() {
     }, [session]);
     const clubs = searchResult?.data;
     return (
-        <Stack spacing={2} pt={10} p={{xs: 2, xl: 10}} justifyContent={{ xs: "center", xl: "left" }} alignItems={{ xs: "center", xl: "left" }} width={"100%"}>
+        <Stack spacing={2} pt={10} p={{xs: 2, xl: 10}} justifyContent={"center"} alignItems={"center"} width={"100%"}>
             <Typography variant="h3">ダッシュボード</Typography>
             <Typography variant="body1">あなたが管理しているクラブの一覧です。</Typography>
             <Grid2
@@ -42,7 +42,7 @@ export default function Dashboard() {
                 columns={16}
                 p={3}
                 justifyContent="left"
-                maxWidth={320 * 4.3}
+                width="100%"
             >
                 {searchError && (
                     <Grid2 size={16}>
