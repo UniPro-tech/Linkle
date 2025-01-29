@@ -41,7 +41,7 @@ export default function Dashboard() {
                 spacing={{ xs: 2, md: 3 }}
                 columns={16}
                 p={3}
-                justifyContent="left"
+                justifyContent="center"
                 width="100%"
             >
                 {searchError && (
