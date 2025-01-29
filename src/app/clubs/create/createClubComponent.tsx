@@ -182,6 +182,7 @@ export default function CreateClub() {
                             render={({ field }) => (
                                 <FormControl error={Boolean(field.value) === false}>
                                     <FormControlLabel
+                                        required
                                         control={<Checkbox {...field} />}
                                         label={
                                             <>
@@ -198,6 +199,7 @@ export default function CreateClub() {
                             render={({ field }) => (
                                 <FormControl error={Boolean(field.value) === false}>
                                     <FormControlLabel
+                                        required
                                         control={<Checkbox {...field} />}
                                         label={
                                             <>
