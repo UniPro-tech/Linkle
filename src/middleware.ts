@@ -11,7 +11,8 @@ export function middleware(request: NextRequest) {
     const jstOffset = 9 * 60;
     const jstDate = new Date(currentDate.getTime() + (currentDate.getTimezoneOffset() + jstOffset) * 60000);
     
-    if (jstDate < specificDate) {
+    const isDev = process.env.NODE_ENV === "development";
+    if (jstDate < specificDate && !isDev) {
         return NextResponse.redirect(new URL("/pls-wait", request.url));
     }
 }
