@@ -22,7 +22,7 @@ body {
 
 
 .markdown {
-  @apply text-gray-900 leading-normal break-words lg:w-2/5 w-4/5;
+  @apply text-gray-900 leading-normal break-words;
 }
 
 .markdown > * + * {

@@ -33,7 +33,7 @@ export default function Dashboard() {
     }, [session]);
     const clubs = searchResult?.data;
     return (
-        <Stack spacing={2} pt={10} p={{xs: 2, xl: 10}} justifyContent={"center"} alignItems={"center"} width={"100%"}>
+        <Stack spacing={2} py={10} px={{xs: 2, xl: 10}} justifyContent={"center"} alignItems={"center"} width={"100%"}>
             <Typography variant="h3">ダッシュボード</Typography>
             <Typography variant="body1">あなたが管理しているクラブの一覧です。</Typography>
             <Button variant="contained" color="primary" href="/clubs/create">新しいクラブを作成</Button>
