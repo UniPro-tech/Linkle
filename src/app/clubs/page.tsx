@@ -1,5 +1,5 @@
 import ClubList from "@/components/ClubList";
-import ClubSearchForm from "@/components/SearchBox";
+import ClubSearchForm from "@/components/search/SearchBox";
 import { Box, Stack, Typography } from "@mui/material";
 
 export default function Home() {

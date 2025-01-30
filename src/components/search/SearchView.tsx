@@ -13,7 +13,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
-import ClubCard from "./ClubCard";
+import ClubCard from "../ClubCard";
 
 const SearchResultsPage: React.FC = () => {
     const searchParams = useSearchParams();

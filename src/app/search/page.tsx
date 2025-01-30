@@ -1,7 +1,7 @@
-import ClubSearchForm from "@/components/SearchBox";
-import SearchResultsPage from "@/components/SearchView";
+import ClubSearchForm from "@/components/search/SearchBox";
+import SearchResultsPage from "@/components/search/SearchView";
 import { SearchClubsResponse } from "@/libs/searchers/clubs";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +14,8 @@ export default function Home() {
   return (
     <>
       <Stack sx={{ p: 2 }} flex={1} justifyContent="center" alignItems="center">
-        <Box width={2 / 5} sx={{ p: 5 }}>
+
+        <Box width={{ xs: "100%", xl: (2 / 5) }} sx={{ p: 5 }}>
           <ClubSearchForm />
         </Box>
         <SearchResultsPage />

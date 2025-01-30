@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import SidebarMain from "./Sidebar/main";
+import SidebarMain from "./sidebar/main";
 import { getCurrentUser } from "@/libs/users";
 
 export default async function Sidebar({ children }: Readonly<{ children: React.ReactNode }>) {
