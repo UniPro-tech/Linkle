@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { unauthorized } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
 const endpoint = process.env.DB_API_ENDPOINT;
 
 export async function POST(req: NextRequest) {

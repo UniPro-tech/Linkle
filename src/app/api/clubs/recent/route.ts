@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic';
+
 const endpoint = process.env.DB_API_ENDPOINT;
 
 export const GET = async (req: NextRequest) => {

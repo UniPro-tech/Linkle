@@ -1,4 +1,4 @@
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic';
 
 const endpoint = process.env.DB_API_ENDPOINT;
 
