@@ -84,11 +84,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SidebarMain({ children, email }: Readonly<{ children: React.ReactNode; email: string; }>) {
-    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/tos', '/about', '/privacy', '/api/authErrorSignout', '/signouted', '/error/notStudent', '/cookie'];
+    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/api/authErrorSignout', '/signouted', '/error/notStudent'];
     const pathname = usePathname();
     const [user, setUser] = React.useState<User | undefined>(undefined);
     useEffect(() => {
         const fetchData = async () => {
+            if(!email) return;
             const res = await fetch('/api/user?email=' + email);
             const data = await res.json();
             setUser(data.data);

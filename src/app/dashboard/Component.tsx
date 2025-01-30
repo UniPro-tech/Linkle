@@ -19,7 +19,7 @@ export default function Dashboard() {
         setSearchError(null);
         const fetchData = async () => {
             try {
-                const result = await getMyClub(session?.user?.email || "");
+                const result = await getMyClub(session?.user?.email as string);
                 setSearchResult(result);
             } catch (error: any) {
                 setSearchError("検索中にエラーが発生しました。もう一度お試しください。");

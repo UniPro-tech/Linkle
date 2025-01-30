@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 import RedirectPath from "./component";
 
 const endpoint = process.env.DB_API_ENDPOINT;
@@ -16,6 +16,9 @@ export default async function CheckAuthentication(
     if (redirectURL == "") redirectURL = "/";
 
     const session = await auth();
+    if (!session) {
+        unauthorized();
+    }
 
     const isStudentEmail =
         session?.user?.email?.endsWith("@nnn.ed.jp") ||

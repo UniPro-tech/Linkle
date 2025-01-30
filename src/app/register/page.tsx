@@ -1,6 +1,8 @@
 import { SessionProvider } from "next-auth/react";
 import RegisterComponet from "./Component";
 import { Metadata } from "next";
+import { auth } from "@/auth";
+import { unauthorized } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "登録 - Linkle",
@@ -13,8 +15,11 @@ export default async function Register(
     }
 ) {
     const { redirect } = await props.searchParams;
+    const session = await auth();
+    if (!session) unauthorized();
+
     return (
-        <SessionProvider>
+        <SessionProvider session={session}>
             <RegisterComponet redirectURL={redirect ?? "/"} />
         </SessionProvider>
     )

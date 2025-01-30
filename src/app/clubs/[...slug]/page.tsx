@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound, unauthorized } from "next/navigation";
 
 import Club from "@/components/clubPage/main";
 import EditClub from "@/components/clubPage/edit";
 import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 export default async function Page({
     params,
@@ -12,12 +13,13 @@ export default async function Page({
     const slug = (await params).slug
     switch (slug[1]) {
         case 'edit':
-            return <SessionProvider>
+            const session = await auth();
+            if (!session) return unauthorized();
+            return <SessionProvider session={session}>
                 <EditClub id={slug[0]} />
             </SessionProvider>
         case undefined:
             return <Club id={slug[0]} />
-
         default:
             notFound()
     }

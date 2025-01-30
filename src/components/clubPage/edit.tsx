@@ -25,7 +25,8 @@ export default function ClubEdit({ id }: { id: string }) {
                     const result = await getClubById(id);
                     const res = result?.data[0];
                     if (!res) window.location.href = "/notfound";
-                    const isOwn = await isOwner(session?.user?.email ?? "", res.id);
+                    if (!(session?.user?.email)) window.location.href = "/forbidden";
+                    const isOwn = await isOwner(session?.user?.email as string, res.id);
                     if (!isOwn) window.location.href = "/forbidden";
                     setSearchResult(res);
                 } catch (error: any) {

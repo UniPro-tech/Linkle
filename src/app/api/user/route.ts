@@ -1,11 +1,17 @@
+import { auth } from "@/auth";
+import { unauthorized } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 const endpoint = process.env.DB_API_ENDPOINT;
 
 export async function POST(req: NextRequest) {
+    const session = await auth();
+    if (!session) {
+        unauthorized();
+    }
     const body = await req.json();
     const payload = {
-        email: body.email,
+        email: session.user?.email,
         slack_name: body.slackName,
     }
     const apiRes = await fetch(`${endpoint}/users`, {
@@ -23,8 +29,12 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+    const session = await auth();
+    if (!session) {
+        unauthorized();
+    }
     const body = await req.json();
-    const res = await fetch(`${endpoint}/users?search=${body.email}`);
+    const res = await fetch(`${endpoint}/users?search=${session.user?.email}`);
     const data = await res.json();
     const user = data.records[0];
     const payload = {
@@ -45,9 +55,13 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+    const session = await auth();
+    if (!session) {
+        unauthorized();
+    }
     const searchParams = req.nextUrl.searchParams
     const email = searchParams.get('email');
     const apiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
     const data = await apiRes.json();
-    return NextResponse.json({data: data.records[0]}, { status: 200 });
+    return NextResponse.json({ data: data.records[0] }, { status: 200 });
 }
