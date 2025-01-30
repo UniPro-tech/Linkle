@@ -1,4 +1,5 @@
 "use server";
+import { auth } from "@/auth";
 import Club from "@/models/Club";
 
 const endpoint = process.env.DB_API_ENDPOINT;
@@ -13,7 +14,9 @@ export interface SearchClubsResponse {
 const searchClubs = async (
     data?: SearchClubsRequest
 ): Promise<SearchClubsResponse> => {
-    const response = await fetch(`${endpoint}/clubs?${data?.query?`&search=${data.query}`:""}`);
+    const session = await auth();
+    console.log(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}${session ? `&filter1=visible,ge,1` : `&filter1=visible,ge,3`}`)
+    const response = await fetch(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}${session ? `&filter1=visible,ge,1` : `&filter1=visible,ge,3`}`);
     const resultRaw = await response.json();
     const result = resultRaw.records;
 

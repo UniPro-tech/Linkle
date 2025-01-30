@@ -31,8 +31,7 @@ const SearchResultsPage: React.FC = () => {
             setSearchError(null);
             try {
                 const result = await searchClubs();
-                const clubs = result.data.filter((club) => club.visible == 1);
-                setSearchResult(clubs);
+                setSearchResult(result.data);
             } catch (error: any) {
                 setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
             } finally {
