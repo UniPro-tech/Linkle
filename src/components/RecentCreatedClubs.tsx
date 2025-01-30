@@ -37,7 +37,7 @@ const SearchResultsPage: React.FC = () => {
     return (
         <Stack width={"100%"} spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Typography variant="h4" style={{ marginTop: "20px" }}>
-                最新のクラブ
+                新着同好会
             </Typography>
             <Grid2
                 container
