@@ -1,7 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react"
-import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
-import { useState } from "react";
+import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Stack, TextField, ThemeProvider, Typography } from "@mui/material";
 import theme from "@/theme/primary";
 import formTheme from "@/theme/form";
 import Link from "next/link";
