@@ -14,7 +14,6 @@ export default function ClubEdit({ id }: { id: string }) {
     const { data: session } = useSession();
     const [searchResult, setSearchResult] = useState<Club | null>(null);
     const [searchError, setSearchError] = useState<string | null>(null);
-    const [userClubData, setUserClubData] = useState<Club | null>(null);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +47,8 @@ export default function ClubEdit({ id }: { id: string }) {
         image: string | undefined;
         chutobu: boolean;
         kotobu: boolean;
-        visible: boolean;
+        internal: boolean;
+        public: boolean;
     }
     const { control, handleSubmit, watch } = useForm<ClubEditFormData>({
         defaultValues: {
@@ -60,9 +60,12 @@ export default function ClubEdit({ id }: { id: string }) {
             image: searchResult?.image,
             chutobu: (searchResult?.available_on ? (searchResult.available_on & 0x2) == 0x2 : false),
             kotobu: (searchResult?.available_on ? (searchResult.available_on & 0x1) == 0x1 : false),
-            visible: searchResult?.visible == 1,
+            internal: (searchResult?.visible ? (searchResult?.visible & 0x1) == 0x1 : false),
+            public: (searchResult?.visible ? (searchResult?.visible & 0x2) == 0x2 : false),
         },
     });
+
+    const isEnablePublic = watch("internal");
 
     return (
         <Stack spacing={1} justifyContent={"center"} alignItems={"center"} minHeight={"100vh"} py={5}>
@@ -103,7 +106,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                         slack_link: slack_link as string,
                                         image: URLres as string,
                                         available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
-                                        visible: data.get("visible") ? 1 : 0,
+                                        visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
                                     };
                                     fetch(`/api/clubs/${id}`, {
                                         headers: { "Content-Type": "application/json" },
@@ -200,7 +203,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     render={({ field }) => (
                                         <FormControl>
                                             <FormControlLabel
-                                                control={<Checkbox {...field} defaultChecked={(searchResult.available_on && 0x1) == 0x1} />}
+                                                control={<Checkbox {...field} defaultChecked={(searchResult.available_on & 0x1) == 0x1} />}
                                                 label={
                                                     <>
                                                         中等部
@@ -216,7 +219,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                     render={({ field }) => (
                                         <FormControl>
                                             <FormControlLabel
-                                                control={<Checkbox {...field} defaultChecked={(searchResult.available_on && 0x2) == 0x2} />}
+                                                control={<Checkbox {...field} defaultChecked={(searchResult?.available_on & 0x2) == 0x2} />}
                                                 label={
                                                     <>
                                                         高等部
@@ -226,16 +229,33 @@ export default function ClubEdit({ id }: { id: string }) {
                                         </FormControl>
                                     )}
                                 />
+                                <Typography variant="h5">公開設定</Typography>
                                 <Controller
-                                    name="visible"
+                                    name="internal"
                                     control={control}
                                     render={({ field }) => (
                                         <FormControl>
                                             <FormControlLabel
-                                                control={<Checkbox {...field} defaultChecked={searchResult?.visible == 1} />}
+                                                control={<Checkbox {...field} defaultChecked={(searchResult?.visible ? (searchResult?.visible & 0x1) == 0x1 : false)} />}
                                                 label={
                                                     <>
-                                                        公開
+                                                        学内公開
+                                                    </>
+                                                }
+                                            />
+                                        </FormControl>
+                                    )}
+                                />
+                                <Controller
+                                    name="public"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <FormControl>
+                                            <FormControlLabel
+                                                control={<Checkbox {...field} defaultChecked={(searchResult?.visible ? (searchResult?.visible & 0x2) == 0x2 : false)} disabled={!isEnablePublic} />}
+                                                label={
+                                                    <>
+                                                        一般公開
                                                     </>
                                                 }
                                             />

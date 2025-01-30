@@ -33,7 +33,7 @@ const SearchResultsPage: React.FC = () => {
         };
         fetchData();
     }, []);
-    const clubs = searchResult?.filter((club) => club.visible == 1);
+    const clubs = searchResult;
     return (
         <Stack width={"100%"} spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Typography variant="h4" style={{ marginTop: "20px" }}>

@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Signin from './AccountBarBtn';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
 import MenuList from '../SideMenuList';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -87,10 +87,11 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
     const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/api/authErrorSignout', '/signouted', '/error/notStudent'];
     const pathname = usePathname();
     const [user, setUser] = React.useState<User | undefined>(undefined);
+    const { data: session } = useSession();
     useEffect(() => {
         const fetchData = async () => {
-            if(!email) return;
-            const res = await fetch('/api/user?email=' + email);
+            if (!email) return;
+            const res = await fetch('/api/user?email=' + session?.user?.email);
             const data = await res.json();
             setUser(data.data);
             if (!data.data && !excludePaths.includes(pathname)) {
@@ -159,7 +160,7 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
                         </Typography>
                     </Stack>
                     <Box sx={{ minWidth: 0, flexShrink: 1 }}>
-                        <SessionProvider>
+                        <SessionProvider session={session}>
                             <Signin slack_name={user?.slack_name} />
                         </SessionProvider>
                     </Box>
@@ -193,7 +194,7 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <SessionProvider>
+                    <SessionProvider session={session}>
                         <MenuList />
                     </SessionProvider>
                 </List>
