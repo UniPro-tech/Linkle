@@ -56,7 +56,7 @@ jobs:
     - name: Link Vercel Project
       run: vercel link --token=${{secrets.VERCEL_TOKEN}} --project ${{vars.VERCEL_PROJECT}} --yes
     - name: Deploy with Vercel
-      run: vercel deploy --target=staging --token=${{secrets.VERCEL_TOKEN}} >deployment-url.txt 2>error.txt
+      run: vercel deploy --target=staging -f --token=${{secrets.VERCEL_TOKEN}} >deployment-url.txt 2>error.txt
     - name: Set release url
       id: get_release_url
       run: echo release_url=$(cat deployment-url.txt) >> $GITHUB_OUTPUT
