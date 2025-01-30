@@ -22,7 +22,7 @@ body {
 
 
 .markdown {
-  @apply text-gray-900 leading-normal break-words;
+  @apply text-gray-900 leading-normal break-words max-w-[650px] w-full;
 }
 
 .markdown > * + * {
