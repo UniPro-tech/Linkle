@@ -7,8 +7,10 @@ import theme from '@/theme/primary';
 import { Grid2 } from "@mui/material";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Google from "next-auth/providers/google";
 
 const notoSans = Noto_Sans_JP({
   weight: ['300', '400', '500', '700'],
@@ -53,6 +55,7 @@ export default function RootLayout({
         </AppRouterCacheProvider>
         <SpeedInsights />
       </body>
+      <GoogleAnalytics gaId="G-CYZH2N7NQ0"/>
     </html>
   );
 }
