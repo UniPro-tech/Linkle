@@ -10,7 +10,6 @@ import Sidebar from "@/components/Sidebar";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import Google from "next-auth/providers/google";
 
 const notoSans = Noto_Sans_JP({
   weight: ['300', '400', '500', '700'],
