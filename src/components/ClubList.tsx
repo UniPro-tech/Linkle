@@ -107,7 +107,7 @@ const SearchResultsPage: React.FC = () => {
                     renderItem={(item) => (
                         <PaginationItem
                             component={Link}
-                            href={`/search?query=${query}${item.page === 1 ? '' : `&page=${item.page}`}`}
+                            href={`/clubs?${item.page === 1 ? '' : `&page=${item.page}`}`}
                             {...item}
                             color="primary"
                             variant="outlined"
