@@ -21,7 +21,7 @@ export default async function Club({ id }: { id: string }) {
         <>
             <KeyVisual club={club} />
             <Stack spacing={2} px={{ xs: 2, xl: 10 }} justifyContent={"center"} alignItems={"center"} width={"100%"}>
-                <LongDescription description={club.long_description} />
+                <LongDescription description={club.long_description == "" ? "# 説明はありません。" : club.long_description} />
             </Stack>
         </>
     )
