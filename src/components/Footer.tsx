@@ -29,7 +29,7 @@ export default function Footer() {
                                 </a>
                             </Typography>
                             <Typography variant='body1' color='text.secondary'>
-                                Slackチャンネル: #times_unipro-digital<br />
+                                Slackチャンネル: #times_unipro<br />
                                 {"　　　　　　　　"}#times_linkle
                             </Typography>
                         </Box>
