@@ -89,12 +89,12 @@ export default function ClubEdit({ id }: { id: string }) {
                                 async (data: FormData) => {
                                     const slack_linkRaw = data.get("slack_link")?.toString();
                                     const slack_link = slack_linkRaw?.split('/')[4];
-                                    const imgURL = data.get("image")?.toString();
+                                    const imgURL = new URL(data.get("image") as string);
                                     let URLres = "";
-                                    if (imgURL?.indexOf('drive.google.com/uc', 0) != -1) {
-                                        URLres = imgURL as string;
-                                    } else if (imgURL?.indexOf('drive.google.com', 0) != -1) {
-                                        let temp1 = imgURL?.split('/')[5];
+                                    if (imgURL?.host == "drive.google.com" && imgURL?.pathname.startsWith('/uc')) {
+                                        URLres = imgURL.toString();
+                                    } else if (imgURL?.host == "drive.google.com") {
+                                        let temp1 = imgURL?.pathname.split('/')[3];
                                         let temp2 = temp1?.split('?')[0];
                                         URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
                                     }
