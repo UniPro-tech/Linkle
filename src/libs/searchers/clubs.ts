@@ -15,10 +15,19 @@ const searchClubs = async (
     data?: SearchClubsRequest
 ): Promise<SearchClubsResponse> => {
     const session = await auth();
-    console.log(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}${session ? `&filter1=visible,ge,1` : `&filter1=visible,ge,3`}`)
-    const response = await fetch(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}${session ? `&filter1=visible,ge,1` : `&filter1=visible,ge,3`}`);
+    const response = await fetch(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}`);
     const resultRaw = await response.json();
-    const result = resultRaw.records;
+    const result = resultRaw.records as Club[];
+
+    if (session) {
+        result.filter((club) => {
+            return (club.visible & 0x1) == 0x1;
+        });
+    } else {
+        result.filter((club) => {
+            return (club.visible & 0x2) == 0x2;
+        });
+    }
 
     return {
         status: "200",
