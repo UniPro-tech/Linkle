@@ -13,7 +13,7 @@ export default function RedirectPath({ redirect: path }: { redirect: string }) {
         }
     }, [path, router]);
     return (
-        <Stack spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} minHeight={"100vh"} textAlign={"center"} p={{ xs: 2, xl: 0 }}>
+        <Stack spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} minHeight={"100vh"} textAlign={"center"} p={{ xs: 2, lg: 0 }}>
             <Typography variant={"h4"}>認証チェック中...</Typography>
             <Typography variant={"body1"}>あなたが学園生であるかどうかなどをチェックしています。少々お待ちください。</Typography>
         </Stack>

@@ -19,7 +19,7 @@ export default async function SignInPage({
     const callbackUrl = (await searchParamsTemp?.callbackUrl) ?? "";
 
     return (
-        <Stack flex={1} spacing={4} minHeight={"100vh"} justifyContent={"center"} alignItems={"center"} textAlign={"center"} p={{ xs: 2, xl: 0 }}>
+        <Stack flex={1} spacing={4} minHeight={"100vh"} justifyContent={"center"} alignItems={"center"} textAlign={"center"} p={{ xs: 2, lg: 0 }}>
             <Stack justifyContent="center" alignItems="center" spacing={2} justifyItems={"center"}>
                 <Typography variant="h3">Linkleにサインイン</Typography>
                 <Typography variant="body1">

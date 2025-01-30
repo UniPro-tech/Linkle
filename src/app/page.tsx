@@ -18,7 +18,7 @@ export default function Home() {
       <Stack p={2} py={5} justifyContent="center" minHeight="100vh" justifyItems="center" alignItems="center" spacing={20}>
         <Stack justifyContent={"center"} alignItems={"center"} width="100%" minHeight={"100ch"}>
           <TitleLogo />
-          <Box width={{ xs: "100%", xl: (2 / 5) }} sx={{ p: 5 }}>
+          <Box width={{ xs: "100%", lg: (2 / 5) }} sx={{ p: 5 }}>
             <ClubSearchForm />
           </Box>
         </Stack>

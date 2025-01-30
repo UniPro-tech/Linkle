@@ -7,8 +7,8 @@ export default function Footer() {
     return (
         <ThemeProvider theme={theme}>
             <Stack width={"100%"} justifyContent={"center"} justifyItems={"center"}>
-                <Stack display={"flex"} direction={{ xs: "column", xl: "row" }} width={"100%"} bgcolor='secondary.main' flexGrow={0} justifyContent={"center"} justifyItems={"center"}>
-                    <Box p={2} textAlign='left' width={{ xs: "100%", xl: (1 / 3) }} margin={{ xs: 0, xl: 5 }} justifyContent={"center"} justifyItems={"center"}>
+                <Stack display={"flex"} direction={{ xs: "column", lg: "row" }} width={"100%"} bgcolor='secondary.main' flexGrow={0} justifyContent={"center"} justifyItems={"center"}>
+                    <Box p={2} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} margin={{ xs: 0, lg: 5 }} justifyContent={"center"} justifyItems={"center"}>
                         <Typography variant='h2' color='text.secondary'>
                             Linkle
                         </Typography>
@@ -34,7 +34,7 @@ export default function Footer() {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box p={2} textAlign='left' width={{ xs: "100%", xl: (1 / 3) }} margin={{ xs: 0, xl: 5 }} justifyContent={"center"} justifyItems={"center"}>
+                    <Box p={2} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} margin={{ xs: 0, lg: 5 }} justifyContent={"center"} justifyItems={"center"}>
                         <Typography variant='h5' color='text.secondary' maxWidth={"275px"}>
                             免責事項
                         </Typography>
@@ -45,7 +45,7 @@ export default function Footer() {
                             また当団体は学外の団体の関連団体ですが、学外への情報提供は行っておりません。
                         </Typography>
                     </Box>
-                    <Box p={2} textAlign='left' width={{ xs: "100%", xl: (1 / 3) }} margin={{ xs: 0, xl: 5 }} justifyContent={"center"} justifyItems={"center"}>
+                    <Box p={2} textAlign='left' width={{ xs: "100%", lg: (1 / 3) }} margin={{ xs: 0, lg: 5 }} justifyContent={"center"} justifyItems={"center"}>
                         <iframe
                             src="https://uniproject.instatus.com/embed-status/3559d5ef/light-lg"
                             width="245"
@@ -61,11 +61,11 @@ export default function Footer() {
                         />
                     </Box>
                 </Stack>
-                <Stack bgcolor='primary.light' p={2} direction={{ xs: "column", xl: "row" }} textAlign='center' maxWidth={"100%"}>
+                <Stack bgcolor='primary.light' p={2} direction={{ xs: "column", lg: "row" }} textAlign='center' maxWidth={"100%"}>
                     <Typography variant='body1' color='text.secondary'>
                         (c) 2025 UniProject All Rights Reserved.
                     </Typography>
-                    <Stack direction={{ xs: "column", xl: "row" }} justifyContent={"right"} justifyItems={"center"} spacing={{ xs: 0, xl: 2 }} maxWidth={"100%"}>
+                    <Stack direction={{ xs: "column", lg: "row" }} justifyContent={"right"} justifyItems={"center"} spacing={{ xs: 0, lg: 2 }} maxWidth={"100%"}>
                         <Stack direction={"row"} spacing={2} justifyContent={"center"} m={0} p={0} justifyItems={"center"}>
                             <Typography variant='body1' color='text.secondary'>
                                 <Link href='/tos'>

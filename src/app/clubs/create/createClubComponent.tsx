@@ -45,7 +45,7 @@ export default function CreateClub() {
         <Stack minHeight={"100vh"} justifyContent={"center"} alignItems={"center"} spacing={2} textAlign={"center"} px={{ xs: 2, lg: 0 }} py={10}>
             <Typography variant="h3">同好会を登録</Typography>
             <Typography variant="body1">同好会を登録することで、Linkleを使用した同好会検索に掲載されるようになります。</Typography>
-            <Stack spacing={2} bgcolor={"lightgray"} padding={2} borderRadius={2} minWidth={{ xs: "75%", md: "50%", xl: "25%" }}>
+            <Stack spacing={2} bgcolor={"lightgray"} padding={2} borderRadius={2} minWidth={{ xs: "75%", md: "50%", lg: "25%" }}>
                 <Typography textAlign={"center"} variant="h4" width={"100%"}>注意事項</Typography>
                 <ul className="list-disc p-5 text-left">
                     <li>同好会の登録は、同好会の代表者または運営者のみが行うことができます。</li>

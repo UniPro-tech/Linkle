@@ -20,7 +20,7 @@ export default async function Club({ id }: { id: string }) {
     return (
         <>
             <KeyVisual club={club} />
-            <Stack spacing={2} px={{ xs: 2, xl: 10 }} justifyContent={"center"} alignItems={"center"} width={"100%"}>
+            <Stack spacing={2} px={{ xs: 2, lg: 10 }} justifyContent={"center"} alignItems={"center"} width={"100%"}>
                 <LongDescription description={club.long_description == "" ? "# 説明はありません。" : club.long_description} />
                 <LongDescription description={`# Slack` + ((club.available_on & 0x1) == 0x1 ? `\n- [高等部](https://n-highschool.slack.com/archives/${club.slack_link})` : null) + ((club.available_on & 0x2) == 0x2 ? `\n- [中等部](https://n-jr.slack.com/archives/${club.slack_link})` : null)} />
             </Stack>
@@ -32,14 +32,14 @@ async function KeyVisual({ club }: { club: ClubType }) {
     return (
         <Box position={"relative"} width={"100%"} height={0} paddingBottom={"56.25%"} overflow={"hidden"}>
             <Image src={club.image || "/img/noClubImage.jpg"} alt={club.name} width={"5000"} height={0} style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
-            <Stack spacing={1} position={"absolute"} bottom={{ xs: "6%", xl: "15%" }} left={0}>
-                <Typography variant="h1" bgcolor={"black"} color="white" p={{ xs: 1, xl: 3 }} sx={{ opacity: 0.8, fontWeight: 'bold', fontSize: { xs: "34px", xl: "94px" } }}>{club.name}</Typography>
+            <Stack spacing={1} position={"absolute"} bottom={{ xs: "6%", lg: "15%" }} left={0}>
+                <Typography variant="h1" bgcolor={"black"} color="white" p={{ xs: 1, lg: 3 }} sx={{ opacity: 0.8, fontWeight: 'bold', fontSize: { xs: "34px", lg: "94px" } }}>{club.name}</Typography>
                 {club.available_on == 0 ? null : (
                     <Stack direction={"row"} spacing={1} pl={1}>
                         {availableContents(club.available_on, club.slack_link)}
                     </Stack>
                 )}
-                <Typography variant="body1" bgcolor={"black"} color="white" p={{ xs: 1, xl: 3 }} sx={{ opacity: 0.8 }}>{club.short_description}</Typography>
+                <Typography variant="body1" bgcolor={"black"} color="white" p={{ xs: 1, lg: 3 }} sx={{ opacity: 0.8 }}>{club.short_description}</Typography>
             </Stack>
         </Box>
     );

@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Stack px={{ xs: 2, xl: 0 }} py={10} flex={1} justifyContent="center" alignItems="center">
+      <Stack px={{ xs: 2, lg: 0 }} py={10} flex={1} justifyContent="center" alignItems="center">
         <SearchTitle />
-        <Box width={{ xs: "100%", xl: (2 / 5) }} sx={{ p: 5 }}>
+        <Box width={{ xs: "100%", lg: (2 / 5) }} sx={{ p: 5 }}>
           <ClubSearchForm />
         </Box>
         <SearchResultsPage />

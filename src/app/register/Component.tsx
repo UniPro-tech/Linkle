@@ -32,7 +32,7 @@ export default function RegisterComponet(
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Stack spacing={2} flex={1} justifyContent="center" alignItems="center" justifyItems={"center"} minHeight={"100vh"} textAlign={"center"} p={{ xs: 2, xl: 0 }}>
+                <Stack spacing={2} flex={1} justifyContent="center" alignItems="center" justifyItems={"center"} minHeight={"100vh"} textAlign={"center"} p={{ xs: 2, lg: 0 }}>
                     <Typography variant="h3">登録する</Typography>
                     <Typography variant="body1">
                         登録を完了するために、以下の項目をご入力ください。

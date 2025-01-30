@@ -81,7 +81,7 @@ export default function ClubEdit({ id }: { id: string }) {
                         <Typography variant="h3">同好会編集</Typography>
                         <Typography variant="body1">ここで同好会情報の編集ができます。</Typography>
                     </Stack>
-                    <Stack spacing={2} justifyContent={"left"} width={{ xs: "90%", xl: "40%" }}>
+                    <Stack spacing={2} justifyContent={"left"} width={{ xs: "90%", lg: "40%" }}>
                         <Typography variant="h4">基礎情報</Typography>
                         <Divider />
                         <ThemeProvider theme={formTheme}>
@@ -291,7 +291,7 @@ export default function ClubEdit({ id }: { id: string }) {
                             </form>
                         </ThemeProvider>
                     </Stack>
-                    <Stack spacing={2} justifyContent={"left"} width={{ xs: "90%", xl: "40%" }}>
+                    <Stack spacing={2} justifyContent={"left"} width={{ xs: "90%", lg: "40%" }}>
                         <Typography variant="h4">重要操作</Typography>
                         <Divider />
                         <Typography variant="body1">これより下は破壊的なアクションです。<br />本当に実行してもよいか十分に検討したうえで実行してください。</Typography>
