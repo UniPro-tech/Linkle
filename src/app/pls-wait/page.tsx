@@ -1,6 +1,12 @@
 "use client"
 import { Button, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "リリースまでお待ちください - Linkle",
+    description: "Please wait until the service starts.",
+}
 
 const calculateTimeLeft = () => {
     const difference = +new Date("2025-01-31T04:00:00Z") - +new Date();
