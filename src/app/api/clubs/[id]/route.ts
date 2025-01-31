@@ -2,6 +2,14 @@ export const dynamic = 'force-dynamic';
 
 const endpoint = process.env.DB_API_ENDPOINT;
 
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    console.log(`${endpoint}/clubs/${id}`);
+    const apiRes = await fetch(`${endpoint}/clubs/${id}`);
+    const data = await apiRes.json();
+    return Response.json(data);
+}
+
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const apiRes = await fetch(`${endpoint}/clubs/${id}`, {
