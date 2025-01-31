@@ -1,8 +1,14 @@
 import ClubList from "@/components/ClubList";
 import ClubSearchForm from "@/components/search/SearchBox";
 import { Box, Stack, Typography } from "@mui/material";
+import { Metadata } from "next";
 
-export default function Home() {
+export const metadata: Metadata = {
+    title: "同好会一覧 - Linkle",
+    description: "Linkleに登録されている同好会一覧です。",
+};
+
+export default async function Home() {
     return (
         <Stack px={{ xs: 2, lg: 0 }} py={10} justifyContent="center" alignItems="center" justifyItems={"center"} spacing={5} minHeight={"100vh"}>
             <Typography variant="h4" gutterBottom mt={5}>

@@ -13,7 +13,7 @@ export const generateMetadata = async ({
     params,
 }: {
     params: Promise<{ slug: string }>
-    }): Promise<Metadata> => {
+}): Promise<Metadata> => {
     const headersData = await headers()
     const host = headersData.get('host')
     const protocol = headersData.get('x-forwarded-proto') ?? host?.startsWith('localhost') ? 'http' : 'https'
@@ -21,6 +21,8 @@ export const generateMetadata = async ({
     const { slug } = await params;
     const res = await fetch(`${apiBase}/api/clubs/${slug[0]}`);
     const data = await res.json();
+
+    const imageFinalURL = data.image ? (await fetch(data.image)).url : undefined;
 
     return {
         title: `${data.name} - Linkle`,
@@ -30,8 +32,14 @@ export const generateMetadata = async ({
             description: `${data.short_description}`,
             type: 'website',
             url: `${apiBase}/clubs/${slug[0]}`,
-            images: data.logo ? `${apiBase}/api/clubs/${slug[0]}/logo` : undefined
+            images: imageFinalURL ?? undefined
         },
+        twitter: {
+            card: 'summary_large_image',
+            site: '@UniPro_digital',
+            title: `${data.name} - Linkle`,
+            description: `${data.short_description}`,
+        }
     };
 }
 
