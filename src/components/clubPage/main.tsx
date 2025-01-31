@@ -20,7 +20,7 @@ export default async function Club({ id }: { id: string }) {
     return (
         <>
             <KeyVisual club={club} />
-            <Stack spacing={2} px={{ xs: 2, lg: 10 }} justifyContent={"center"} alignItems={"center"} width={"100%"}>
+            <Stack spacing={2} py={5} px={{ xs: 2, lg: 10 }} justifyContent={"center"} alignItems={"center"} width={"100%"}>
                 <LongDescription description={club.long_description == "" ? "# 説明はありません。" : club.long_description} />
                 <LongDescription description={`# Slack` + ((club.available_on & 0x1) == 0x1 ? `\n- [高等部](https://n-highschool.slack.com/archives/${club.slack_link})` : null) + ((club.available_on & 0x2) == 0x2 ? `\n- [中等部](https://n-jr.slack.com/archives/${club.slack_link})` : null)} />
             </Stack>
