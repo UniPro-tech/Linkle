@@ -6,15 +6,15 @@ export const config = {
 }
 
 export function middleware(request: NextRequest) {
-    const specificDate = new Date("2025-01-31T13:00:00+09:00");
+    const specificDate = new Date("2025-01-31T04:00:00Z");
     const currentDate = new Date();
     const jstOffset = 9 * 60;
-    const jstDate = new Date(currentDate.getTime() + (currentDate.getTimezoneOffset() + jstOffset) * 60000);
+    const utcDate = new Date(currentDate.getTime() + (currentDate.getTimezoneOffset() * 60000));
 
-    console.log("JST Date: ", jstDate);
+    console.log("JST Date: ", utcDate);
     console.log("Specific Date: ", specificDate);
     
-    if (jstDate < specificDate) {
+    if (utcDate < specificDate) {
         return NextResponse.redirect(new URL("/pls-wait", request.url));
     }
 }
