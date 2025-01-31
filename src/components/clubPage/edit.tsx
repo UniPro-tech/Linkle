@@ -89,7 +89,7 @@ export default function ClubEdit({ id }: { id: string }) {
                                 async (data: FormData) => {
                                     const slack_linkRaw = data.get("slack_link")?.toString();
                                     const slack_link = slack_linkRaw?.split('/')[4];
-                                    const imgURL = new URL(data.get("image") as string);
+                                    const imgURL = (data.get("image") ? new URL(data.get("image") as string) : undefined);
                                     let URLres = "";
                                     if (imgURL?.host == "drive.google.com" && imgURL?.pathname.startsWith('/uc')) {
                                         URLres = imgURL.toString();
