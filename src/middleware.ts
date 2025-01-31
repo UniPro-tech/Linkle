@@ -10,6 +10,9 @@ export function middleware(request: NextRequest) {
     const currentDate = new Date();
     const jstOffset = 9 * 60;
     const jstDate = new Date(currentDate.getTime() + (currentDate.getTimezoneOffset() + jstOffset) * 60000);
+
+    console.log("JST Date: ", jstDate);
+    console.log("Specific Date: ", specificDate);
     
     if (jstDate < specificDate) {
         return NextResponse.redirect(new URL("/pls-wait", request.url));
