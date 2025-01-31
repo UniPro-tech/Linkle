@@ -6,7 +6,7 @@ export const config = {
 }
 
 export function middleware(request: NextRequest) {
-    const specificDate = new Date("2025-01-31T04:00:00Z");
+    const specificDate = new Date("2025-01-31T13:00:00+09:00");
     const currentDate = new Date();
     const jstOffset = 9 * 60;
     const jstDate = new Date(currentDate.getTime() + (currentDate.getTimezoneOffset() + jstOffset) * 60000);
