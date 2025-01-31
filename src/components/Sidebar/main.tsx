@@ -84,7 +84,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SidebarMain({ children, email }: Readonly<{ children: React.ReactNode; email: string; }>) {
-    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/api/authErrorSignout', '/signouted', '/error/notStudent'];
+    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/api/authErrorSignout', '/signouted', '/error/notStudent','/tos','/privacy','/cookie'];
     const pathname = usePathname();
     const [user, setUser] = React.useState<User | undefined>(undefined);
     const { data: session } = useSession();
