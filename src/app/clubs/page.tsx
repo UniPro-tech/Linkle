@@ -15,7 +15,7 @@ export default async function Home() {
                 同好会一覧
             </Typography>
             <Typography variant="body1" gutterBottom>
-                Linkleに登録されている同公開一覧です。
+                Linkleに登録されている同好会一覧です。
             </Typography>
             <Box width={{ xs: "100%", lg: (2 / 5) }} p={5}>
                 <ClubSearchForm />
