@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
+import searchClubs from "@/libs/searchers/clubs";
 import ClubCard from "./ClubCard";
 import Club from "@/models/Club";
 
@@ -32,8 +32,9 @@ const SearchResultsPage: React.FC = () => {
             try {
                 const result = await searchClubs();
                 setSearchResult(result.data);
-            } catch (error: any) {
+            } catch (error) {
                 setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
+                console.log(error);
             } finally {
                 setLoading(false);
             }

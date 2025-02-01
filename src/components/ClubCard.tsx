@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Avatar, Box, Stack } from '@mui/material';
+import { Avatar, Stack } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ThemeProvider } from '@mui/material';

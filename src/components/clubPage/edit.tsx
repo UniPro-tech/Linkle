@@ -28,7 +28,7 @@ export default function ClubEdit({ id }: { id: string }) {
                     const isOwn = await isOwner(session?.user?.email as string, res.id);
                     if (!isOwn) window.location.href = "/forbidden";
                     setSearchResult(res);
-                } catch (error: any) {
+                } catch (error) {
                     setSearchError("検索中にエラーが発生しました。もう一度お試しください。" + error);
                 } finally {
                     setLoading(false);
@@ -50,7 +50,7 @@ export default function ClubEdit({ id }: { id: string }) {
         internal: boolean;
         public: boolean;
     }
-    const { control, handleSubmit, watch } = useForm<ClubEditFormData>({
+    const { control, watch } = useForm<ClubEditFormData>({
         defaultValues: {
             name: searchResult?.name,
             short_description: searchResult?.short_description,
@@ -94,8 +94,8 @@ export default function ClubEdit({ id }: { id: string }) {
                                     if (imgURL?.host == "drive.google.com" && imgURL?.pathname.startsWith('/uc')) {
                                         URLres = imgURL.toString();
                                     } else if (imgURL?.host == "drive.google.com") {
-                                        let temp1 = imgURL?.pathname.split('/')[3];
-                                        let temp2 = temp1?.split('?')[0];
+                                        const temp1 = imgURL?.pathname.split('/')[3];
+                                        const temp2 = temp1?.split('?')[0];
                                         URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
                                     }
                                     const pairoad = {

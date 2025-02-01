@@ -25,8 +25,9 @@ const SearchResultsPage: React.FC = () => {
                 const result = await fetch("/api/clubs/recent");
                 const data = await result.json();
                 setSearchResult(data);
-            } catch (error: any) {
+            } catch (error) {
                 setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
+                console.log(error);
             } finally {
                 setLoading(false);
             }

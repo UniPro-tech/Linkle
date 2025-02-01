@@ -13,7 +13,7 @@ export default function SignOutPage() {
             <Typography variant="h3">Linkleから<wbr />サインアウト</Typography>
             <Typography variant="body1">サインアウトしますか？サインアウトした場合、もう一度ログインし直さなければなりません。</Typography>
             <form
-                action={async (formData) => {
+                action={async () => {
                     "use server"
                     await signOut({ redirectTo: "/signouted" })
                 }}

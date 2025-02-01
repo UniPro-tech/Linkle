@@ -32,8 +32,9 @@ const SearchResultsPage: React.FC = () => {
                 try {
                     const result = await searchClubs({ query });
                     setSearchResult(result);
-                } catch (error: any) {
+                } catch (error) {
                     setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
+                    console.log(error);
                 } finally {
                     setLoading(false);
                 }

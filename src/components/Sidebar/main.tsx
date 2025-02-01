@@ -99,7 +99,7 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
             }
         }
         fetchData();
-    }, []);
+    }, [session]);
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);

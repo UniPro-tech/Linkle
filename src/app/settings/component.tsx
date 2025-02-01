@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 export default function Settings({ name }: { name: string }) {
     const { data: session } = useSession();
 
-    const { control, handleSubmit, watch } = useForm<{ name: string; }>({
+    const { control } = useForm<{ name: string; }>({
         defaultValues: {
             name: name,
         },

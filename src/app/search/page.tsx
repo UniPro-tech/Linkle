@@ -1,7 +1,6 @@
 import ClubSearchForm from "@/components/search/SearchBox";
 import SearchResultsPage from "@/components/search/SearchView";
 import SearchTitle from "@/components/search/SerachTitle";
-import { SearchClubsResponse } from "@/libs/searchers/clubs";
 import { Box, Stack } from "@mui/material";
 import { Metadata } from "next";
 

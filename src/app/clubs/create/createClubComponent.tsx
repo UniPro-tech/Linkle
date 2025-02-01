@@ -19,7 +19,7 @@ export default function CreateClub() {
         tos: boolean;
     }
 
-    const { control, handleSubmit, watch } = useForm<ClubData>({
+    const { control, watch } = useForm<ClubData>({
         defaultValues: {
             name: "",
             chutobu: false,
@@ -34,7 +34,7 @@ export default function CreateClub() {
     const kotobu = watch("kotobu");
     const slack_link = watch("slack_link");
 
-    const { control: checkControl, handleSubmit: checkHandleSubmit, watch: checkWatch } = useForm<Check>({
+    const { control: checkControl } = useForm<Check>({
         defaultValues: {
             admin: false,
             tos: false

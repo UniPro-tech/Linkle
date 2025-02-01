@@ -19,7 +19,7 @@ export default function RegisterComponet(
 
     const { data: session } = useSession()
 
-    const { control, handleSubmit, watch } = useForm<SignUpFormData>({
+    const { control, watch } = useForm<SignUpFormData>({
         defaultValues: {
             name: '',
             tos: false,
