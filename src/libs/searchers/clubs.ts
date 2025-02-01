@@ -15,7 +15,7 @@ const searchClubs = async (
     data?: SearchClubsRequest
 ): Promise<SearchClubsResponse> => {
     const session = await auth();
-    const response = await fetch(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}`);
+    const response = await fetch(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}&filter1=visible,eq,${session ? 0x1 | 0x2 : 0x2}&order=created_at,desc`);
     const resultRaw = await response.json();
     const result = resultRaw.records as Club[];
 
