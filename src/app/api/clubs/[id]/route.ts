@@ -4,8 +4,8 @@ export const dynamic = 'force-dynamic';
 
 const endpoint = process.env.DB_API_ENDPOINT;
 
-export async function GET({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+    const { id } = params;
     const clubRes = await fetch(`${endpoint}/clubs/${id}`);
     const clubData = (await clubRes.json()) as Club;
     const user_clubRes = await fetch(`${endpoint}/user_club/?filter1=club,eq,${id}`);
@@ -14,7 +14,7 @@ export async function GET({ params }: { params: Promise<{ id: string }> }) {
     return Response.json(clubData);
 }
 
-export async function DELETE({ params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const apiRes = await fetch(`${endpoint}/clubs/${id}`, {
         method: "DELETE",
