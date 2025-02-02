@@ -3,23 +3,11 @@ on:
   push:
     tags:
       - 'v*.*.*'
+      - '!v*.*.*-alpha.*'
+      - '!v*.*.*-rc.*'
   workflow_dispatch:
 jobs:
-  checkTag:
-    runs-on: ubuntu-latest
-    outputs:
-      is_production: ${{ steps.check_tag.outputs.is_production }}
-    steps:
-    - name: Check if tag is production
-      id: check_tag
-      run: |
-        if [[ "${GITHUB_REF#refs/tags/}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "is_production=true" >> $GITHUB_ENV
-        else
-          echo "is_production=false" >> $GITHUB_ENV
   deployment:
-    needs: checkTag
-    if: needs.checkTag.outputs.is_production == 'true'
     runs-on: ubuntu-latest
     concurrency: Production
     environment:
