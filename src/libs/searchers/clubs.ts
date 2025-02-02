@@ -18,20 +18,19 @@ const searchClubs = async (
     const response = await fetch(`${endpoint}/clubs?${data?.query ? `&search=${data.query}` : ""}&filter1=visible,ge,${session ? 0x1 : 0x2}&order=created_at,desc`);
     const resultRaw = await response.json();
     const result = resultRaw.records as Club[];
+    const filteredClubs = result.filter((club) => {
+        if (session) {
+            return (club.visible & 0x1) === 0x1;
+        } else {
+            return (club.visible & 0x2) === 0x2;
+        }
+    });
 
-    if (session) {
-        result.filter((club) => {
-            return (club.visible & 0x1) == 0x1;
-        });
-    } else {
-        result.filter((club) => {
-            return (club.visible & 0x2) == 0x2;
-        });
-    }
+    console.log(filteredClubs);
 
     return {
         status: "200",
-        data: result,
+        data: filteredClubs,
     };
 };
 export default searchClubs;
