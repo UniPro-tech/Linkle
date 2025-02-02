@@ -21,6 +21,7 @@ export default async function Club({ id }: { id: string }) {
     const club = await res.json() as ClubType;
     if (!club) notFound();
     if (!isOwn && !((club.visible & 0x1) == 0x1)) forbidden();
+    if(!session && !((club.visible & 0x2) == 0x2)) forbidden();
     return (
         <>
             <KeyVisual club={club} />
