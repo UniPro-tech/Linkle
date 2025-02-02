@@ -10,15 +10,15 @@ on:
     branches:
       - main
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
-        - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: "22"
-        - name: Install dependencies
-          run: npm instal -g bun && bun install
-        - name: Lint
-          run: bun lint
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm instal -g bun && bun install
+      - name: Lint
+        run: bun lint

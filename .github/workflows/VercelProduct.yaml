@@ -2,9 +2,9 @@ name: Vercel Production Deployment
 on:
   push:
     tags:
-      - 'v*.*.*'
-      - '!v*.*.*-alpha.*'
-      - '!v*.*.*-rc.*'
+      - "v*.*.*"
+      - "!v*.*.*-alpha.*"
+      - "!v*.*.*-rc.*"
   workflow_dispatch:
 jobs:
   deployment:
@@ -14,13 +14,13 @@ jobs:
       name: Production
       url: ${{ steps.get_release_url.outputs.release_url }}
     steps:
-    - uses: yuito-it/GitHub-Vercel-Actions@v1.0.2
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-project: ${{ vars.VERCEL_PROJECT }}
-    - name: Set release url
-      shell: bash
-      id: get_release_url
-      run: |
-        cat deployment-url.txt
-        echo release_url="https://linkle.nnn.uniproject.jp" >> $GITHUB_OUTPUT
+      - uses: yuito-it/GitHub-Vercel-Actions@v1.0.2
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-project: ${{ vars.VERCEL_PROJECT }}
+      - name: Set release url
+        shell: bash
+        id: get_release_url
+        run: |
+          cat deployment-url.txt
+          echo release_url="https://linkle.nnn.uniproject.jp" >> $GITHUB_OUTPUT

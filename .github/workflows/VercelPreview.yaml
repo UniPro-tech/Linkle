@@ -10,62 +10,62 @@ jobs:
       output1: ${{ steps.labels.outputs.json }}
     permissions: write-all
     steps:
-    - uses: actions/checkout@v4
-    - name: Get PR labels
-      id: labels
-      shell: bash
-      env:
-        GH_REPO: ${{ github.repository }}
-        GH_TOKEN: ${{ github.token }}
-        PR_NUMBER: ${{ github.event.number }}
-      run: |
-        json=$(gh pr view "$PR_NUMBER" --json labels | jq -c '.labels|map(.name)')
-        echo "json=$json" >> "$GITHUB_OUTPUT"
-    - name: Comment on PR
-      if: ${{ contains(fromJSON(steps.labels.outputs.json), 'dependencies') || contains(fromJSON(steps.labels.outputs.json), 'documentation') || contains(fromJSON(steps.labels.outputs.json), 'duplicate') || contains(fromJSON(steps.labels.outputs.json), 'devtool') }}
-      run: |
-        cat  << EOF > comment.md
-        ## :rocket: Preview Deployment
-        Deployment skipped due to label(s) - dependencies, documentation, duplicate
-        EOF
-        gh pr comment ${{ github.event.number }} --body-file comment.md
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - name: Get PR labels
+        id: labels
+        shell: bash
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          json=$(gh pr view "$PR_NUMBER" --json labels | jq -c '.labels|map(.name)')
+          echo "json=$json" >> "$GITHUB_OUTPUT"
+      - name: Comment on PR
+        if: ${{ contains(fromJSON(steps.labels.outputs.json), 'dependencies') || contains(fromJSON(steps.labels.outputs.json), 'documentation') || contains(fromJSON(steps.labels.outputs.json), 'duplicate') || contains(fromJSON(steps.labels.outputs.json), 'devtool') }}
+        run: |
+          cat  << EOF > comment.md
+          ## :rocket: Preview Deployment
+          Deployment skipped due to label(s) - dependencies, documentation, duplicate
+          EOF
+          gh pr comment ${{ github.event.number }} --body-file comment.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deployment:
     needs: checkLabels
     if: ${{ !(contains(fromJSON(needs.checkLabels.outputs.output1), 'dependencies') || contains(fromJSON(needs.checkLabels.outputs.output1), 'documentation') || contains(fromJSON(needs.checkLabels.outputs.output1), 'duplicate') || contains(fromJSON(needs.checkLabels.outputs.output1), 'devtool') ) }}
     runs-on: ubuntu-latest
     concurrency: Preview
     environment:
-        name: Preview
-        url: ${{ steps.get_release_url.outputs.release_url }}
+      name: Preview
+      url: ${{ steps.get_release_url.outputs.release_url }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Get PR labels
-      id: labels
-      shell: bash
-      env:
-        GH_REPO: ${{ github.repository }}
-        GH_TOKEN: ${{ github.token }}
-        PR_NUMBER: ${{ github.event.number }}
-      run: |
-        json=$(gh pr view "$PR_NUMBER" --json labels | jq -c '.labels|map(.name)')
-        echo "json=$json" >> "$GITHUB_OUTPUT"
-    - name: Install Vercel CLI
-      run: npm install -g vercel
-    - name: Link Vercel Project
-      run: vercel link --token=${{secrets.VERCEL_TOKEN}} --project ${{vars.VERCEL_PROJECT}} --yes
-    - name: Deploy with Vercel
-      run: vercel deploy --target=staging -f --token=${{secrets.VERCEL_TOKEN}} >deployment-url.txt 2>error.txt
-    - name: Set release url
-      id: get_release_url
-      run: echo release_url=$(cat deployment-url.txt) >> $GITHUB_OUTPUT
-    - name: Comment on PR
-      run: |
-        cat  << EOF > comment.md
-        ## :rocket: Preview Deployment
-        [Preview Deployment](${{ steps.get_release_url.outputs.release_url }})
-        EOF
-        gh pr comment ${{ github.event.number }} --body-file comment.md
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      - uses: actions/checkout@v4
+      - name: Get PR labels
+        id: labels
+        shell: bash
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          json=$(gh pr view "$PR_NUMBER" --json labels | jq -c '.labels|map(.name)')
+          echo "json=$json" >> "$GITHUB_OUTPUT"
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      - name: Link Vercel Project
+        run: vercel link --token=${{secrets.VERCEL_TOKEN}} --project ${{vars.VERCEL_PROJECT}} --yes
+      - name: Deploy with Vercel
+        run: vercel deploy --target=staging -f --token=${{secrets.VERCEL_TOKEN}} >deployment-url.txt 2>error.txt
+      - name: Set release url
+        id: get_release_url
+        run: echo release_url=$(cat deployment-url.txt) >> $GITHUB_OUTPUT
+      - name: Comment on PR
+        run: |
+          cat  << EOF > comment.md
+          ## :rocket: Preview Deployment
+          [Preview Deployment](${{ steps.get_release_url.outputs.release_url }})
+          EOF
+          gh pr comment ${{ github.event.number }} --body-file comment.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

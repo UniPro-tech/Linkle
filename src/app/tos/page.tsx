@@ -6,12 +6,12 @@ import remarkMath from "remark-math";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "利用規約 - Linkle",
-    description: "Linkleの利用規約です。",
-}
+  title: "利用規約 - Linkle",
+  description: "Linkleの利用規約です。",
+};
 
 export default async function TOS() {
-    const description = `
+  const description = `
 # Linkle利用規約
 この利用規約（以下、「本規約」といいます。）は、デジタル創作サークルUniProject N/S Branch（以下、「当団体」といいます。）がこのウェブサイト上で提供するサービス（以下、「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下、「ユーザー」といいます。）には、本規約に従って、本サービスをご利用いただきます。
 
@@ -111,10 +111,23 @@ export default async function TOS() {
 2. 本サービスに関して紛争が生じた場合には、津地方裁判所を専属的合意管轄とします。
 
 以上
-`
-    return (
-        <Stack flex={1} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} p={2}>
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} className={"markdown"}>{description}</ReactMarkdown>
-        </Stack>
-    );
+`;
+  return (
+    <Stack
+      flex={1}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      justifyItems={"center"}
+      p={2}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+        className={"markdown"}
+      >
+        {description}
+      </ReactMarkdown>
+    </Stack>
+  );
 }

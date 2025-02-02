@@ -6,12 +6,12 @@ import remarkMath from "remark-math";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "クッキーポリシー - Linkle",
-    description: "Linkleのクッキーポリシーです。",
-}
+  title: "クッキーポリシー - Linkle",
+  description: "Linkleのクッキーポリシーです。",
+};
 
 export default async function TOS() {
-    const description = `
+  const description = `
 # クッキーポリシー
 デジタル創作サークルUniProject N/S Branch（以下、「当団体」といいます。）は、お客様のウェブサイト利用状況を分析し、または個々のお客様に対してカスタマイズされたサービス・広告を提供する等の目的のため、クッキーを使用して一定の情報を収集します。
 
@@ -60,10 +60,23 @@ Google Analyticsに関する情報は、以下のサイトからも入手でき�
 - [Google Analyticsに関する詳細情報（外部サイトへリンク）](https://marketingplatform.google.com/about/analytics/)
 
 アナリティクスヘルプ > データのプライバシーとセキュリティ > データの保護
-`
-    return (
-        <Stack flex={1} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} p={2}>
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} className={"markdown"}>{description}</ReactMarkdown>
-        </Stack>
-    );
+`;
+  return (
+    <Stack
+      flex={1}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      justifyItems={"center"}
+      p={2}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+        className={"markdown"}
+      >
+        {description}
+      </ReactMarkdown>
+    </Stack>
+  );
 }

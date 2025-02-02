@@ -6,12 +6,12 @@ import remarkMath from "remark-math";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "このサイトについて - Linkle",
-    description: "Linkleについての説明です。",
-}
+  title: "このサイトについて - Linkle",
+  description: "Linkleについての説明です。",
+};
 
 export default async function TOS() {
-    const description = `
+  const description = `
 # Linkle制作にあたって
 
 みなさんこんにちは！
@@ -64,10 +64,23 @@ Linkleは、角川ドワンゴ学園内の同好会をより検索しやすく�
 これからもよろしくお願いします。
 
 2025年1月31日 あかつきゆいと
-`
-    return (
-        <Stack flex={1} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} justifyItems={"center"} p={2}>
-            <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]} className={"markdown"}>{description}</ReactMarkdown>
-        </Stack>
-    );
+`;
+  return (
+    <Stack
+      flex={1}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"center"}
+      justifyItems={"center"}
+      p={2}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+        className={"markdown"}
+      >
+        {description}
+      </ReactMarkdown>
+    </Stack>
+  );
 }
