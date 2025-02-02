@@ -2,23 +2,24 @@ name: Vercel Production Deployment
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+'
   workflow_dispatch:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    concurrency: Production
+    concurrency: Alpha
     environment:
-      name: Production
+      name: Alpha
       url: ${{ steps.get_release_url.outputs.release_url }}
     steps:
     - uses: yuito-it/GitHub-Vercel-Actions@v1.0.2
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-project: ${{ vars.VERCEL_PROJECT }}
+        vercel-project: ${{ vars.VERCEL_PROJECT_ALPHA }}
     - name: Set release url
       shell: bash
       id: get_release_url
       run: |
         cat deployment-url.txt
-        echo release_url="https://linkle.nnn.uniproject.jp" >> $GITHUB_OUTPUT
+        echo release_url="https://alpha.linkle.nnn.uniproject.jp" >> $GITHUB_OUTPUT
+      
