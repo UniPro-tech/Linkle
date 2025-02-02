@@ -1,4 +1,4 @@
-name: Vercel Production Deployment
+name: Vercel RC Deployment
 on:
   push:
     tags:
