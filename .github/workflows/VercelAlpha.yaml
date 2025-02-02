@@ -2,7 +2,7 @@ name: Vercel Alpha Deployment
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+'
+      - 'v*.*.*-alpha.*'
   workflow_dispatch:
 jobs:
   deployment:

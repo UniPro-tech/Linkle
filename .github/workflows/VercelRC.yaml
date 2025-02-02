@@ -2,7 +2,7 @@ name: Vercel RC Deployment
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+'
+      - 'v*.*.*-rc.*'
   workflow_dispatch:
 jobs:
   deployment:
