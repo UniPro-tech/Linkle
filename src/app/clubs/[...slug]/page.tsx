@@ -74,7 +74,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </SessionProvider>
       );
     case undefined:
-      return <ClubPage id={slug[0]} />;
+      return (
+        <SessionProvider>
+          <ClubPage id={slug[0]} />
+        </SessionProvider>
+      );
     default:
       notFound();
   }
