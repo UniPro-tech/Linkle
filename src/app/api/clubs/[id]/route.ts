@@ -4,8 +4,8 @@ export const dynamic = 'force-dynamic';
 
 const endpoint = process.env.DB_API_ENDPOINT;
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const clubRes = await fetch(`${endpoint}/clubs/${id}`);
     const clubData = (await clubRes.json()) as Club;
     const user_clubRes = await fetch(`${endpoint}/user_club/?filter1=club,eq,${id}`);
