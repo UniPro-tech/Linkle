@@ -34,6 +34,7 @@ export const generateMetadata = async ({
         type: "website",
         url: `${apiBase}/clubs/${slug[0]}`,
         images: imageFinalURL ?? undefined,
+        siteName: "同好会ポータル Linkle",
       },
       twitter: {
         card: "summary_large_image",
