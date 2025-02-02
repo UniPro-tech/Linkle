@@ -10,6 +10,7 @@ type Club = {
     updated_at: string;
     image: string;
     visible: number;
+    owner: string[] | undefined;
 };
 
 export default Club;

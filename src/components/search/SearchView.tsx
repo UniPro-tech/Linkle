@@ -12,15 +12,15 @@ import {
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import searchClubs, { SearchClubsResponse } from "@/libs/searchers/clubs";
 import ClubCard from "../ClubCard";
+import Club from "@/models/Club";
 
 const SearchResultsPage: React.FC = () => {
     const searchParams = useSearchParams();
     const query = searchParams.get("query") || null;
     const page = searchParams.get("page");
 
-    const [searchResult, setSearchResult] = React.useState<SearchClubsResponse | null>(null);
+    const [clubs, setSearchResult] = React.useState<Club[] | null>(null);
     const [searchError, setSearchError] = React.useState<string | null>(null);
     const [loading, setLoading] = React.useState(false);
 
@@ -30,7 +30,7 @@ const SearchResultsPage: React.FC = () => {
                 setLoading(true);
                 setSearchError(null);
                 try {
-                    const result = await searchClubs({ query });
+                    const result = await (await fetch(`/api/clubs/search?query=${query}`)).json();
                     setSearchResult(result);
                 } catch (error) {
                     setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
@@ -42,7 +42,6 @@ const SearchResultsPage: React.FC = () => {
         };
         fetchData();
     }, [query]);
-    const clubs = searchResult?.data;
     return (
         <Stack width={"100%"} spacing={2} justifyContent={"center"} alignItems={"center"} justifyItems={"center"}>
             <Grid2

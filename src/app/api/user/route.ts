@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import Club from "@/models/Club";
+import User from "@/models/User";
 import { unauthorized } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -59,9 +61,12 @@ export async function GET(req: NextRequest) {
     if (!session) {
         unauthorized();
     }
-    const searchParams = req.nextUrl.searchParams
+    const searchParams = req.nextUrl.searchParams;
     const email = searchParams.get('email');
-    const apiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
-    const data = await apiRes.json();
-    return NextResponse.json({ data: data.records[0] }, { status: 200 });
+    const userApiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
+    const userData = (await userApiRes.json()).records[0] as User;
+    const ownClubApiRes = await fetch(`${endpoint}/user_club?filter1=user,eq,${userData.email}&join=club,clubs`);
+    const ownClubData = await ownClubApiRes.json();
+    userData.clubs = ownClubData.records.map((record: { club: Club }) => record.club);
+    return NextResponse.json(userData);
 }

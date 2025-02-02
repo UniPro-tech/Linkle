@@ -1,4 +1,3 @@
-import { getClubById } from "@/libs/searchers/clubs";
 import ClubType from "@/models/Club";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import Image from 'next/image';
@@ -8,15 +7,20 @@ import Link from "next/link";
 import { forbidden, notFound } from "next/navigation";
 import { LongDescription } from "./md";
 import { auth } from "@/auth";
-import { isOwner } from "@/libs/searchers/userClubData";
+import { headers } from 'next/headers';
 
 export default async function Club({ id }: { id: string }) {
+    const headersData = await headers()
+    const host = headersData.get('host')
+    const protocol = headersData.get('x-forwarded-proto') ?? host?.startsWith('localhost') ? 'http' : 'https'
+    const apiBase = `${protocol}://${host}`
     const session = await auth();
-    const isOwn = await isOwner(session?.user?.email ?? "", id);
-    const res = await getClubById(id);
-    const club = res.data[0];
+    const owners = (await (await fetch(`${apiBase}/api/clubs/${id}/owners`)).json()) as string[];
+    const isOwn = owners.some(owner => owner == session?.user?.email);
+    const res = await fetch(`${apiBase}/api/clubs/${id}`);
+    const club = await res.json() as ClubType;
     if (!club) notFound();
-    if (!isOwn && !(club.visible == 1)) forbidden();
+    if (!isOwn && !((club.visible & 0x1) == 0x1)) forbidden();
     return (
         <>
             <KeyVisual club={club} />

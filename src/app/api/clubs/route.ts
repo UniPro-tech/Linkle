@@ -54,3 +54,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.error();
     }
 }
+
+export const GET = async () => {
+    const session = await auth();
+    const apiRes = await fetch(`${endpoint}/clubs?order=created_at,desc&filter1=visible,ge,${session ? 0x1 : 0x2}`);
+    if (apiRes.ok) {
+        const data = await apiRes.json();
+        return NextResponse.json(data.records);
+    } else {
+        return NextResponse.error();
+    }
+}

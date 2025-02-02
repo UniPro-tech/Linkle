@@ -93,8 +93,8 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
             if (!email) return;
             const res = await fetch('/api/user?email=' + session?.user?.email);
             const data = await res.json();
-            setUser(data.data);
-            if (!data.data && !excludePaths.includes(pathname)) {
+            setUser(data);
+            if (!data && !excludePaths.includes(pathname)) {
                 redirect('/checkAuth');
             }
         }
