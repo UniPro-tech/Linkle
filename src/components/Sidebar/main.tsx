@@ -15,7 +15,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Signin from './AccountBarBtn';
 import { SessionProvider, useSession } from 'next-auth/react';
-import MenuList from '../SideMenuList';
+import MenuList from './SideMenuList';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { usePathname } from "next/navigation";
@@ -73,6 +73,7 @@ const AppBar = styled(MuiAppBar, {
         width: '100%',
         marginLeft: 0,
     },
+    boxShadow: '1px 1px 5px 0px rgba(0,0,0,0.2)',
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -84,7 +85,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function SidebarMain({ children, email }: Readonly<{ children: React.ReactNode; email: string; }>) {
-    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/api/authErrorSignout', '/signouted', '/error/notStudent','/tos','/privacy','/cookie'];
+    const excludePaths = ['/checkAuth', '/register', '/signin', '/signout', '/api/authErrorSignout', '/signouted', '/error/notStudent', '/tos', '/privacy', '/cookie'];
     const pathname = usePathname();
     const [user, setUser] = React.useState<User | undefined>(undefined);
     const { data: session } = useSession();
@@ -199,7 +200,7 @@ export default function SidebarMain({ children, email }: Readonly<{ children: Re
                     </SessionProvider>
                 </List>
             </Drawer>
-            <Main open={open} sx={{ p: 0 }}>
+            <Main open={open} sx={{ p: 0, width: "100%" }}>
                 <DrawerHeader />
                 {children}
             </Main>

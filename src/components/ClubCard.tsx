@@ -22,7 +22,7 @@ type ClubCardProps = {
 export default function ClubCard({ id, name, description, imageUrl, availableOn, isDashboard }: ClubCardProps) {
     return (
         <ThemeProvider theme={formTheme}>
-            <Card sx={{ width: 320, position: 'relative' }}>
+            <Card sx={{ width: 320, position: 'relative', boxShadow:0, border: 1, borderColor: 'grey.300', borderRadius: 2 }}>
                 <Link href={`/clubs/${id}`}>
                     <Image
                         src={imageUrl == "" ? "/img/noClubImage.jpg" : imageUrl}

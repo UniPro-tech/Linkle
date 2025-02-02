@@ -11,7 +11,7 @@ export default function SignOutPage() {
     return (
         <Stack justifyContent={"center"} alignItems={"center"} spacing={2} p={{ xs: 2, lg: 0 }} justifyItems={"center"} height={"100vh"} textAlign={"center"}>
             <Typography variant="h3">Linkleから<wbr />サインアウト</Typography>
-            <Typography variant="body1">サインアウトしますか？サインアウトした場合、もう一度ログインし直さなければなりません。</Typography>
+            <Typography variant="body1">サインアウトしますか？サインアウトした場合、もう一度サインインし直さなければなりません。</Typography>
             <form
                 action={async () => {
                     "use server"

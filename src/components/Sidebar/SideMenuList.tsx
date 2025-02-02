@@ -7,23 +7,30 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
+import GroupsIcon from '@mui/icons-material/Groups';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function MenuList() {
     const session = useSession();
 
     const loginedMenuList = [
         {
+            label: 'ホーム',
+            href: '/',
+            icon: <HomeIcon />,
+        },
+        {
             label: 'ダッシュボード',
             href: '/dashboard',
             icon: <DashboardIcon />,
         },
-        // TODO: あとで実装する
-        /*{
+        {
             label: 'クラブ一覧',
             href: '/clubs',
-            icon: <DashboardIcon/>,
+            icon: <GroupsIcon />,
         },
-        {
+        // TODO: あとで実装する
+        /*{
             label: 'イベント一覧',
             href: '/events',
             icon: <DashboardIcon/>,
@@ -34,7 +41,7 @@ export default function MenuList() {
             icon: <DashboardIcon/>,
         },*/
         {
-            label: 'ログアウト',
+            label: 'サインアウト',
             href: '/signout',
             icon: <LogoutIcon />,
         },
@@ -42,7 +49,17 @@ export default function MenuList() {
 
     const noLoginedMenuList = [
         {
-            label: 'ログイン',
+            label: 'ホーム',
+            href: '/',
+            icon: <HomeIcon />,
+        },
+        {
+            label: 'クラブ一覧',
+            href: '/clubs',
+            icon: <GroupsIcon />,
+        },
+        {
+            label: 'サインイン',
             href: '/signin',
             icon: <LoginIcon />,
         },

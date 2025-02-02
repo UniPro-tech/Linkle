@@ -7,7 +7,7 @@ export default function ThirdPartySigninSection({ provider }: { provider: string
             return (
                 <>
                     <Stack justifyContent={"center"} alignItems={"center"} spacing={2}>
-                        <Typography variant="body1">Googleでログインする際には@nnn.ed.jpもしくは@n-jr.jp、@nnn.ac.jpのアカウントでログインしてください。</Typography>
+                        <Typography variant="body1">Googleでサインインする際には@nnn.ed.jpもしくは@n-jr.jp、@nnn.ac.jpのアカウントでサインインしてください。</Typography>
                         <GoogleSigninBtn />
                     </Stack>
                 </>

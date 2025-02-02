@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 
 import Link from 'next/link';
 
-export default function LoginButton({slack_name}: {slack_name: string | undefined}) {
+export default function LoginButton({ slack_name }: { slack_name: string | undefined }) {
     const { data: session } = useSession();
     console.log(session);
     if (session?.user) {
@@ -16,7 +16,7 @@ export default function LoginButton({slack_name}: {slack_name: string | undefine
     }
     return (
         <Link href={"/signin"}>
-            ログイン
+            サインイン
         </Link>
     )
 }
@@ -59,7 +59,7 @@ export function AccountMenu({ displayName, avatar }: { displayName: string, avat
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }} src={ avatar as string} />
+                        <Avatar sx={{ width: 32, height: 32 }} src={avatar as string} />
                         <Typography textAlign={"center"} alignContent={"center"}>{displayName}</Typography>
                     </Box>
                 </Tooltip>
@@ -119,7 +119,7 @@ export function AccountMenu({ displayName, avatar }: { displayName: string, avat
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    ログアウト
+                    サインアウト
                 </MenuItem>
             </Menu>
         </React.Fragment>
