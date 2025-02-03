@@ -31,6 +31,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { redirect } from "next/navigation";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
 export function AccountMenu({ displayName, avatar }: { displayName: string; avatar: string }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -41,6 +42,7 @@ export function AccountMenu({ displayName, avatar }: { displayName: string; avat
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { height, width } = useWindowSize();
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -62,12 +64,12 @@ export function AccountMenu({ displayName, avatar }: { displayName: string; avat
               sx={{ width: 32, height: 32 }}
               src={avatar as string}
             />
-            <Typography
+            {width >= 600 && <Typography
               textAlign={"center"}
               alignContent={"center"}
             >
               {displayName}
-            </Typography>
+            </Typography>}
           </Box>
         </Tooltip>
       </Box>
