@@ -21,7 +21,7 @@ import { redirect } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import User from "@/models/User";
-import { Stack } from "@mui/material";
+import { Chip, Stack } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -127,6 +127,38 @@ export default function SidebarMain({
     setOpen(false);
   };
 
+  const environment = process.env.NEXT_PUBLIC_ENVIRONMENT_PREFIX;
+  console.log("environment: ", environment);
+  let environment_chip: React.ReactNode;
+  switch (environment) {
+    case "dev":
+      environment_chip =
+        <Chip variant="outlined" color="success" size="small" label="dev" />;
+      break;
+    case "pre-prod":
+      environment_chip =
+        <Chip variant="outlined" color="warning" size="small" label="pre-prod" />;
+      break;
+    case "production":
+      break;
+    case "alpha":
+      environment_chip =
+        <Chip variant="outlined" color="error" size="small" label="alpha" />;
+      break;
+    case "rc":
+      environment_chip =
+        <Chip variant="outlined" color="primary" size="small" label="rc" />;
+      break;
+    case "pre-alpha":
+      environment_chip =
+        <Chip variant="outlined" color="warning" size="small" label="pre-alpha" />;
+      break;
+    case "pre-rc":
+      environment_chip =
+        <Chip variant="outlined" color="warning" size="small" label="pre-rc" />;
+      break;
+  }
+
   return (
     <Box sx={{ display: "flex", width: "100vw", overflow: "hidden" }}>
       <CssBaseline />
@@ -159,24 +191,29 @@ export default function SidebarMain({
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: "bold",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-              noWrap
-              component="div"
-            >
-              <Link
-                href="/"
-                passHref
+            <Stack flex={1} flexDirection={"row"} alignItems="center" justifyContent={"center"} justifyItems={"center"}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: "bold",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                noWrap
+                component="div"
+                textAlign={"center"}
+                pr={1}
               >
-                Linkle
-              </Link>
-            </Typography>
+                <Link
+                  href="/"
+                  passHref
+                >
+                  Linkle
+                </Link>
+              </Typography>
+              {environment_chip}
+            </Stack>
           </Stack>
           <Box sx={{ minWidth: 0, flexShrink: 1 }}>
             <SessionProvider session={session}>
