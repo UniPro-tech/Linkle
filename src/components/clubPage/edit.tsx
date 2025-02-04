@@ -319,7 +319,9 @@ export default function ClubEdit({ id }: { id: string }) {
                             method: "PATCH",
                             body: JSON.stringify({ image: "" })
                           })
-                          redirect(`/clubs/${id}/edit`);
+                          if (res.ok)
+                            redirect(`/clubs/${id}/edit`);
+                          else alert("画像の削除に失敗しました。");
                         } else alert("画像の削除に失敗しました。");
                       }}
                         color="error"
