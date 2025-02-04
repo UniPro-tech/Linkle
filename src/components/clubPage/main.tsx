@@ -17,6 +17,7 @@ export default function Club({ id }: { id: string }) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { data: session } = useSession();
   useEffect(() => {
+    setLoading(true);
     try {
       const fetchClub = async () => {
         const res = await fetch(`/api/clubs/${id}`);
@@ -38,8 +39,10 @@ export default function Club({ id }: { id: string }) {
       if (club?.image) {
         const imgURL = club.image ? (club.image.startsWith("https://") ? new URL(club.image) : club.image) : undefined;
         if (imgURL) {
-          if (imgURL instanceof URL) setImageUrl(imgURL.toString());
-          else {
+          if (imgURL instanceof URL) {
+            setImageUrl(imgURL.toString());
+            setLoading(false);
+          } else {
             const fetchURL = async () => {
               const res = await fetch(`/api/images?filename=${club.image}&clubId=${id}`);
               if (res.ok) {
@@ -48,6 +51,7 @@ export default function Club({ id }: { id: string }) {
                 const temp2 = temp1?.split("?")[0];
                 setImageUrl(`https://drive.google.com/uc?export=view&id=${temp2}`);
               }
+              setLoading(false);
             };
             fetchURL();
           }
@@ -57,15 +61,12 @@ export default function Club({ id }: { id: string }) {
     catch (e) {
       setError(e as string);
     }
-    finally {
-      setLoading(false);
-    }
   }, [club]);
   return (
     <>
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography>{error}</Typography>}
-      {club && !loading && (
+      {(club && !loading) && (
         <>
           <KeyVisual club={club} imageUrl={imageUrl} />
           <Stack

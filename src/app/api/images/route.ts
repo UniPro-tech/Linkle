@@ -1,20 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import fs from "fs";
-import path from "path";
-
 const postScriptUrl = process.env.IMAGE_POST_SCRIPT_URL;
 const deleteScriptUrl = process.env.IMAGE_DELETE_SCRIPT_URL;
 
-function fileToBase64(filePath: string) {
-    const fileBuffer = fs.readFileSync(filePath);
-    return fileBuffer.toString("base64");
-}
-
-async function uploadFile(filePath: string) {
-    const fileName = path.basename(filePath);
-    const base64Data = fileToBase64(filePath);
-
+async function uploadFile(fileName: string, base64Data: string) {
     const postData = {
         filename: fileName,
         body: base64Data,
@@ -45,22 +34,17 @@ export async function POST(request: NextRequest) {
     const clubId = formData.get('clubId');
     const file = formData.get('file') as File;
     const fileName = formData.get('filename');
-    const tempDir = path.join("./.temp");
-    if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir);
-    }
-    const filePath = path.join("./.temp", clubId + "_" + fileName);
     const fileBuffer = Buffer.from(await file.arrayBuffer());
-    fs.writeFileSync(filePath, fileBuffer);
+    const base64Data = fileBuffer.toString("base64");
+
     try {
-        await uploadFile(filePath);
+        await uploadFile(clubId + "_" + fileName, base64Data);
     } catch (error) {
-        //fs.unlinkSync(filePath);
         console.log(error);
         return NextResponse.json({ message: "File uploaded but an error occurred during upload" }, { status: 500 });
     }
-    fs.unlinkSync(filePath);
-    const res = await fetch(`${postScriptUrl as string}?filename=${path.basename(filePath)}`, {
+
+    const res = await fetch(`${postScriptUrl as string}?filename=${clubId}_${fileName}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
