@@ -157,6 +157,19 @@ export default function ClubEdit({ id }: { id: string }) {
                     : undefined;*/
                   const file = data.get("file") as File;
                   if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                      alert("ファイルサイズが大きすぎます。");
+                      return;
+                    }
+                    if (!searchResult.image.startsWith("https://")) {
+                      const res = await fetch(`/api/images?filename=${searchResult.image}&clubId=${id}`, {
+                        method: "DELETE",
+                      });
+                      if (!res.ok) {
+                        alert("画像の更新に失敗しました。");
+                        return;
+                      }
+                    }
                     const fileData = new FormData();
                     fileData.append("clubId", id);
                     fileData.append("file", file);
