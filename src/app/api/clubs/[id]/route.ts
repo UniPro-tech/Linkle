@@ -66,7 +66,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   if (!session || !owners.includes(session?.user?.email)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await request.json();
   const apiRes = await fetch(`${endpoint}/clubs/${id}`, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
