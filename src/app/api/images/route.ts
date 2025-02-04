@@ -45,7 +45,10 @@ export async function POST(request: NextRequest) {
     const clubId = formData.get('clubId');
     const file = formData.get('file') as File;
     const fileName = formData.get('filename');
-
+    const tempDir = path.join("./.temp");
+    if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir);
+    }
     const filePath = path.join("./.temp", clubId + "_" + fileName);
     const fileBuffer = Buffer.from(await file.arrayBuffer());
     fs.writeFileSync(filePath, fileBuffer);
