@@ -42,7 +42,7 @@ export function AccountMenu({ displayName, avatar }: { displayName: string; avat
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { height, width } = useWindowSize();
+  const { width } = useWindowSize();
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>

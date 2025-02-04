@@ -27,6 +27,25 @@ export default function ClubCard({
   availableOn,
   isDashboard,
 }: ClubCardProps) {
+  let imgUrl: string | undefined;
+  if (imageUrl) {
+    const imgURL = imageUrl ? (imageUrl.startsWith("https://") ? new URL(imageUrl) : imageUrl) : undefined;
+    if (imgURL) {
+      if (imgURL instanceof URL) imgUrl = (imgURL.toString());
+      else {
+        const fetchURL = async () => {
+          const res = await fetch(`/api/images?filename=${imageUrl}&clubId=${id}`);
+          if (res.ok) {
+            const url = new URL((await res.json()).url);
+            const temp1 = url?.pathname.split("/")[3];
+            const temp2 = temp1?.split("?")[0];
+            imgUrl = (`https://drive.google.com/uc?export=view&id=${temp2}`);
+          }
+        };
+        fetchURL();
+      }
+    }
+  }
   return (
     <ThemeProvider theme={formTheme}>
       <Card
@@ -41,7 +60,7 @@ export default function ClubCard({
       >
         <Link href={`/clubs/${id}`}>
           <Image
-            src={imageUrl == "" ? "/img/noClubImage.jpg" : imageUrl}
+            src={(imgUrl == "" || imgUrl == undefined) ? "/img/noClubImage.jpg" : imgUrl}
             alt={name}
             width={"320"}
             height={0}

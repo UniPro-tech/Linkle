@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["drive.google.com"],
   },
+  transpilePackages: ['mui-file-input'],
 };
 
 export default nextConfig;

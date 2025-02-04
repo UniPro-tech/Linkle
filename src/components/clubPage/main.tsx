@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import "katex/dist/katex.min.css";
 import Link from "next/link";
-import { forbidden, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { LongDescription } from "./md";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -14,26 +14,60 @@ export default function Club({ id }: { id: string }) {
   const [club, setClub] = useState<ClubType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { data: session } = useSession();
   useEffect(() => {
-    const fetchClub = async () => {
-      const res = await fetch(`/api/clubs/${id}`);
-      console.log(res.status);
-      if (res.status == 403) window.location.href = "/forbidden";
-      const club = (await res.json()) as ClubType;
-      if (!club) redirect("/not-found");
-      setClub(club);
+    try {
+      const fetchClub = async () => {
+        const res = await fetch(`/api/clubs/${id}`);
+        console.log(res.status);
+        if (res.status == 403) window.location.href = "/forbidden";
+        const club = (await res.json()) as ClubType;
+        if (!club) redirect("/not-found");
+        setClub(club);
+      }
+      fetchClub();
     }
-    fetchClub();
-    setLoading(false);
+    catch (e) {
+      setError(e as string);
+      setLoading(false);
+    }
   }, [session]);
+  useEffect(() => {
+    try {
+      if (club?.image) {
+        const imgURL = club.image ? (club.image.startsWith("https://") ? new URL(club.image) : club.image) : undefined;
+        if (imgURL) {
+          if (imgURL instanceof URL) setImageUrl(imgURL.toString());
+          else {
+            const fetchURL = async () => {
+              const res = await fetch(`/api/images?filename=${club.image}&clubId=${id}`);
+              if (res.ok) {
+                const url = new URL((await res.json()).url);
+                const temp1 = url?.pathname.split("/")[3];
+                const temp2 = temp1?.split("?")[0];
+                setImageUrl(`https://drive.google.com/uc?export=view&id=${temp2}`);
+              }
+            };
+            fetchURL();
+          }
+        }
+      }
+    }
+    catch (e) {
+      setError(e as string);
+    }
+    finally {
+      setLoading(false);
+    }
+  }, [club]);
   return (
     <>
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography>{error}</Typography>}
       {club && !loading && (
         <>
-          <KeyVisual club={club} />
+          <KeyVisual club={club} imageUrl={imageUrl} />
           <Stack
             spacing={2}
             py={5}
@@ -63,7 +97,7 @@ export default function Club({ id }: { id: string }) {
   );
 }
 
-function KeyVisual({ club }: { club: ClubType }) {
+function KeyVisual({ club, imageUrl }: { club: ClubType, imageUrl: string | undefined | null }) {
   return (
     <Box
       position={"relative"}
@@ -73,7 +107,7 @@ function KeyVisual({ club }: { club: ClubType }) {
       overflow={"hidden"}
     >
       <Image
-        src={club.image || "/img/noClubImage.jpg"}
+        src={imageUrl || "/img/noClubImage.jpg"}
         alt={club.name}
         width={"5000"}
         height={0}

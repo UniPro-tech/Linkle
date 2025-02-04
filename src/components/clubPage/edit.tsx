@@ -7,6 +7,7 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
+  Link,
   Stack,
   TextField,
   ThemeProvider,
@@ -20,12 +21,15 @@ import { Controller, useForm } from "react-hook-form";
 import formTheme from "@/theme/form";
 import { LongDescription } from "./md";
 import { useSession } from "next-auth/react";
+import { MuiFileInput } from 'mui-file-input'
+import Image from 'next/image'
 
 export default function ClubEdit({ id }: { id: string }) {
   const { data: session } = useSession();
   const [searchResult, setSearchResult] = useState<Club | null>(null);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
@@ -43,13 +47,40 @@ export default function ClubEdit({ id }: { id: string }) {
           setSearchResult(res);
         } catch (error) {
           setSearchError("検索中にエラーが発生しました。もう一度お試しください。" + error);
-        } finally {
-          setLoading(false);
         }
       } else setSearchError("idが指定されていません。");
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    try {
+      if (searchResult?.image) {
+        const imgURL = searchResult.image ? (searchResult.image.startsWith("https://") ? new URL(searchResult.image) : searchResult.image) : undefined;
+        if (imgURL) {
+          if (imgURL instanceof URL) setImageUrl(imgURL.toString());
+          else {
+            const fetchURL = async () => {
+              const res = await fetch(`/api/images?filename=${searchResult.image}&clubId=${id}`);
+              if (res.ok) {
+                const url = new URL((await res.json()).url);
+                const temp1 = url?.pathname.split("/")[3];
+                const temp2 = temp1?.split("?")[0];
+                setImageUrl(`https://drive.google.com/uc?export=view&id=${temp2}`);
+              }
+            };
+            fetchURL();
+          }
+        }
+      }
+    }
+    catch (e) {
+      setSearchError(e as string);
+    }
+    finally {
+      setLoading(false);
+    }
+  }, [searchResult]);
 
   interface ClubEditFormData {
     name: string;
@@ -62,6 +93,7 @@ export default function ClubEdit({ id }: { id: string }) {
     kotobu: boolean;
     internal: boolean;
     public: boolean;
+    file: File | undefined,
   }
   const { control, watch } = useForm<ClubEditFormData>({
     defaultValues: {
@@ -75,6 +107,7 @@ export default function ClubEdit({ id }: { id: string }) {
       kotobu: searchResult?.available_on ? (searchResult.available_on & 0x1) == 0x1 : false,
       internal: searchResult?.visible ? (searchResult?.visible & 0x1) == 0x1 : false,
       public: searchResult?.visible ? (searchResult?.visible & 0x2) == 0x2 : false,
+      file: undefined,
     },
   });
 
@@ -119,17 +152,32 @@ export default function ClubEdit({ id }: { id: string }) {
                 action={async (data: FormData) => {
                   const slack_linkRaw = data.get("slack_link")?.toString();
                   const slack_link = slack_linkRaw?.split("/")[4];
-                  const imgURL = data.get("image")
+                  /*const imgURL = data.get("image")
                     ? new URL(data.get("image") as string)
-                    : undefined;
-                  let URLres = "";
-                  if (imgURL?.host == "drive.google.com" && imgURL?.pathname.startsWith("/uc")) {
+                    : undefined;*/
+                  const file = data.get("file") as File;
+                  if (file) {
+                    const fileData = new FormData();
+                    fileData.append("clubId", id);
+                    fileData.append("file", file);
+                    fileData.append("filename", file.name);
+                    const filePostApiRes = await fetch(`/api/images`, {
+                      method: "POST",
+                      body: fileData,
+                    });
+                    if (!filePostApiRes.ok) {
+                      alert("画像のアップロードに失敗しました。");
+                      return;
+                    }
+                  }
+                  const URLres = file.name;
+                  /*if (imgURL?.host == "drive.google.com" && imgURL?.pathname.startsWith("/uc")) {
                     URLres = imgURL.toString();
                   } else if (imgURL?.host == "drive.google.com") {
                     const temp1 = imgURL?.pathname.split("/")[3];
                     const temp2 = temp1?.split("?")[0];
                     URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
-                  }
+                  }*/
                   const pairoad = {
                     name: data.get("name") as string,
                     short_description: data.get("short_description") as string,
@@ -212,7 +260,7 @@ export default function ClubEdit({ id }: { id: string }) {
                   )}
                 />
                 <FormHelperText>短い説明はクラブカードに表示されます。</FormHelperText>
-                <Controller
+                {/*<Controller
                   name="image"
                   control={control}
                   render={({ field }) => (
@@ -225,11 +273,43 @@ export default function ClubEdit({ id }: { id: string }) {
                       defaultValue={searchResult.image}
                     />
                   )}
+                />*/}
+                <Controller
+                  name="file"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MuiFileInput
+                      {...field}
+                      label="画像"
+                      helperText={fieldState.invalid ? "File is invalid" : ""}
+                      error={fieldState.invalid}
+                      itemType="image/png,image/jpeg,image/jpg,image/webp"
+                    />
+                  )}
                 />
+                {
+                  imageUrl && (
+                    <>
+                      <Typography variant="h5">現在の画像</Typography>
+                      <Image src={imageUrl} alt="club image" width={200} height={200} />
+                      <Button onClick={async () => {
+                        const res = await fetch(`/api/images?filename=${searchResult.image}&clubId=${id}`, {
+                          method: "DELETE",
+                        });
+                        if (res.ok) {
+                          redirect(`/clubs/${id}/edit`);
+                        } else alert("画像の削除に失敗しました。");
+                      }}
+                        color="error"
+                        variant="outlined"
+                      >画像を削除</Button>
+                    </>
+                  )
+                }
                 <FormHelperText>
                   画像はクラブカードに表示されます。
                   <br />
-                  GoogleDriveの共有リンクを入力してください。
+                  5MB以下のファイルをアップロードしてください。
                 </FormHelperText>
                 <Typography variant="h5">対象</Typography>
                 <Controller
@@ -324,7 +404,7 @@ export default function ClubEdit({ id }: { id: string }) {
                     />
                   )}
                 />
-                <FormHelperText>長い説明はクラブページに表示されます。</FormHelperText>
+                <FormHelperText>長い説明はクラブページに表示されます。<br /><Link href="https://qiita.com/qurage/items/a2f3f52c60d7c64b2e08" target="_blank" rel="noopener noreferrer">GitHubFlavorMarkdown</Link>に対応しています。</FormHelperText>
                 <Typography variant="h6">プレビュー</Typography>
                 <Divider />
                 <Stack
