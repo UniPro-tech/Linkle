@@ -315,6 +315,10 @@ export default function ClubEdit({ id }: { id: string }) {
                           method: "DELETE",
                         });
                         if (res.ok) {
+                          const res = await fetch(`/api/clubs/${id}`, {
+                            method: "PATCH",
+                            body: JSON.stringify({ image: "" })
+                          })
                           redirect(`/clubs/${id}/edit`);
                         } else alert("画像の削除に失敗しました。");
                       }}
