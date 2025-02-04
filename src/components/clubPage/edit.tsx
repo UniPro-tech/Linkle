@@ -156,13 +156,14 @@ export default function ClubEdit({ id }: { id: string }) {
                     ? new URL(data.get("image") as string)
                     : undefined;*/
                   const file = data.get("file") as File;
+                  let URLres = searchResult.image;
                   if (file) {
                     if (file.size > 5 * 1024 * 1024) {
                       alert("ファイルサイズが大きすぎます。");
                       return;
                     }
-                    if (!searchResult.image.startsWith("https://")) {
-                      const res = await fetch(`/api/images?filename=${searchResult.image}&clubId=${id}`, {
+                    if (searchResult.image_file) {
+                      const res = await fetch(`/api/images?filename=${searchResult.image_file}&clubId=${id}`, {
                         method: "DELETE",
                       });
                       if (!res.ok) {
@@ -182,8 +183,11 @@ export default function ClubEdit({ id }: { id: string }) {
                       alert("画像のアップロードに失敗しました。");
                       return;
                     }
+                    const imgURL = new URL((await filePostApiRes.json()).url);
+                    const temp1 = imgURL?.pathname.split("/")[3];
+                    const temp2 = temp1?.split("?")[0];
+                    URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
                   }
-                  const URLres = file.name;
                   /*if (imgURL?.host == "drive.google.com" && imgURL?.pathname.startsWith("/uc")) {
                     URLres = imgURL.toString();
                   } else if (imgURL?.host == "drive.google.com") {
@@ -198,6 +202,7 @@ export default function ClubEdit({ id }: { id: string }) {
                     slack_name: data.get("slack_name") as string,
                     slack_link: slack_link as string,
                     image: URLres as string,
+                    image_file: file ? file.name : searchResult.image_file,
                     available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
                     visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
                   };
@@ -306,7 +311,7 @@ export default function ClubEdit({ id }: { id: string }) {
                       <Typography variant="h5">現在の画像</Typography>
                       <Image src={imageUrl} alt="club image" width={200} height={200} />
                       <Button onClick={async () => {
-                        const res = await fetch(`/api/images?filename=${searchResult.image}&clubId=${id}`, {
+                        const res = await fetch(`/api/images?filename=${searchResult.image_file}&clubId=${id}`, {
                           method: "DELETE",
                         });
                         if (res.ok) {

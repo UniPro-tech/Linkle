@@ -14,7 +14,6 @@ export default function Club({ id }: { id: string }) {
   const [club, setClub] = useState<ClubType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { data: session } = useSession();
   useEffect(() => {
     setLoading(true);
@@ -31,44 +30,18 @@ export default function Club({ id }: { id: string }) {
     }
     catch (e) {
       setError(e as string);
+    }
+    finally {
       setLoading(false);
     }
   }, [session]);
-  useEffect(() => {
-    try {
-      if (club?.image) {
-        const imgURL = club.image ? (club.image.startsWith("https://") ? new URL(club.image) : club.image) : undefined;
-        if (imgURL) {
-          if (imgURL instanceof URL) {
-            setImageUrl(imgURL.toString());
-            setLoading(false);
-          } else {
-            const fetchURL = async () => {
-              const res = await fetch(`/api/images?filename=${club.image}&clubId=${id}`);
-              if (res.ok) {
-                const url = new URL((await res.json()).url);
-                const temp1 = url?.pathname.split("/")[3];
-                const temp2 = temp1?.split("?")[0];
-                setImageUrl(`https://drive.google.com/uc?export=view&id=${temp2}`);
-              }
-              setLoading(false);
-            };
-            fetchURL();
-          }
-        }
-      }
-    }
-    catch (e) {
-      setError(e as string);
-    }
-  }, [club]);
   return (
     <>
       {loading && <Typography>Loading...</Typography>}
       {error && <Typography>{error}</Typography>}
       {(club && !loading) && (
         <>
-          <KeyVisual club={club} imageUrl={imageUrl} />
+          <KeyVisual club={club} imageUrl={club.image} />
           <Stack
             spacing={2}
             py={5}

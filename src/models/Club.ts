@@ -11,6 +11,7 @@ type Club = {
   image: string;
   visible: number;
   owner: string[] | undefined;
+  image_file: string | undefined;
 };
 
 export default Club;
