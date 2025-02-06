@@ -1,7 +1,12 @@
+import { auth } from "@/auth";
 import ClubList from "@/components/ClubList";
 import ClubSearchForm from "@/components/search/SearchBox";
-import { Box, Stack, Typography } from "@mui/material";
+import { fetchErrorResponse } from "@/lib/server/club";
+import Club from "@/models/Club";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
+import { headers } from "next/headers";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "同好会一覧 - Linkle",
@@ -9,6 +14,31 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  const getClubs = new Promise<Club[] | fetchErrorResponse>(async (resolve) => {
+    try {
+      const session = await auth();
+      if (!session) resolve("unauthorized");
+      const headersData = await headers();
+      const host = headersData.get("host");
+      const protocol =
+        headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+      const cookie = headersData.get("cookie");
+      const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+      const apiBase = `${protocol}://${host}`;
+      const res = await fetch(`${apiBase}/api/clubs`, {
+        headers: new Headers({
+          cookie: sessionID ?? "",
+        }),
+      });
+      if (res.status == 403) resolve("forbidden");
+      const club = (await res.json()) as Club[];
+      if (!club) resolve("notfound");
+      resolve(club);
+    } catch (e) {
+      throw new Error(e as string);
+    }
+  });
+
   return (
     <Stack
       px={{ xs: 2, lg: 0 }}
@@ -38,7 +68,22 @@ export default async function Home() {
       >
         <ClubSearchForm />
       </Box>
-      <ClubList />
+      <Suspense
+        fallback={
+          <Stack
+            flex={1}
+            justifyContent="center"
+            alignItems="center"
+            minHeight={"30vh"}
+            spacing={2}
+          >
+            <Typography>Loading...</Typography>
+            <CircularProgress />
+          </Stack>
+        }
+      >
+        <ClubList clubsPromise={getClubs} />
+      </Suspense>
     </Stack>
   );
 }
