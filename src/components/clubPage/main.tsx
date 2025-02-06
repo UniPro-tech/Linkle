@@ -1,47 +1,64 @@
-"use client";
 import ClubType from "@/models/Club";
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 import "katex/dist/katex.min.css";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { LongDescription } from "./md";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { use } from "react";
+import { getClubById } from "@/lib/club";
+import { forbidden, notFound } from "next/navigation";
+import UpdateMetadata from "@/components/TitleChange";
 
 export default function Club({ id }: { id: string }) {
-  const [club, setClub] = useState<ClubType | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const { data: session } = useSession();
-  useEffect(() => {
-    setLoading(true);
-    try {
-      const fetchClub = async () => {
-        const res = await fetch(`/api/clubs/${id}`);
-        console.log(res.status);
-        if (res.status == 403) window.location.href = "/forbidden";
-        const club = (await res.json()) as ClubType;
-        if (!club) redirect("/not-found");
-        setClub(club);
-      }
-      fetchClub();
-    }
-    catch (e) {
-      setError(e as string);
-    }
-    finally {
-      setLoading(false);
-    }
-  }, [session]);
+  const club = use(getClubById(id));
+  if (club == "forbidden") forbidden();
+  if (club == "notfound") notFound();
   return (
     <>
-      {loading && <Typography>Loading...</Typography>}
-      {error && <Typography>{error}</Typography>}
-      {(club && !loading) && (
+      <UpdateMetadata
+        metadata={{
+          title: `${club.name}`,
+          description: `${club.short_description}`,
+          openGraph: {
+            title: `${club.name}`,
+            description: `${club.short_description}`,
+            type: "website",
+            url: `${process.env.DB_API_ENDPOINT}/clubs/${id}`,
+            images: club.image ?? undefined,
+            siteName: "同好会ポータル Linkle",
+          },
+          twitter: {
+            card: "summary_large_image",
+            site: "@UniPro_digital",
+            title: `${club.name}`,
+            description: `${club.short_description}`,
+            images: club.image ?? undefined,
+          },
+        }}
+      />
+      {typeof club == "string" && (
+        <Typography>
+          {
+            <Alert
+              severity="error"
+              style={{ marginTop: "20px" }}
+            >
+              {club == "forbidden"
+                ? "権限がありません。"
+                : club == "notfound"
+                ? "クラブが見つかりませんでした。"
+                : `エラーが発生しました。\n${club}`}
+            </Alert>
+          }
+        </Typography>
+      )}
+      {!(typeof club == "string") && (
         <>
-          <KeyVisual club={club} imageUrl={club.image} />
+          <KeyVisual
+            club={club}
+            imageUrl={club.image}
+          />
           <Stack
             spacing={2}
             py={5}
@@ -51,7 +68,9 @@ export default function Club({ id }: { id: string }) {
             width={"100%"}
           >
             <LongDescription
-              description={club.long_description == "" ? "# 説明はありません。" : club.long_description}
+              description={
+                club.long_description == "" ? "# 説明はありません。" : club.long_description
+              }
             />
             <LongDescription
               description={
@@ -71,7 +90,7 @@ export default function Club({ id }: { id: string }) {
   );
 }
 
-function KeyVisual({ club, imageUrl }: { club: ClubType, imageUrl: string | undefined | null }) {
+function KeyVisual({ club, imageUrl }: { club: ClubType; imageUrl: string | undefined | null }) {
   return (
     <Box
       position={"relative"}

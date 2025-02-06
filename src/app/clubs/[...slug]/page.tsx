@@ -8,8 +8,10 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 
 import { Metadata } from "next";
+import { Suspense } from "react";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 
-export const generateMetadata = async ({
+/*export const generateMetadata = async ({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -60,7 +62,7 @@ export const generateMetadata = async ({
       description: "500 - Internal Server Error",
     };
   }
-};
+};*/
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
@@ -75,9 +77,23 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       );
     case undefined:
       return (
-        <SessionProvider>
-          <ClubPage id={slug[0]} />
-        </SessionProvider>
+        <Stack
+          flex={1}
+          justifyContent="center"
+          alignItems="center"
+          minHeight={"100vh"}
+        >
+          <Suspense
+            fallback={
+              <>
+                <Typography>Loading...</Typography>
+                <CircularProgress />
+              </>
+            }
+          >
+            <ClubPage id={slug[0]} />
+          </Suspense>
+        </Stack>
       );
     default:
       notFound();
