@@ -1,7 +1,7 @@
 import Club from "@/models/Club";
 import { headers } from "next/headers";
 
-export type fetchErrorResponse = "notfound" | "forbidden";
+export type fetchErrorResponse = "notfound" | "forbidden" | "unauthorized";
 
 export const getClubById = async (id: string): Promise<Club | fetchErrorResponse> => {
   try {
