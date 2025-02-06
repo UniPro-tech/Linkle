@@ -13,30 +13,15 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const getMyClubs = new Promise<Club[] | fetchErrorResponse>(async (resolve) => {
-    try {
-      const session = await auth();
-      if (!session) resolve("unauthorized");
-      const headersData = await headers();
-      const host = headersData.get("host");
-      const protocol =
-        headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
-      const cookie = headersData.get("cookie");
-      const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
-      const apiBase = `${protocol}://${host}`;
-      const res = await fetch(`${apiBase}/api/user?email=${session?.user?.email}`, {
-        headers: new Headers({
-          cookie: sessionID ?? "",
-        }),
-      });
-      if (res.status == 403) resolve("forbidden");
-      const club = (await res.json()).clubs as Club[];
-      if (!club) resolve("notfound");
-      resolve(club);
-    } catch (e) {
-      throw new Error(e as string);
-    }
-  });
+  const session = await auth();
+  if (!session) return "unauthorized";
+  const headersData = await headers();
+  const host = headersData.get("host");
+  const protocol =
+    headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+  const cookie = headersData.get("cookie");
+  const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+  const apiBase = `${protocol}://${host}`;
   return (
     <Suspense
       fallback={
@@ -52,7 +37,11 @@ export default async function Page() {
         </Stack>
       }
     >
-      <Dashboard clubsPromise={getMyClubs} />
+      <Dashboard
+        apiBase={apiBase}
+        sessionID={sessionID as string}
+        email={session?.user?.email as string}
+      />
     </Suspense>
   );
 }

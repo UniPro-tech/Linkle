@@ -14,31 +14,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const getClubs = new Promise<Club[] | fetchErrorResponse>(async (resolve) => {
-    try {
-      const session = await auth();
-      if (!session) resolve("unauthorized");
-      const headersData = await headers();
-      const host = headersData.get("host");
-      const protocol =
-        headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
-      const cookie = headersData.get("cookie");
-      const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
-      const apiBase = `${protocol}://${host}`;
-      const res = await fetch(`${apiBase}/api/clubs`, {
-        headers: new Headers({
-          cookie: sessionID ?? "",
-        }),
-      });
-      if (res.status == 403) resolve("forbidden");
-      const club = (await res.json()) as Club[];
-      if (!club) resolve("notfound");
-      resolve(club);
-    } catch (e) {
-      throw new Error(e as string);
-    }
-  });
-
+  const headersData = await headers();
+  const host = headersData.get("host");
+  const protocol =
+    headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+  const cookie = headersData.get("cookie");
+  const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+  const apiBase = `${protocol}://${host}`;
   return (
     <Stack
       px={{ xs: 2, lg: 0 }}
@@ -82,7 +64,10 @@ export default async function Home() {
           </Stack>
         }
       >
-        <ClubList clubsPromise={getClubs} />
+        <ClubList
+          apiBase={apiBase}
+          sessionID={sessionID}
+        />
       </Suspense>
     </Stack>
   );

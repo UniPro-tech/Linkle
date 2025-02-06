@@ -1,5 +1,4 @@
 "use client";
-
 import React, { use } from "react";
 import { Typography, Alert, Grid2, Pagination, PaginationItem, Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
@@ -8,14 +7,35 @@ import ClubCard from "./ClubCard";
 import Club from "@/models/Club";
 import { fetchErrorResponse } from "@/lib/server/club";
 
-export default function SearchResultsPage({
-  clubsPromise,
+export default async function SearchResultsPage({
+  apiBase,
+  sessionID,
 }: {
-  clubsPromise: Promise<Club[] | fetchErrorResponse>;
+  apiBase: string;
+  sessionID: string | undefined;
 }) {
+  const getClubs = async (
+    apiBase: string,
+    sessionID: string | undefined
+  ): Promise<Club[] | fetchErrorResponse> => {
+    try {
+      const res = await fetch(`${apiBase}/api/clubs`, {
+        headers: new Headers({
+          cookie: sessionID ?? "",
+        }),
+      });
+      if (res.status == 403) return "forbidden";
+      const club = (await res.json()) as Club[];
+      if (!club) return "notfound";
+      return club;
+    } catch (e) {
+      throw new Error(e as string);
+    }
+  };
+
   const params = useSearchParams();
   const page = params.get("page");
-  const clubs = use(clubsPromise);
+  const clubs = use(getClubs(apiBase, sessionID));
   if (typeof clubs === "string") {
     return (
       <Stack
