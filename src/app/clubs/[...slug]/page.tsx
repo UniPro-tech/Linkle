@@ -2,7 +2,6 @@ import { notFound, unauthorized } from "next/navigation";
 
 import ClubPage from "@/components/clubPage/main";
 import EditClub from "@/components/clubPage/edit";
-import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
 import { Suspense } from "react";
