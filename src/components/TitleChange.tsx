@@ -3,6 +3,7 @@
 import { Metadata } from "next";
 
 export default function UpdateMetadata({ metadata }: { metadata: Metadata }) {
+  if (typeof document === "undefined") return null;
   document.title = `${metadata.title} - Linkle`;
   if (metadata.description) {
     const description = document.querySelector('meta[name="description"]');
