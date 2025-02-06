@@ -9,6 +9,7 @@ import { use } from "react";
 import { getClubById } from "@/lib/club";
 import { forbidden, notFound } from "next/navigation";
 import UpdateMetadata from "@/components/TitleChange";
+import { Metadata } from "next";
 
 export default function Club({ id }: { id: string }) {
   const club = use(getClubById(id));
@@ -17,25 +18,27 @@ export default function Club({ id }: { id: string }) {
   return (
     <>
       <UpdateMetadata
-        metadata={{
-          title: `${club.name}`,
-          description: `${club.short_description}`,
-          openGraph: {
+        metadata={
+          {
             title: `${club.name}`,
             description: `${club.short_description}`,
-            type: "website",
-            url: `${process.env.DB_API_ENDPOINT}/clubs/${id}`,
-            images: club.image ?? undefined,
-            siteName: "同好会ポータル Linkle",
-          },
-          twitter: {
-            card: "summary_large_image",
-            site: "@UniPro_digital",
-            title: `${club.name}`,
-            description: `${club.short_description}`,
-            images: club.image ?? undefined,
-          },
-        }}
+            openGraph: {
+              title: `${club.name}`,
+              description: `${club.short_description}`,
+              type: "website",
+              url: `${process.env.DB_API_ENDPOINT}/clubs/${id}`,
+              images: club.image ?? undefined,
+              siteName: "同好会ポータル Linkle",
+            },
+            twitter: {
+              card: "summary_large_image",
+              site: "@UniPro_digital",
+              title: `${club.name}`,
+              description: `${club.short_description}`,
+              images: club.image ?? undefined,
+            },
+          } as Metadata
+        }
       />
       {typeof club == "string" && (
         <Typography>
