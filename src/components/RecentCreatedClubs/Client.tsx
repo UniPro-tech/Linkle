@@ -1,6 +1,6 @@
 import { fetchErrorResponse } from "@/lib/server/club";
 import Club from "@/models/Club";
-import { Stack, Typography, Grid2, Alert, CircularProgress, Button } from "@mui/material";
+import { Stack, Typography, Grid2, Alert, Button } from "@mui/material";
 import { use } from "react";
 import ClubCard from "../ClubCard";
 
