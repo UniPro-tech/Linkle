@@ -3,8 +3,6 @@ import { Metadata } from "next";
 import { auth } from "@/auth";
 import { Suspense } from "react";
 import { Typography, CircularProgress, Stack } from "@mui/material";
-import Club from "@/models/Club";
-import { fetchErrorResponse } from "@/lib/server/club";
 import { headers } from "next/headers";
 
 export const metadata: Metadata = {

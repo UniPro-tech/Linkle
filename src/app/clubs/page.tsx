@@ -1,8 +1,5 @@
-import { auth } from "@/auth";
 import ClubList from "@/components/ClubList";
 import ClubSearchForm from "@/components/search/SearchBox";
-import { fetchErrorResponse } from "@/lib/server/club";
-import Club from "@/models/Club";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
 import { headers } from "next/headers";

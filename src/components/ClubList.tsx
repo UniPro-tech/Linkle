@@ -7,7 +7,7 @@ import ClubCard from "./ClubCard";
 import Club from "@/models/Club";
 import { fetchErrorResponse } from "@/lib/server/club";
 
-export default async function SearchResultsPage({
+export default function SearchResultsPage({
   apiBase,
   sessionID,
 }: {
