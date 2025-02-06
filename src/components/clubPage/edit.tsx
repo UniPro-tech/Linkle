@@ -23,5 +23,8 @@ export default function EditClub({
         unauthorized();
     }
   }
+  if (!club.owner) {
+    forbidden();
+  }
   return <ClubEdit club={club} />;
 }

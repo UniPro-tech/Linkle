@@ -18,13 +18,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const user_clubData = (
     (await user_clubRes.json()) as { records: [{ user: string }] }
   ).records.map((record) => record.user);
-  clubData.owner = user_clubData;
   if (
     session &&
     !user_clubData.includes(session?.user?.email || "") &&
     !((clubData.visible & 0x1) == 0x1)
   )
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (user_clubData.includes(session?.user?.email || "")) {
+    clubData.owner = user_clubData;
+  }
   return Response.json(clubData);
 }
 
