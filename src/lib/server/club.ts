@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import Club from "@/models/Club";
 import { headers } from "next/headers";
 
@@ -5,6 +6,8 @@ export type fetchErrorResponse = "notfound" | "forbidden" | "unauthorized";
 
 export const getClubById = async (id: string): Promise<Club | fetchErrorResponse> => {
   try {
+    const session = await auth();
+    if (!session) return "unauthorized";
     const headersData = await headers();
     const host = headersData.get("host");
     const protocol =
