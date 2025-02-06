@@ -15,9 +15,23 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       const session = await auth();
       if (!session) return unauthorized();
       return (
-        <SessionProvider session={session}>
-          <EditClub id={slug[0]} />
-        </SessionProvider>
+        <Stack
+          flex={1}
+          justifyContent="center"
+          alignItems="center"
+          minHeight={"100vh"}
+        >
+          <Suspense
+            fallback={
+              <>
+                <Typography>Loading...</Typography>
+                <CircularProgress />
+              </>
+            }
+          >
+            <EditClub id={slug[0]} />
+          </Suspense>
+        </Stack>
       );
     case undefined:
       return (

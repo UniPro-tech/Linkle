@@ -58,7 +58,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     },
     body: JSON.stringify(body),
   });
-  return Response.json({ status: apiRes.status });
+  return Response.json({}, { status: apiRes.status });
 }
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {

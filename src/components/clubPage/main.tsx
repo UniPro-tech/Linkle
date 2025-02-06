@@ -6,7 +6,7 @@ import "katex/dist/katex.min.css";
 import Link from "next/link";
 import { LongDescription } from "./md";
 import { use } from "react";
-import { getClubById } from "@/lib/club";
+import { getClubById } from "@/lib/server/club";
 import { forbidden, notFound } from "next/navigation";
 import UpdateMetadata from "@/components/TitleChange";
 import { Metadata } from "next";
