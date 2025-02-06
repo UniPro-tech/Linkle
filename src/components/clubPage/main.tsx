@@ -11,8 +11,16 @@ import { forbidden, notFound, unauthorized } from "next/navigation";
 import UpdateMetadata from "@/components/TitleChange";
 import { Metadata } from "next";
 
-export default function Club({ id }: { id: string }) {
-  const club = use(getClubById(id));
+export default function Club({
+  id,
+  apiBase,
+  sessionID,
+}: {
+  id: string;
+  apiBase: string;
+  sessionID: string | undefined;
+}) {
+  const club = use(getClubById(id, apiBase, sessionID));
   if (club == "forbidden") forbidden();
   if (club == "notfound") notFound();
   if (club == "unauthorized") unauthorized();

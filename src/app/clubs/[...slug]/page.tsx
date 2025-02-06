@@ -6,8 +6,16 @@ import { auth } from "@/auth";
 
 import { Suspense } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
+import { headers } from "next/headers";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const headersData = await headers();
+  const host = headersData.get("host");
+  const protocol =
+    headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+  const cookie = headersData.get("cookie");
+  const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+  const apiBase = `${protocol}://${host}`;
   const slug = (await params).slug;
   switch (slug[1]) {
     case "edit":
@@ -28,7 +36,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </>
             }
           >
-            <EditClub id={slug[0]} />
+            <EditClub
+              id={slug[0]}
+              apiBase={apiBase}
+              sessionID={sessionID}
+            />
           </Suspense>
         </Stack>
       );
@@ -48,7 +60,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </>
             }
           >
-            <ClubPage id={slug[0]} />
+            <ClubPage
+              id={slug[0]}
+              apiBase={apiBase}
+              sessionID={sessionID}
+            />
           </Suspense>
         </Stack>
       );
