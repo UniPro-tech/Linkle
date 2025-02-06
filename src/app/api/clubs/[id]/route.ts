@@ -12,7 +12,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (clubRes.status !== 200) return NextResponse.json({ status: clubRes.status });
   const clubData = (await clubRes.json()) as Club;
   const session = await auth();
-  if (!session && !((clubData.visible & 0x2) == 0x2)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!session && !((clubData.visible & 0x2) == 0x2))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const user_clubRes = await fetch(`${endpoint}/user_club/?filter1=club,eq,${id}`);
   const user_clubData = (
     (await user_clubRes.json()) as { records: [{ user: string }] }
@@ -22,7 +23,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     session &&
     !user_clubData.includes(session?.user?.email || "") &&
     !((clubData.visible & 0x1) == 0x1)
-  ) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  )
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   return Response.json(clubData);
 }
 
@@ -32,7 +34,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await (await fetch(`${endpoint}/user_club/?filter1=club,eq,${id}`)).json()
   ).records.map((record: { user: string }) => record.user);
   const session = await auth();
-  if (!session || !owners.includes(session?.user?.email)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!session || !owners.includes(session?.user?.email))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const apiRes = await fetch(`${endpoint}/clubs/${id}`, {
     method: "DELETE",
   });
@@ -45,7 +48,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     await (await fetch(`${endpoint}/user_club/?filter1=club,eq,${id}`)).json()
   ).records.map((record: { user: string }) => record.user);
   const session = await auth();
-  if (!session || !owners.includes(session?.user?.email)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!session || !owners.includes(session?.user?.email))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await request.json();
   const apiRes = await fetch(`${endpoint}/clubs/${id}`, {
     method: "PUT",
@@ -63,7 +67,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     await (await fetch(`${endpoint}/user_club/?filter1=club,eq,${id}`)).json()
   ).records.map((record: { user: string }) => record.user);
   const session = await auth();
-  if (!session || !owners.includes(session?.user?.email)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (!session || !owners.includes(session?.user?.email))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await request.json();
   const apiRes = await fetch(`${endpoint}/clubs/${id}`, {
     method: "PUT",
