@@ -1,63 +1,48 @@
 "use client";
-import React, { use } from "react";
-import { Typography, Alert, Grid2, Pagination, PaginationItem, Stack } from "@mui/material";
+
+import React, { Suspense } from "react";
+import {
+  Typography,
+  CircularProgress,
+  Alert,
+  Grid2,
+  Pagination,
+  PaginationItem,
+  Stack,
+} from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ClubCard from "./ClubCard";
 import Club from "@/models/Club";
-import { fetchErrorResponse } from "@/lib/server/club";
 
-export default function SearchResultsPage({
-  apiBase,
-  sessionID,
-}: {
-  apiBase: string;
-  sessionID: string | undefined;
-}) {
-  const getClubs = async (
-    apiBase: string,
-    sessionID: string | undefined
-  ): Promise<Club[] | fetchErrorResponse> => {
-    try {
-      const res = await fetch(`${apiBase}/api/clubs`, {
-        headers: new Headers({
-          cookie: sessionID ?? "",
-        }),
-      });
-      if (res.status == 403) return "forbidden";
-      const club = (await res.json()) as Club[];
-      if (!club) return "notfound";
-      return club;
-    } catch (e) {
-      throw new Error(e as string);
-    }
-  };
+const SearchResultsPage: React.FC = () => {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query") || null;
+  const page = searchParams.get("page");
 
-  const params = useSearchParams();
-  const page = params.get("page");
-  const clubs = use(getClubs(apiBase, sessionID));
-  if (typeof clubs === "string") {
-    return (
-      <Stack
-        flex={1}
-        justifyContent="center"
-        alignItems="center"
-        minHeight={"30vh"}
-        spacing={2}
-      >
-        <Alert severity="error">
-          <Typography>
-            エラーが発生しました。
-            <br />
-            {clubs}
-          </Typography>
-        </Alert>
-      </Stack>
-    );
-  }
+  const [clubs, setSearchResult] = React.useState<Club[] | null>(null);
+  const [searchError, setSearchError] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setSearchError(null);
+      try {
+        const result = await (await fetch(`/api/clubs/search`)).json();
+        setSearchResult(result);
+      } catch (error) {
+        setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [query]);
   return (
     <Stack
-      width={{ xs: "100%", xl: "80%" }}
+      width={"100%"}
       spacing={2}
       justifyContent={"center"}
       alignItems={"center"}
@@ -71,6 +56,22 @@ export default function SearchResultsPage({
         justifyContent="center"
         width={"100%"}
       >
+        {searchError && (
+          <Grid2 size={16}>
+            <Alert
+              severity="error"
+              style={{ marginTop: "20px" }}
+            >
+              {searchError}
+            </Alert>
+          </Grid2>
+        )}
+        {loading && (
+          <Grid2 size={16}>
+            <CircularProgress />
+          </Grid2>
+        )}
+
         {clubs && clubs.length > 0 && (
           <>
             {clubs.map((club, index) => {
@@ -126,4 +127,12 @@ export default function SearchResultsPage({
       )}
     </Stack>
   );
-}
+};
+
+const ClubList = () => (
+  <Suspense fallback={<CircularProgress />}>
+    <SearchResultsPage />
+  </Suspense>
+);
+
+export default ClubList;
