@@ -85,7 +85,6 @@ const submitAction = async (
     available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
     visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
   };
-  console.log(pairoad);
   const res = await fetch(`/api/clubs/${data.get("id")}`, {
     headers: { "Content-Type": "application/json" },
     method: "PUT",
