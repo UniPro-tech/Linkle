@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function LoginButton({ slack_name }: { slack_name: string | undefined }) {
   const { data: session } = useSession();
-  console.log(session);
   if (session?.user) {
     return (
       <>
@@ -64,12 +63,14 @@ export function AccountMenu({ displayName, avatar }: { displayName: string; avat
               sx={{ width: 32, height: 32 }}
               src={avatar as string}
             />
-            {width >= 600 && <Typography
-              textAlign={"center"}
-              alignContent={"center"}
-            >
-              {displayName}
-            </Typography>}
+            {width >= 600 && (
+              <Typography
+                textAlign={"center"}
+                alignContent={"center"}
+              >
+                {displayName}
+              </Typography>
+            )}
           </Box>
         </Tooltip>
       </Box>
