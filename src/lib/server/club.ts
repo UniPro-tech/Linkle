@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import Club from "@/models/Club";
 
 export type fetchErrorResponse = "notfound" | "forbidden" | "unauthorized";
@@ -9,8 +8,6 @@ export const getClubById = async (
   sessionID: string | undefined
 ): Promise<Club | fetchErrorResponse> => {
   try {
-    const session = await auth();
-    if (!session) return "unauthorized";
     const res = await fetch(`${apiBase}/api/clubs/${id}`, {
       headers: new Headers({
         cookie: sessionID ?? "",

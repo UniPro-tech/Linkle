@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import SearchResultsPage from "./Client";
-import { auth } from "@/auth";
 import { fetchErrorResponse } from "@/lib/server/club";
 import Club from "@/models/Club";
 import { headers } from "next/headers";
@@ -9,8 +8,6 @@ import { headers } from "next/headers";
 export default function SearchResultsPageWrappe() {
   const searchPromise = new Promise<Club[] | fetchErrorResponse>(async (resolve) => {
     try {
-      const session = await auth();
-      if (!session) resolve("unauthorized");
       const headersData = await headers();
       const host = headersData.get("host");
       const protocol =
