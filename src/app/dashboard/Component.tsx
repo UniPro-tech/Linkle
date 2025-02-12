@@ -3,6 +3,7 @@ import Club from "@/models/Club";
 import { forbidden, notFound, unauthorized } from "next/navigation";
 import { use } from "react";
 import DashboardContent from "./Client";
+import { Alert, Button, Stack, Typography } from "@mui/material";
 
 export default function Dashboard({
   apiBase,
@@ -25,7 +26,8 @@ export default function Dashboard({
         }),
       });
       if (res.status == 403) return "forbidden";
-      const club = (await res.json()).clubs as Club[];
+      const club = (await res.json()).clubs;
+      if (club.length == 0) throw new Error(club);
       if (!club) return "notfound";
       return club;
     } catch (e) {
@@ -44,5 +46,21 @@ export default function Dashboard({
     default:
       break;
   }
-  return <DashboardContent clubs={clubs} />;
+  if (clubs instanceof Error) throw clubs;
+  if (clubs.length) return <DashboardContent clubs={clubs} />;
+  else
+    return (
+      <Stack>
+        <Typography variant="h3">ダッシュボード</Typography>
+        <Typography variant="body1">あなたが管理しているクラブの一覧です。</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          href="/clubs/create"
+        >
+          新しいクラブを作成
+        </Button>
+        <Alert severity="error">エラーが発生しました。</Alert>
+      </Stack>
+    );
 }

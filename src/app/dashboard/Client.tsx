@@ -2,7 +2,7 @@
 
 import ClubCard from "@/components/ClubCard";
 import Club from "@/models/Club";
-import { Stack, Typography, Button, Grid2, Pagination, PaginationItem } from "@mui/material";
+import { Stack, Typography, Button, Grid2, Pagination, PaginationItem, Alert } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -65,12 +65,7 @@ export default function DashboardContent({ clubs }: { clubs: Club[] }) {
 
         {clubs && clubs.length === 0 && (
           <Grid2 size={16}>
-            <Typography
-              style={{ marginTop: "20px", textAlign: "center" }}
-              color="text.primary"
-            >
-              データがありません。
-            </Typography>
+            <Alert severity="info">クラブが見つかりませんでした。</Alert>
           </Grid2>
         )}
       </Grid2>
