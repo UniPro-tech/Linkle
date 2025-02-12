@@ -19,10 +19,11 @@ export default function Dashboard({
     sessionID: string,
     email: string
   ): Promise<Club[] | fetchErrorResponse> => {
+    if (!sessionID) return "unauthorized";
     try {
       const res = await fetch(`${apiBase}/api/user?email=${email}`, {
         headers: new Headers({
-          cookie: sessionID ?? "",
+          cookie: sessionID,
         }),
       });
       if (res.status == 403) return "forbidden";
