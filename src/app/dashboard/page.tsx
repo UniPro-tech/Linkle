@@ -21,6 +21,7 @@ export default async function Page() {
   const sessionID =
     cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
     cookie?.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token"));
+  console.log(sessionID);
   const apiBase = `${protocol}://${host}`;
   return (
     <Suspense

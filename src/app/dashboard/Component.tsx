@@ -14,6 +14,7 @@ export default function Dashboard({
   sessionID: string;
   email: string;
 }) {
+  console.log(apiBase, sessionID, email);
   const getMyClubs = async (
     apiBase: string,
     sessionID: string,
