@@ -23,10 +23,12 @@ export default function Dashboard({
     try {
       const res = await fetch(`${apiBase}/api/user?email=${email}`, {
         headers: new Headers({
-          cookie: sessionID,
+          cookie: sessionID ?? "",
         }),
       });
       if (res.status == 403) return "forbidden";
+      if (res.status == 404) return "notfound";
+      if (res.status == 401) return "unauthorized";
       const club = (await res.json()).clubs;
       if (club.length == 0) throw new Error(club);
       if (!club) return "notfound";
