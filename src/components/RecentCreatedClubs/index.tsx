@@ -13,11 +13,13 @@ export default function SearchResultsPageWrappe() {
       const protocol =
         headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
       const cookie = headersData.get("cookie");
-      const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+      const sessionID =
+        cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
+        cookie?.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token"));
       const apiBase = `${protocol}://${host}`;
       const res = await fetch(`${apiBase}/api/clubs/recent`, {
         headers: new Headers({
-          cookie: sessionID ?? "",
+          Cookie: sessionID ?? "",
         }),
       });
       if (res.status == 403) resolve("forbidden");
