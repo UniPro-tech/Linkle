@@ -7,22 +7,22 @@ import { Alert, Button, Stack, Typography } from "@mui/material";
 
 export default function Dashboard({
   apiBase,
-  sessionID,
+  headers,
   email,
 }: {
   apiBase: string;
-  sessionID: string;
+  headers: Headers | undefined;
   email: string;
 }) {
   const getMyClubs = async (
     apiBase: string,
-    cookie: string,
+    headers: Headers | undefined,
     email: string
   ): Promise<Club[] | fetchErrorResponse> => {
-    if (!sessionID) return "unauthorized";
+    if (!headers) return "unauthorized";
     try {
       const res = await fetch(`${apiBase}/api/user?email=${email}`, {
-        headers: new Headers({ Cookie: cookie }),
+        headers: new Headers(headers),
       });
       if (res.status == 403) return "forbidden";
       if (res.status == 404) return "notfound";
@@ -36,7 +36,7 @@ export default function Dashboard({
     }
   };
 
-  const clubs = use(getMyClubs(apiBase, sessionID, email));
+  const clubs = use(getMyClubs(apiBase, headers, email));
   switch (clubs) {
     case "forbidden":
       forbidden();

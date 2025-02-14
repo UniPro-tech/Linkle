@@ -8,9 +8,9 @@ const endpoint = process.env.DB_API_ENDPOINT;
 
 export async function POST(req: NextRequest) {
   const session = await auth();
-  //if (!session) {
-  //  return NextResponse.json({ cookie: req.cookies.getAll() }, { status: 401 });
-  //}
+  if (!session) {
+    return NextResponse.json({ cookie: req.cookies.getAll() }, { status: 401 });
+  }
   const body = await req.json();
   const payload = {
     email: session.user?.email,

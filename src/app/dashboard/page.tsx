@@ -18,7 +18,7 @@ export default async function Page() {
   const host = headersData.get("host");
   const protocol =
     headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
-  const cookie =
+  /*const cookie =
     headersData
       .get("cookie")
       ?.split(";")
@@ -30,7 +30,7 @@ export default async function Page() {
       ?.replace("__Secure-", "");
 
   const sessionID = cookie;
-  if (!cookie) unauthorized();
+  if (!cookie) unauthorized();*/
   const apiBase = `${protocol}://${host}`;
   return (
     <Suspense
@@ -49,7 +49,7 @@ export default async function Page() {
     >
       <Dashboard
         apiBase={apiBase}
-        sessionID={sessionID as string}
+        headers={headersData}
         email={session?.user?.email as string}
       />
     </Suspense>
