@@ -20,7 +20,10 @@ export default async function Page() {
     headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
   const cookie = headersData.get("cookie");
   const sessionID = cookie;
-  if (!cookie) unauthorized();
+  if (!cookie) {
+    console.log("No Cookie");
+    unauthorized();
+  }
   const apiBase = `${protocol}://${host}`;
   return (
     <Suspense
