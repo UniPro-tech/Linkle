@@ -22,7 +22,7 @@ export default function Dashboard({
     if (!sessionID) return "unauthorized";
     try {
       const res = await fetch(`${apiBase}/api/user?email=${email}`, {
-        headers: new Headers({ cookie }),
+        headers: new Headers({ Cookie: cookie }),
       });
       if (res.status == 403) return "forbidden";
       if (res.status == 404) return "notfound";

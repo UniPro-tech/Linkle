@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { Suspense } from "react";
 import { Typography, CircularProgress, Stack } from "@mui/material";
 import { headers } from "next/headers";
+import { unauthorized } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "ダッシュボード - Linkle",
@@ -12,13 +13,14 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await auth();
-  if (!session) return "unauthorized";
+  if (!session) unauthorized();
   const headersData = await headers();
   const host = headersData.get("host");
   const protocol =
     headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
   const cookie = headersData.get("cookie");
   const sessionID = cookie;
+  if (!cookie) unauthorized();
   const apiBase = `${protocol}://${host}`;
   return (
     <Suspense
