@@ -14,18 +14,15 @@ export default function Dashboard({
   sessionID: string;
   email: string;
 }) {
-  console.log(apiBase, sessionID, email);
   const getMyClubs = async (
     apiBase: string,
-    sessionID: string,
+    cookie: string,
     email: string
   ): Promise<Club[] | fetchErrorResponse> => {
     if (!sessionID) return "unauthorized";
     try {
       const res = await fetch(`${apiBase}/api/user?email=${email}`, {
-        headers: new Headers({
-          cookie: sessionID ?? "",
-        }),
+        headers: new Headers({ cookie }),
       });
       if (res.status == 403) return "forbidden";
       if (res.status == 404) return "notfound";

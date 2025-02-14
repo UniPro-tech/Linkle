@@ -18,10 +18,7 @@ export default async function Page() {
   const protocol =
     headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
   const cookie = headersData.get("cookie");
-  const sessionID =
-    cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
-    cookie?.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token"));
-  console.log(sessionID);
+  const sessionID = cookie;
   const apiBase = `${protocol}://${host}`;
   return (
     <Suspense
