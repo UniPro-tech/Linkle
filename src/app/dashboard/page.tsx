@@ -18,12 +18,19 @@ export default async function Page() {
   const host = headersData.get("host");
   const protocol =
     headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
-  const cookie = headersData.get("cookie");
+  const cookie =
+    headersData
+      .get("cookie")
+      ?.split(";")
+      .find((c) => c.trim().startsWith("authjs.session-token=")) ||
+    headersData
+      .get("cookie")
+      ?.split(";")
+      .find((c) => c.trim().startsWith("__Secure-authjs.session-token="))
+      ?.replace("__Secure-", "");
+
   const sessionID = cookie;
-  if (!cookie) {
-    console.log("No Cookie");
-    unauthorized();
-  }
+  if (!cookie) unauthorized();
   const apiBase = `${protocol}://${host}`;
   return (
     <Suspense
