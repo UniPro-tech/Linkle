@@ -37,7 +37,6 @@ export default function Dashboard({
       if (res.status == 404) return "notfound";
       if (res.status == 401) return "unauthorized";
       const club = (await res.json()).clubs;
-      if (club.length == 0) throw new Error(club);
       if (!club) return "notfound";
       return club;
     } catch (e) {
