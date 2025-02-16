@@ -1,3 +1,4 @@
+import CryptoJS from "crypto-js";
 import { auth } from "@/auth";
 import Club from "@/models/Club";
 import User from "@/models/User";
@@ -58,7 +59,19 @@ export async function PUT(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const session = await auth();
-  if (!session) {
+  const headers = req.headers;
+  const apiKey = headers.get("X-Api-Key") ?? undefined;
+  const sessionEmail = apiKey
+    ? CryptoJS.AES.decrypt(apiKey, process.env.API_ROUTE_SECRET as string).toString(
+        CryptoJS.enc.Utf8
+      )
+    : "";
+  const emailCheck =
+    sessionEmail &&
+    (sessionEmail.endsWith("@nnn.ed.jp") ||
+      sessionEmail.endsWith("@nnn.ac.jp") ||
+      sessionEmail.endsWith("@n-jr.jp"));
+  if (!(session || emailCheck)) {
     unauthorized();
   }
   const searchParams = req.nextUrl.searchParams;

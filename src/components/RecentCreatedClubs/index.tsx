@@ -1,9 +1,11 @@
+import crypto from "crypto-js";
 import React, { Suspense } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import SearchResultsPage from "./Client";
 import { fetchErrorResponse } from "@/lib/server/club";
 import Club from "@/models/Club";
 import { headers } from "next/headers";
+import { auth } from "@/auth";
 
 export default function SearchResultsPageWrappe() {
   const searchPromise = new Promise<Club[] | fetchErrorResponse>(async (resolve) => {
@@ -17,9 +19,15 @@ export default function SearchResultsPageWrappe() {
         cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
         cookie?.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token"));
       const apiBase = `${protocol}://${host}`;
+      const key =
+        crypto.AES.encrypt(
+          ((await auth())?.user?.email as string) || "No Auth",
+          process.env.API_ROUTE_SECRET as string
+        ).toString() || "";
       const res = await fetch(`${apiBase}/api/clubs/recent`, {
         headers: new Headers({
           Cookie: sessionID ?? "",
+          "X-Api-Key": key,
         }),
       });
       if (res.status == 403) resolve("forbidden");
