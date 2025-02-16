@@ -261,17 +261,11 @@ export default function ClubEdit({ club }: { club: Club }) {
                               body: JSON.stringify({ image: "" }),
                             });
                             if (res.ok)
-                              redirect(
-                                `/clubs/${club.id}/edit?status=success&message=画像を削除しました。`
-                              );
+                              window.location.href = `/clubs/${club.id}/edit?status=success&message=画像を削除しました。`;
                             else
-                              redirect(
-                                `/clubs/${club.id}/edit?status=error&message=画像の削除に失敗しました。`
-                              );
+                              window.location.href = `/clubs/${club.id}/edit?status=error&message=画像の削除に失敗しました。`;
                           } else
-                            redirect(
-                              `/clubs/${club.id}/edit?status=error&message=画像の削除に失敗しました。`
-                            );
+                            window.location.href = `/clubs/${club.id}/edit?status=error&message=画像の削除に失敗しました。`;
                         }}
                         color="error"
                         variant="outlined"
