@@ -57,13 +57,15 @@ const submitAction = async (
         return { status: "error", message: "画像の更新に失敗しました。" };
       }
     }
-    const fileData = new FormData();
-    fileData.append("clubId", data.get("id") as string);
-    fileData.append("file", file);
-    fileData.append("filename", file.name);
+    const fileBuffer = Buffer.from(await file.arrayBuffer());
+    const pairoad = {
+      fileName: `${file.name}`,
+      base64Data: fileBuffer.toString("base64"),
+      clubId: data.get("id"),
+    };
     const filePostApiRes = await fetch(`/api/images`, {
       method: "POST",
-      body: fileData,
+      body: JSON.stringify(pairoad),
     });
     if (!filePostApiRes.ok) {
       return { status: "error", message: "画像の更新に失敗しました。" };

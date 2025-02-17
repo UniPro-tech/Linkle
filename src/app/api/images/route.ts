@@ -30,12 +30,8 @@ async function uploadFile(fileName: string, base64Data: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
-  const clubId = formData.get("clubId");
-  const file = formData.get("file") as File;
-  const fileName = formData.get("filename");
-  const fileBuffer = Buffer.from(await file.arrayBuffer());
-  const base64Data = fileBuffer.toString("base64");
+  const json = await request.json();
+  const { clubId, fileName, base64Data } = json;
 
   try {
     await uploadFile(clubId + "_" + fileName, base64Data);
