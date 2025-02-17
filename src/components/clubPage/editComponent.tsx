@@ -69,13 +69,12 @@ const submitAction = async (
       return { status: "error", message: "画像の変換に失敗しました。" };
     }
 
-    const filePostApiRes = await fetch(`/api/images`, {
+    const filePostApiRes = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_POST_SCRIPT_URL}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fileName: file.name,
+        fileName: `${data.get("id")}_${file.name}`,
         base64Data,
-        clubId: data.get("id"),
       }),
     });
 
