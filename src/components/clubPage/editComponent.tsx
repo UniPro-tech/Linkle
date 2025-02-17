@@ -54,11 +54,18 @@ const submitAction = async (
       if (!deleteRes.ok) return { status: "error", message: "画像の更新に失敗しました。" };
     }
 
+    const reader = new FileReader();
+    let base64Data: string | undefined;
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      base64Data = reader.result?.toString().split(",")[1]; // `data:image/png;base64,xxx` から Base64 部分だけ取得
+    };
+
     const filePostApiRes = await fetch(`/api/images`, {
       method: "POST",
       body: JSON.stringify({
         fileName: file.name,
-        base64Data: Buffer.from(await file.arrayBuffer()).toString("base64"),
+        base64Data: base64Data,
         clubId: data.get("id"),
       }),
     });
