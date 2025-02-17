@@ -49,6 +49,12 @@ export async function POST(request: NextRequest) {
       "Content-Type": "application/json",
     },
   });
+  if (res.status !== 200) {
+    console.log(`[error]/api/images:POST
+        Code: ${res.status}
+        Message: ${res.statusText}`);
+    return NextResponse.json({ message: "Error uploading file" }, { status: res.status });
+  }
   const { url } = await res.json();
   return NextResponse.json({ message: "File uploaded", url: url }, { status: 200 });
 }

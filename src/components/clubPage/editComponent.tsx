@@ -40,42 +40,70 @@ const submitAction = async (
 ): Promise<{ status: string; message: string }> => {
   const slack_link = (data.get("slack_link") as string)?.split("/")[4];
   const file = data.get("file") as File;
-  let URLres = data.get("image");
+  const imageUrl = data.get("image") as string;
 
   if (file?.size > 0) {
-    if (file.size > 5 * 1024 * 1024)
+    if (file.size > 5 * 1024 * 1024) {
       return { status: "error", message: "ファイルサイズが大きすぎます。" };
+    }
 
+    // 以前の画像を削除
     if (data.get("previous_image_file")) {
       const deleteRes = await fetch(
         `/api/images?filename=${data.get("previous_image_file")}&clubId=${data.get("id")}`,
         { method: "DELETE" }
       );
-      if (!deleteRes.ok) return { status: "error", message: "画像の更新に失敗しました。" };
+      if (!deleteRes.ok) {
+        return { status: "error", message: "画像の更新に失敗しました。" };
+      }
     }
 
-    const reader = new FileReader();
-    let base64Data: string | undefined;
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      base64Data = reader.result?.toString().split(",")[1]; // `data:image/png;base64,xxx` から Base64 部分だけ取得
-    };
+    const base64Data = await new Promise<string | null>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result?.toString().split(",")[1] || null);
+      reader.onerror = () => reject("ファイルの読み込みに失敗しました。");
+      reader.readAsDataURL(file);
+    });
+
+    if (!base64Data) {
+      return { status: "error", message: "画像の変換に失敗しました。" };
+    }
 
     const filePostApiRes = await fetch(`/api/images`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fileName: file.name,
-        base64Data: base64Data,
+        base64Data,
         clubId: data.get("id"),
       }),
     });
-    if (!filePostApiRes.ok) return { status: "error", message: "画像の更新に失敗しました。" };
 
-    URLres = `https://drive.google.com/uc?export=view&id=${
-      new URL((await filePostApiRes.json()).url).pathname.split("/")[3].split("?")[0]
+    if (!filePostApiRes.ok) {
+      return { status: "error", message: "画像のアップロードに失敗しました。" };
+    }
+
+    const uploadResult = await filePostApiRes.json();
+    if (!uploadResult?.url) {
+      return { status: "error", message: "画像のURL取得に失敗しました。" };
+    }
+
+    const newImageUrl = `https://drive.google.com/uc?export=view&id=${
+      new URL(uploadResult.url).pathname.split("/")[3].split("?")[0]
     }`;
-  }
 
+    return updateClub(data, slack_link, newImageUrl, file.name);
+  } else {
+    return updateClub(data, slack_link, imageUrl, data.get("image_file") as string);
+  }
+};
+
+const updateClub = async (
+  data: FormData,
+  slack_link: string | undefined,
+  imageUrl: string | null,
+  imageFileName: string
+): Promise<{ status: string; message: string }> => {
   const res = await fetch(`/api/clubs/${data.get("id")}`, {
     headers: { "Content-Type": "application/json" },
     method: "PUT",
@@ -86,8 +114,8 @@ const submitAction = async (
       long_description: data.get("long_description"),
       slack_name: data.get("slack_name"),
       slack_link,
-      image: URLres,
-      image_file: file?.name || data.get("image_file"),
+      image: imageUrl,
+      image_file: imageFileName,
       available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
       visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
     }),
