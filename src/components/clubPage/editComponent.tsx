@@ -35,68 +35,60 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Club from "@/models/Club";
 
 const submitAction = async (
-  previousState: { status: string; message: string | undefined },
+  state: { status: string; message: string | undefined },
   data: FormData
-): Promise<{ status: string; message: string | undefined }> => {
-  const slack_linkRaw = data.get("slack_link")?.toString();
-  const slack_link = slack_linkRaw?.split("/")[4];
+): Promise<{ status: string; message: string }> => {
+  const slack_link = (data.get("slack_link") as string)?.split("/")[4];
   const file = data.get("file") as File;
   let URLres = data.get("image");
-  if (file.size > 0) {
-    if (file.size > 5 * 1024 * 1024) {
+
+  if (file?.size > 0) {
+    if (file.size > 5 * 1024 * 1024)
       return { status: "error", message: "ファイルサイズが大きすぎます。" };
-    }
+
     if (data.get("previous_image_file")) {
-      const res = await fetch(
+      const deleteRes = await fetch(
         `/api/images?filename=${data.get("previous_image_file")}&clubId=${data.get("id")}`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
-      if (!res.ok) {
-        return { status: "error", message: "画像の更新に失敗しました。" };
-      }
+      if (!deleteRes.ok) return { status: "error", message: "画像の更新に失敗しました。" };
     }
-    const fileBuffer = Buffer.from(await file.arrayBuffer());
-    const pairoad = {
-      fileName: `${file.name}`,
-      base64Data: fileBuffer.toString("base64"),
-      clubId: data.get("id"),
-    };
+
     const filePostApiRes = await fetch(`/api/images`, {
       method: "POST",
-      body: JSON.stringify(pairoad),
+      body: JSON.stringify({
+        fileName: file.name,
+        base64Data: Buffer.from(await file.arrayBuffer()).toString("base64"),
+        clubId: data.get("id"),
+      }),
     });
-    if (!filePostApiRes.ok) {
-      return { status: "error", message: "画像の更新に失敗しました。" };
-    }
-    const imgURL = new URL((await filePostApiRes.json()).url);
-    const temp1 = imgURL?.pathname.split("/")[3];
-    const temp2 = temp1?.split("?")[0];
-    URLres = `https://drive.google.com/uc?export=view&id=${temp2}`;
+    if (!filePostApiRes.ok) return { status: "error", message: "画像の更新に失敗しました。" };
+
+    URLres = `https://drive.google.com/uc?export=view&id=${
+      new URL((await filePostApiRes.json()).url).pathname.split("/")[3].split("?")[0]
+    }`;
   }
-  const pairoad = {
-    id: data.get("id") as string,
-    name: data.get("name") as string,
-    short_description: data.get("short_description") as string,
-    long_description: data.get("long_description") as string,
-    slack_name: data.get("slack_name") as string,
-    slack_link: slack_link as string,
-    image: URLres as string,
-    image_file: file ? file.name : (data.get("image_file") as string),
-    available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
-    visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
-  };
+
   const res = await fetch(`/api/clubs/${data.get("id")}`, {
     headers: { "Content-Type": "application/json" },
     method: "PUT",
-    body: pairoad ? JSON.stringify(pairoad) : null,
+    body: JSON.stringify({
+      id: data.get("id"),
+      name: data.get("name"),
+      short_description: data.get("short_description"),
+      long_description: data.get("long_description"),
+      slack_name: data.get("slack_name"),
+      slack_link,
+      image: URLres,
+      image_file: file?.name || data.get("image_file"),
+      available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
+      visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
+    }),
   });
-  if (res.ok) {
-    return { status: "success", message: "変更を保存しました。" };
-  } else {
-    return { status: "error", message: "変更の保存に失敗しました。" };
-  }
+
+  return res.ok
+    ? { status: "success", message: "変更を保存しました。" }
+    : { status: "error", message: "変更の保存に失敗しました。" };
 };
 
 export default function ClubEdit({ club }: { club: Club }) {
