@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const postScriptUrl = process.env.IMAGE_POST_SCRIPT_URL;
+const postScriptUrl = process.env.NEXT_PUBLIC_IMAGE_POST_SCRIPT_URL;
 const deleteScriptUrl = process.env.IMAGE_DELETE_SCRIPT_URL;
 
 async function uploadFile(fileName: string, base64Data: string) {
