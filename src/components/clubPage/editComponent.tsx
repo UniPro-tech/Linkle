@@ -47,7 +47,6 @@ const submitAction = async (
       return { status: "error", message: "ファイルサイズが大きすぎます。" };
     }
 
-    // 以前の画像を削除
     if (data.get("previous_image_file")) {
       const deleteRes = await fetch(
         `/api/images?filename=${data.get("previous_image_file")}&clubId=${data.get("id")}`,
@@ -74,7 +73,7 @@ const submitAction = async (
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fileName: `${data.get("id")}_${file.name}`,
-        base64Data,
+        body: base64Data,
       }),
     });
 
