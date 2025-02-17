@@ -72,7 +72,7 @@ const submitAction = async (
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        fileName: `${data.get("id")}_${file.name}`,
+        filename: `${data.get("id")}_${file.name}`,
         body: base64Data,
       }),
     });
