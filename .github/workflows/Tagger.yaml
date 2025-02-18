@@ -16,10 +16,11 @@ on:
         description: "Prefix for the pre-version"
         required: false
         type: choice
-        default: null
+        default: "none"
         options:
           - "alpha"
           - "rc"
+          - "none"
 
 permissions:
   id-token: write
@@ -31,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bump version(Normal)
-        if: ${{ github.event.inputs.prefix == null }}
+        if: ${{ github.event.inputs.prefix == 'none' }}
         run: npm version ${{ github.event.inputs.version }}
       - name: Bump version(Pre-release)
         if: ${{ github.event.inputs.prefix != null }}
