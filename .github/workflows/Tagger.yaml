@@ -31,15 +31,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Git
+        run: |
+          git config user.name  "actions-user"
+          git config user.email "action@github.com"
       - name: Bump version(Normal)
         if: ${{ github.event.inputs.prefix == 'none' }}
         run: npm version ${{ github.event.inputs.version }}
       - name: Bump version(Pre-release)
         if: ${{ github.event.inputs.prefix != null }}
         run: npm version pre${{ github.event.inputs.version }} --preid=${{ github.event.inputs.prefix }}
-      - run: |
-          git config user.name  "actions-user"
-          git config user.email "action@github.com"
       - name: Push changes
         run: |
           git push --follow-tags
