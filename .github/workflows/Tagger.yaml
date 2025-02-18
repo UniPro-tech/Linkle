@@ -43,7 +43,7 @@ jobs:
         run: npm version pre${{ github.event.inputs.version }} --preid=${{ github.event.inputs.prefix }}
       - name: Push changes
         run: |
-          git push --follow-tags
-          git push
+          git push --follow-tags --force
+          git push --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
