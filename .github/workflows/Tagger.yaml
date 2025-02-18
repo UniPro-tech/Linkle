@@ -47,7 +47,7 @@ jobs:
         if: ${{ github.event.inputs.prefix == 'none' }}
         run: npm version ${{ github.event.inputs.version }}
       - name: Bump version(Pre-release)
-        if: ${{ github.event.inputs.prefix != null }}
+        if: ${{ github.event.inputs.prefix != 'none' }}
         run: npm version pre${{ github.event.inputs.version }} --preid=${{ github.event.inputs.prefix }}
       - name: Push changes
         run: |
