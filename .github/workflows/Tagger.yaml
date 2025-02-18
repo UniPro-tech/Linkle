@@ -42,7 +42,7 @@ jobs:
       - name: Set up Git
         run: |
           git config user.name  "NPM Versioner"
-          git config user.email "188119480+npm-versioner[bot]"
+          git config user.email "188119480+npm-versioner[bot]@users.noreply.github.com"
       - name: Bump version(Normal)
         if: ${{ github.event.inputs.prefix == 'none' }}
         run: npm version ${{ github.event.inputs.version }}
