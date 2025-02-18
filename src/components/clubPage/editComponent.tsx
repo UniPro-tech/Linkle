@@ -114,7 +114,7 @@ const updateClub = async (
       slack_link,
       image: imageUrl,
       image_file: imageFileName,
-      available_on: (data.get("chutobu") ? 0x1 : 0) | (data.get("kotobu") ? 0x2 : 0),
+      available_on: (data.get("kotobu") ? 0x1 : 0) | (data.get("chutobu") ? 0x2 : 0),
       visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
     }),
   });
@@ -311,22 +311,22 @@ export default function ClubEdit({ club }: { club: Club }) {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          name="chutobu"
+                          name="kotobu"
                           defaultChecked={(club.available_on & 0x1) == 0x1}
                         />
                       }
-                      label={<>中等部</>}
+                      label={<>高等部</>}
                     />
                   </FormControl>
                   <FormControl>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          name="kotobu"
+                          name="chutobu"
                           defaultChecked={(club?.available_on & 0x2) == 0x2}
                         />
                       }
-                      label={<>高等部</>}
+                      label={<>中等部</>}
                     />
                   </FormControl>
                   <Typography variant="h5">公開設定</Typography>
