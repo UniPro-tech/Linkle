@@ -84,17 +84,19 @@ export default function Club({
                 club.long_description == "" ? "# 説明はありません。" : club.long_description
               }
             />
-            <LongDescription
-              description={
-                `# Slack` +
-                ((club.available_on & 0x1) == 0x1
-                  ? `\n- [${club.slack_name} - 高等部](https://n-highschool.slack.com/archives/${club.slack_link})`
-                  : "") +
-                ((club.available_on & 0x2) == 0x2
-                  ? `\n- [${club.slack_name} - 中等部](https://n-jr.slack.com/archives/${club.slack_link})`
-                  : "")
-              }
-            />
+            {sessionID == undefined ? null : (
+              <LongDescription
+                description={
+                  `# Slack` +
+                  ((club.available_on & 0x1) == 0x1
+                    ? `\n- [${club.slack_name} - 高等部](https://n-highschool.slack.com/archives/${club.slack_link})`
+                    : "") +
+                  ((club.available_on & 0x2) == 0x2
+                    ? `\n- [${club.slack_name} - 中等部](https://n-jr.slack.com/archives/${club.slack_link})`
+                    : "")
+                }
+              />
+            )}
           </Stack>
         </>
       )}
