@@ -1,6 +1,6 @@
 {
   "name": "linkle",
-  "version": "2.1.9",
+  "version": "2.1.10-none.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
