@@ -16,6 +16,7 @@ on:
         description: "Prefix for the pre-version"
         required: false
         type: choice
+        default: null
         options:
           - "alpha"
           - "rc"
