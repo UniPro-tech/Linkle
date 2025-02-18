@@ -54,4 +54,5 @@ jobs:
         run: |
           git push --follow-tags --force
           git push --force
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
