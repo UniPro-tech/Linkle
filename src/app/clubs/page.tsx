@@ -1,7 +1,12 @@
+import { auth } from "@/auth";
 import ClubList from "@/components/ClubList";
 import ClubSearchForm from "@/components/search/SearchBox";
-import { Box, Stack, Typography } from "@mui/material";
+import Club from "@/models/Club";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
+import { headers } from "next/headers";
+import { Suspense } from "react";
+import CryptoJS from "crypto-js";
 
 export const metadata: Metadata = {
   title: "同好会一覧 - Linkle",
@@ -9,6 +14,37 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  const headersData = await headers();
+  const host = headersData.get("host");
+  const protocol =
+    headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+  const cookie = headersData.get("cookie");
+  const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+  const apiBase = `${protocol}://${host}`;
+
+  const fetchData = new Promise<Club[]>(async (resolve, reject) => {
+    try {
+      const session = await auth();
+      const res = await fetch(`${apiBase}/api/clubs/search`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-key": CryptoJS.AES.encrypt(
+            session?.user?.email ?? "No Auth",
+            process.env.API_ROUTE_SECRET as string
+          ).toString(),
+          ...(sessionID && { Cookie: sessionID }),
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Failed to fetch data" + res.statusText);
+      }
+      resolve((await res.json()) as Club[]);
+    } catch (error) {
+      console.log(error);
+      reject("Failed to fetch data" + error);
+    }
+  });
+
   return (
     <Stack
       px={{ xs: 2, lg: 0 }}
@@ -38,7 +74,9 @@ export default async function Home() {
       >
         <ClubSearchForm />
       </Box>
-      <ClubList />
+      <Suspense fallback={<CircularProgress />}>
+        <ClubList fetchData={fetchData} />
+      </Suspense>
     </Stack>
   );
 }

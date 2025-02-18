@@ -10,11 +10,9 @@ const endpoint = process.env.DB_API_ENDPOINT;
 export const GET = async () => {
   const session = await auth();
   const apiKey = (await headers()).get("X-Api-Key") as string;
-  console.log(`RT: ${apiKey}`);
   const email = crypto.AES.decrypt(apiKey, process.env.API_ROUTE_SECRET as string).toString(
     crypto.enc.Utf8
   );
-  console.log(`RT: ${email}`);
   const apiCheck =
     email &&
     (email.endsWith("@nnn.ed.jp") || email.endsWith("@nnn.ac.jp") || email.endsWith("@n-jr.jp"));

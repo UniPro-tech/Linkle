@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation"; // Next.js のルーターを使用
 import theme from "@/theme/primary";
 import formTheme from "@/theme/form";
 
-const ClubSearchForm: React.FC = () => {
+const ClubSearchForm = ({ query }: { query?: string | undefined }) => {
   const { control, handleSubmit } = useForm<{ query: string }>({
-    defaultValues: { query: "" },
+    defaultValues: { query: query },
   });
   const router = useRouter();
 
@@ -35,10 +35,10 @@ const ClubSearchForm: React.FC = () => {
               render={({ field }) => (
                 <TextField
                   color="primary"
-                  {...field}
                   label="同好会名"
                   variant="outlined"
                   fullWidth
+                  {...field}
                 />
               )}
             />

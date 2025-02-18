@@ -1,0 +1,46 @@
+name: npm versioner
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to bump to"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - "major"
+          - "minor"
+          - "patch"
+      prefix:
+        description: "Prefix for the pre-version"
+        required: false
+        type: choice
+        options:
+          - "alpha"
+          - "rc"
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version(Normal)
+        if: ${{ github.event.inputs.prefix == null }}
+        run: npm version ${{ github.event.inputs.version }}
+      - name: Bump version(Pre-release)
+        if: ${{ github.event.inputs.prefix != null }}
+        run: npm version pre${{ github.event.inputs.version }} --preid=${{ github.event.inputs.prefix }}
+      - run: |
+          git config user.name  "actions-user"
+          git config user.email "action@github.com"
+      - name: Push changes
+        run: |
+          git push --follow-tags
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

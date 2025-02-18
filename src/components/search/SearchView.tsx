@@ -1,47 +1,46 @@
 "use client";
 
-import React, { Suspense } from "react";
-import {
-  Typography,
-  CircularProgress,
-  Alert,
-  Grid2,
-  Pagination,
-  PaginationItem,
-  Stack,
-} from "@mui/material";
+import React, { use } from "react";
+import { Typography, Alert, Grid2, Pagination, PaginationItem, Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ClubCard from "../ClubCard";
 import Club from "@/models/Club";
 
-const SearchResultsPage: React.FC = () => {
+const SearchResultsPage = ({
+  promise,
+  query,
+}: {
+  promise: Promise<Club[] | string>;
+  query: string;
+}) => {
   const searchParams = useSearchParams();
-  const query = searchParams.get("query") || null;
   const page = searchParams.get("page");
 
-  const [clubs, setSearchResult] = React.useState<Club[] | null>(null);
-  const [searchError, setSearchError] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const clubs = use(promise);
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      if (query) {
-        setLoading(true);
-        setSearchError(null);
-        try {
-          const result = await (await fetch(`/api/clubs/search?query=${query}`)).json();
-          setSearchResult(result);
-        } catch (error) {
-          setSearchError("検索中にエラーが発生しました。もう一度お試しください。");
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
-      } else setSearchError("queryが指定されていません。");
-    };
-    fetchData();
-  }, [query]);
+  if (clubs instanceof Error) {
+    return (
+      <Alert
+        severity="error"
+        style={{ marginTop: "20px" }}
+      >
+        {clubs.message}
+      </Alert>
+    );
+  }
+
+  if (typeof clubs === "string") {
+    return (
+      <Typography
+        style={{ marginTop: "20px" }}
+        color="text.primary"
+      >
+        {clubs}
+      </Typography>
+    );
+  }
+
   return (
     <Stack
       width={"100%"}
@@ -58,22 +57,6 @@ const SearchResultsPage: React.FC = () => {
         justifyContent="center"
         width={"100%"}
       >
-        {searchError && (
-          <Grid2 size={16}>
-            <Alert
-              severity="error"
-              style={{ marginTop: "20px" }}
-            >
-              {searchError}
-            </Alert>
-          </Grid2>
-        )}
-        {loading && (
-          <Grid2 size={16}>
-            <CircularProgress />
-          </Grid2>
-        )}
-
         {clubs && clubs.length > 0 && (
           <>
             {clubs.map((club, index) => {
@@ -131,10 +114,4 @@ const SearchResultsPage: React.FC = () => {
   );
 };
 
-const SearchResultsPageWrapper = () => (
-  <Suspense fallback={<CircularProgress />}>
-    <SearchResultsPage />
-  </Suspense>
-);
-
-export default SearchResultsPageWrapper;
+export default SearchResultsPage;
