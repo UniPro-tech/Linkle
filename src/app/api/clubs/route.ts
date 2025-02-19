@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { unauthorized } from "next/navigation";
+import { Session } from "next-auth";
+import crypto from "crypto-js";
 
 export const dynamic = "force-dynamic";
 
@@ -55,8 +57,18 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export const GET = async () => {
-  const session = await auth();
+export const GET = async (req: NextRequest) => {
+  let session: boolean | Session | null = await auth();
+  if (!session) {
+    const headers = req.headers;
+    const apiKey = headers.get("X-Api-Key");
+    const email = crypto.AES.decrypt(
+      apiKey as string,
+      process.env.API_ROUTE_SECRET as string
+    ).toString(crypto.enc.Utf8);
+    if (email.endsWith("@nnn.ed.jp") || email.endsWith("@nnn.ac.jp") || email.endsWith("@n-jr.jp"))
+      session = true;
+  }
   const apiRes = await fetch(
     `${endpoint}/clubs?order=created_at,desc&filter1=visible,ge,${session ? 0x1 : 0x2}`
   );
