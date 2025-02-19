@@ -4,6 +4,7 @@ type Article = {
   authors: string[] | undefined;
   clubs: number[] | undefined;
   description: string;
+  main_text: string;
   created_at: string;
   updated_at: string;
   image: string;
