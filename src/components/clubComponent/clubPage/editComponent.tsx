@@ -22,7 +22,7 @@ import { redirect, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import formTheme from "@/theme/form";
-import { LongDescription } from "./md";
+import { LongDescription } from "../../md";
 import { MuiFileInput } from "mui-file-input";
 import Image from "next/image";
 import * as React from "react";
