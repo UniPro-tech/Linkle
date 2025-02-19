@@ -1,4 +1,4 @@
-import RecentCreatedClubs from "@/components/RecentCreatedClubs";
+import RecentCreatedClubs from "@/components/clubComponent/RecentCreatedClubs";
 import ClubSearchForm from "@/components/search/SearchBox";
 import TitleLogo from "@/components/TitleLogo";
 import { Box, Stack } from "@mui/material";
