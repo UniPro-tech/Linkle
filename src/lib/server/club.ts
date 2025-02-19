@@ -1,8 +1,7 @@
 import CryptoJS from "crypto-js";
 import { auth } from "@/auth";
 import Club from "@/models/Club";
-
-export type fetchErrorResponse = "notfound" | "forbidden" | "unauthorized";
+import { fetchErrorResponse } from "@/lib/server/error";
 
 export const getClubById = async (
   id: string,

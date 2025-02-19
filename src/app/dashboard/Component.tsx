@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { fetchErrorResponse } from "@/lib/server/club";
+import { fetchErrorResponse } from "@/lib/server/error";
 import Club from "@/models/Club";
 import { forbidden, notFound, unauthorized } from "next/navigation";
 import { use } from "react";
