@@ -2,7 +2,7 @@ import crypto from "crypto-js";
 import React, { Suspense } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import SearchResultsPage from "./Client";
-import { fetchErrorResponse } from "@/lib/server/club";
+import { fetchErrorResponse } from "@/lib/server/error";
 import Club from "@/models/Club";
 import { headers } from "next/headers";
 import { auth } from "@/auth";
