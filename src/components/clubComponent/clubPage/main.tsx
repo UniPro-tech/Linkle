@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import "katex/dist/katex.min.css";
 import Link from "next/link";
-import { LongDescription } from "./md";
+import { LongDescription } from "../../md";
 import { use } from "react";
 import { getClubById } from "@/lib/server/club";
 import { forbidden, notFound, unauthorized } from "next/navigation";
