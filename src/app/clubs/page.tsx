@@ -25,7 +25,7 @@ export default async function Home() {
   const fetchData = new Promise<Club[]>(async (resolve, reject) => {
     try {
       const session = await auth();
-      const res = await fetch(`${apiBase}/api/clubs/search`, {
+      const res = await fetch(`${apiBase}/api/clubs`, {
         headers: {
           "Content-Type": "application/json",
           "X-Api-key": CryptoJS.AES.encrypt(
