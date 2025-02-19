@@ -1,6 +1,6 @@
 "use client";
 
-import ClubCard from "@/components/ClubCard";
+import ClubCard from "@/components/clubComponent/ClubCard";
 import Club from "@/models/Club";
 import { Stack, Typography, Button, Grid2, Pagination, PaginationItem, Alert } from "@mui/material";
 import Link from "next/link";

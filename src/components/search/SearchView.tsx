@@ -4,7 +4,7 @@ import React, { use } from "react";
 import { Typography, Alert, Grid2, Pagination, PaginationItem, Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import ClubCard from "../ClubCard";
+import ClubCard from "../clubComponent/ClubCard";
 import Club from "@/models/Club";
 
 const SearchResultsPage = ({
