@@ -35,9 +35,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Club from "@/models/Club";
 
 const submitAction = async (
-  state: { status: string; message: string | undefined },
+  state: { status: string | null; message: string | null },
   data: FormData
-): Promise<{ status: string; message: string }> => {
+): Promise<{ status: string | null; message: string | null }> => {
   const slack_link = (data.get("slack_link") as string)?.split("/")[4];
   const file = data.get("file") as File;
   const imageUrl = data.get("image") as string;
@@ -101,7 +101,7 @@ const updateClub = async (
   slack_link: string | undefined,
   imageUrl: string | null,
   imageFileName: string
-): Promise<{ status: string; message: string }> => {
+): Promise<{ status: string | null; message: string | null }> => {
   const res = await fetch(`/api/clubs/${data.get("id")}`, {
     headers: { "Content-Type": "application/json" },
     method: "PUT",
@@ -126,8 +126,8 @@ const updateClub = async (
 
 export default function ClubEdit({ club }: { club: Club }) {
   const [formState, formAction, isPending] = useActionState(submitAction, {
-    status: "idle",
-    message: undefined,
+    status: null,
+    message: null,
   });
 
   const [isEnablePublic, setIsEnablePublic] = useState(Boolean(club?.visible & 0x1));
