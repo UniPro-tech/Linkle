@@ -246,7 +246,11 @@ export default function ClubEdit({ club }: { club: Club }) {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    defaultValue={`https://n-highschool.slack.com/archive/${club.slack_link}`}
+                    defaultValue={
+                      club.available_on & 0x2
+                        ? `https://n-jr.slack.com/archive/${club.slack_link}`
+                        : `https://n-highschool.slack.com/archive/${club.slack_link}`
+                    }
                     required
                   />
                   <TextField
