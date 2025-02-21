@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
           description: club.short_description,
           type: "website",
           url: `${apiBase}/clubs/${slug[0]}`,
-          image: club.image,
+          images: club.image,
           siteName: "同好会ポータル Linkle",
           locale: "ja_JP",
         },
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
           cardType: "summary_large_image",
           title: club.name,
           description: club.short_description,
-          image: club.image,
+          images: club.image,
         },
       } as Metadata;
     default:
