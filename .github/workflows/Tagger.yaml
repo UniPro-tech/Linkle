@@ -12,6 +12,7 @@ on:
           - "major"
           - "minor"
           - "patch"
+          - "prelerase"
       prefix:
         description: "Prefix for the pre-version"
         required: false
