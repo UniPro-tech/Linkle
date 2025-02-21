@@ -14,13 +14,15 @@ export async function POST(req: NextRequest) {
     unauthorized();
   }
   const body = await req.json();
-  const { title, description, club, main_text } = body;
+  const { title, description, club, main_text, visible } = body;
   const payload = {
     title,
     description,
     club,
     main_text,
+    visible,
   };
+  console.log(payload);
   const apiRes = await fetch(`${endpoint}/articles`, {
     method: "POST",
     headers: {

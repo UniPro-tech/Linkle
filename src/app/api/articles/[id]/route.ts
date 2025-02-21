@@ -27,12 +27,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (!(session || checkEmail) && !((articleData.visible & 0x2) == 0x2))
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const article_managerRes = await fetch(`${endpoint}/article_managers/?filter1=article,eq,${id}`);
-  const authorData = (
-    (await article_managerRes.json()) as { records: [{ author: string; club: number }] }
-  ).records.map((record) => record.author);
-  const clubData = (
-    (await article_managerRes.json()) as { records: [{ author: string; club: number }] }
-  ).records.map((record) => record.club);
+  const jsonData = (await article_managerRes.json()) as {
+    records: [{ author: string; club: number }];
+  };
+  const authorData = jsonData.records.map((record) => record.author);
+  const clubData = jsonData.records.map((record) => record.club);
   if (
     (session || checkEmail) &&
     !authorData.includes(session?.user?.email || sessionEmail || "") &&
@@ -64,9 +63,15 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
   const owners = (
     await (await fetch(`${endpoint}/article_managers/?filter1=article,eq,${id}`)).json()
-  ).records.map((record: { user: string }) => record.user);
+  ).records.map((record: { author: string }) => record.author);
   const session = await auth();
-  if (!session || !owners.includes(session?.user?.email))
+  const apiKey = request.headers.get("X-Api-Key");
+  const sessionEmail = apiKey
+    ? CryptoJS.AES.decrypt(apiKey, process.env.API_ROUTE_SECRET as string).toString(
+        CryptoJS.enc.Utf8
+      )
+    : "";
+  if (!owners.includes(session?.user?.email || sessionEmail || ""))
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await request.json();
   const apiRes = await fetch(`${endpoint}/articles/${id}`, {
@@ -83,9 +88,15 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const { id } = await params;
   const owners = (
     await (await fetch(`${endpoint}/article_managers/?filter1=article,eq,${id}`)).json()
-  ).records.map((record: { user: string }) => record.user);
+  ).records.map((record: { author: string }) => record.author);
   const session = await auth();
-  if (!session || !owners.includes(session?.user?.email))
+  const apiKey = request.headers.get("X-Api-Key");
+  const sessionEmail = apiKey
+    ? CryptoJS.AES.decrypt(apiKey, process.env.API_ROUTE_SECRET as string).toString(
+        CryptoJS.enc.Utf8
+      )
+    : "";
+  if (!owners.includes(sessionEmail || session?.user?.email))
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await request.json();
   const apiRes = await fetch(`${endpoint}/articles/${id}`, {
