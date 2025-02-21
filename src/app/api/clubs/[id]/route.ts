@@ -10,7 +10,11 @@ const endpoint = process.env.DB_API_ENDPOINT;
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const clubRes = await fetch(`${endpoint}/clubs/${id}`);
-  if (clubRes.status !== 200) return NextResponse.json({ status: clubRes.status });
+  if (clubRes.status !== 200)
+    return NextResponse.json(
+      { status: clubRes.status, message: clubRes.statusText },
+      { status: clubRes.status }
+    );
   const clubData = (await clubRes.json()) as Club;
   const session = await auth();
   const apiKey = request.headers.get("X-Api-Key");

@@ -23,7 +23,8 @@ export const getClubById = async (
     });
     if (res.status == 403) return "forbidden";
     const club = (await res.json()) as Club;
-    if (!club) return "notfound";
+    if (res.status == 401) return "unauthorized";
+    if (!club || res.status == 404) return "notfound";
     return club;
   } catch (e) {
     throw new Error(e as string);

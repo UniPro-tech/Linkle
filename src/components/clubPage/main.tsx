@@ -8,8 +8,6 @@ import { LongDescription } from "./md";
 import { use } from "react";
 import { getClubById } from "@/lib/server/club";
 import { forbidden, notFound, unauthorized } from "next/navigation";
-import UpdateMetadata from "@/components/TitleChange";
-import { Metadata } from "next";
 
 export default function Club({
   id,
@@ -26,29 +24,6 @@ export default function Club({
   if (club == "unauthorized") unauthorized();
   return (
     <>
-      <UpdateMetadata
-        metadata={
-          {
-            title: `${club.name}`,
-            description: `${club.short_description}`,
-            openGraph: {
-              title: `${club.name}`,
-              description: `${club.short_description}`,
-              type: "website",
-              url: `${process.env.DB_API_ENDPOINT}/clubs/${id}`,
-              images: club.image ?? undefined,
-              siteName: "同好会ポータル Linkle",
-            },
-            twitter: {
-              card: "summary_large_image",
-              site: "@UniPro_digital",
-              title: `${club.name}`,
-              description: `${club.short_description}`,
-              images: club.image ?? undefined,
-            },
-          } as Metadata
-        }
-      />
       {typeof club == "string" && (
         <Typography>
           {
