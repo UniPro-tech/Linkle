@@ -13,6 +13,8 @@ on:
       - main
       - sandbox
       - dev
+  merge_group:
+    types: [checks_requested]
 jobs:
   lint:
     runs-on: ubuntu-latest
