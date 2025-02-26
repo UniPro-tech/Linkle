@@ -44,7 +44,7 @@ export default function DashboardContent({ clubs, events }: { clubs: Club[]; eve
         width={"100%"}
         px={2}
       >
-        管理記事一覧
+        管理イベント一覧
       </Typography>
       <EventDashboard
         events={events}
@@ -153,14 +153,14 @@ function EventDashboard({ events, page }: { events: Event[]; page: string | null
         variant="body1"
         width={"100%"}
       >
-        ここでは、あなたが管理している記事を確認できます。
+        ここでは、あなたが管理しているイベントを確認できます。
       </Typography>
       <Button
         variant="contained"
         color="primary"
         href="/clubs/create"
       >
-        新しい記事を書く
+        新しいイベントを登録する
       </Button>
       <Grid2
         container
