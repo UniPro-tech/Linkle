@@ -9,6 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
 
 export default function MenuList() {
   const session = useSession();
@@ -28,6 +29,11 @@ export default function MenuList() {
       label: "クラブ一覧",
       href: "/clubs",
       icon: <GroupsIcon />,
+    },
+    {
+      label: "記事一覧",
+      href: "/articles",
+      icon: <ArticleIcon />,
     },
     // TODO: あとで実装する
     /*{
@@ -57,6 +63,11 @@ export default function MenuList() {
       label: "クラブ一覧",
       href: "/clubs",
       icon: <GroupsIcon />,
+    },
+    {
+      label: "記事一覧",
+      href: "/articles",
+      icon: <ArticleIcon />,
     },
     {
       label: "サインイン",
