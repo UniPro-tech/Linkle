@@ -32,7 +32,7 @@ export default function MenuList() {
     },
     {
       label: "記事一覧",
-      href: "/articles",
+      href: "/events",
       icon: <ArticleIcon />,
     },
     // TODO: あとで実装する
@@ -66,7 +66,7 @@ export default function MenuList() {
     },
     {
       label: "記事一覧",
-      href: "/articles",
+      href: "/events",
       icon: <ArticleIcon />,
     },
     {

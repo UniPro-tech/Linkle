@@ -1,23 +1,17 @@
 "use client";
 
-import ArticleCard from "@/components/articleComponent/ArticleCard";
+import ArticleCard from "@/components/eventComponent/EventCard";
 import ClubCard from "@/components/clubComponent/ClubCard";
-import Article from "@/models/Article";
+import Event from "@/models/Event";
 import Club from "@/models/Club";
 import { Stack, Typography, Button, Grid2, Pagination, PaginationItem, Alert } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function DashboardContent({
-  clubs,
-  articles,
-}: {
-  clubs: Club[];
-  articles: Article[];
-}) {
+export default function DashboardContent({ clubs, events }: { clubs: Club[]; events: Event[] }) {
   const searchParams = useSearchParams();
   const clubPageNum = searchParams.get("clubpage");
-  const articlePageNum = searchParams.get("articlepage");
+  const eventPageNum = searchParams.get("eventpage");
   return (
     <Stack
       spacing={2}
@@ -52,9 +46,9 @@ export default function DashboardContent({
       >
         管理記事一覧
       </Typography>
-      <ArticleDashboard
-        articles={articles}
-        page={articlePageNum}
+      <EventDashboard
+        events={events}
+        page={eventPageNum}
       />
     </Stack>
   );
@@ -144,7 +138,7 @@ function ClubDashboard({ clubs, page }: { clubs: Club[]; page: string | null }) 
   );
 }
 
-function ArticleDashboard({ articles, page }: { articles: Article[]; page: string | null }) {
+function EventDashboard({ events, page }: { events: Event[]; page: string | null }) {
   return (
     <Stack
       spacing={2}
@@ -175,9 +169,9 @@ function ArticleDashboard({ articles, page }: { articles: Article[]; page: strin
         justifyContent="left"
         width="100%"
       >
-        {articles && articles.length > 0 && (
+        {events && events.length > 0 && (
           <>
-            {articles.map((article, index) => {
+            {events.map((event, index) => {
               if (
                 index < 12 * (page ? parseInt(page) : 1) &&
                 index >= 12 * (page ? parseInt(page) - 1 : 0)
@@ -189,7 +183,7 @@ function ArticleDashboard({ articles, page }: { articles: Article[]; page: strin
                     style={{ display: "flex", justifyContent: "center" }}
                   >
                     <ArticleCard
-                      article={article}
+                      event={event}
                       isDashboard={true}
                     />
                   </Grid2>
@@ -199,16 +193,16 @@ function ArticleDashboard({ articles, page }: { articles: Article[]; page: strin
           </>
         )}
 
-        {articles && articles.length === 0 && (
+        {events && events.length === 0 && (
           <Grid2 size={16}>
             <Alert severity="info">クラブが見つかりませんでした。</Alert>
           </Grid2>
         )}
       </Grid2>
-      {articles && articles.length > 0 && (
+      {events && events.length > 0 && (
         <Pagination
           page={page ? parseInt(page) : 1}
-          count={Math.ceil(articles.length / 12)}
+          count={Math.ceil(events.length / 12)}
           renderItem={(item) => (
             <PaginationItem
               component={Link}

@@ -5,7 +5,7 @@ import { forbidden, notFound, unauthorized } from "next/navigation";
 import { use } from "react";
 import DashboardContent from "./Client";
 import { Alert, Stack, Typography } from "@mui/material";
-import Article from "@/models/Article";
+import Event from "@/models/Event";
 
 export default function Dashboard({
   apiBase,
@@ -57,11 +57,11 @@ export default function Dashboard({
       break;
   }
 
-  const getMyArticles = async (
+  const getMyEvents = async (
     apiBase: string,
     cookie: string | undefined,
     email: string
-  ): Promise<Article[] | fetchErrorResponse> => {
+  ): Promise<Event[] | fetchErrorResponse> => {
     if (!cookie) return "unauthorized";
     try {
       const key =
@@ -69,7 +69,7 @@ export default function Dashboard({
           (email as string) || "No Auth",
           process.env.API_ROUTE_SECRET as string
         ).toString() || "";
-      const res = await fetch(`${apiBase}/api/user/articles?email=${email}`, {
+      const res = await fetch(`${apiBase}/api/user/events?email=${email}`, {
         headers: new Headers({
           Cookie: cookie,
           "X-Api-Key": key,
@@ -78,16 +78,16 @@ export default function Dashboard({
       if (res.status == 403) return "forbidden";
       if (res.status == 404) return "notfound";
       if (res.status == 401) return "unauthorized";
-      const articles = await res.json();
-      if (!articles) return "notfound";
-      return articles;
+      const events = await res.json();
+      if (!events) return "notfound";
+      return events;
     } catch (e) {
       throw new Error(e as string);
     }
   };
 
-  const articles = use(getMyArticles(apiBase, cookie, email));
-  switch (articles) {
+  const events = use(getMyEvents(apiBase, cookie, email));
+  switch (events) {
     case "forbidden":
       forbidden();
     case "notfound":
@@ -98,12 +98,12 @@ export default function Dashboard({
       break;
   }
   if (clubs instanceof Error) throw clubs;
-  if (articles instanceof Error) throw articles;
+  if (events instanceof Error) throw events;
   if (clubs.length)
     return (
       <DashboardContent
         clubs={clubs}
-        articles={articles}
+        events={events}
       />
     );
   else
