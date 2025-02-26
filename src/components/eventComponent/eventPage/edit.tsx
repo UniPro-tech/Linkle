@@ -1,7 +1,7 @@
 import { forbidden, notFound, unauthorized } from "next/navigation";
 import { use } from "react";
-import ArticleEdit from "./editComponent";
-import { getArticleById } from "@/lib/server/event";
+import EventEdit from "./editComponent";
+import { getEventById } from "@/lib/server/event";
 
 export default function EditArtucle({
   id,
@@ -12,7 +12,7 @@ export default function EditArtucle({
   apiBase: string;
   sessionID: string | undefined;
 }) {
-  const event = use(getArticleById(id, apiBase, sessionID));
+  const event = use(getEventById(id, apiBase, sessionID));
   if (typeof event == "string") {
     switch (event) {
       case "forbidden":
@@ -26,5 +26,5 @@ export default function EditArtucle({
   if (!event.authors) {
     forbidden();
   }
-  return <ArticleEdit event={event} />;
+  return <EventEdit event={event} />;
 }

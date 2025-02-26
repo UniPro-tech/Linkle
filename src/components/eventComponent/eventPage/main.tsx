@@ -6,10 +6,10 @@ import { use } from "react";
 import { forbidden, notFound, unauthorized } from "next/navigation";
 import UpdateMetadata from "@/components/TitleChange";
 import { Metadata } from "next";
-import { getArticleById } from "@/lib/server/event";
+import { getEventById } from "@/lib/server/event";
 import Event from "@/models/Event";
 
-export default function ArticlePage({
+export default function EventPage({
   id,
   apiBase,
   sessionID,
@@ -18,7 +18,7 @@ export default function ArticlePage({
   apiBase: string;
   sessionID: string | undefined;
 }) {
-  const event = use(getArticleById(id, apiBase, sessionID));
+  const event = use(getEventById(id, apiBase, sessionID));
   if (event == "forbidden") forbidden();
   if (event == "notfound") notFound();
   if (event == "unauthorized") unauthorized();

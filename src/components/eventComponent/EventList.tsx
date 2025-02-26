@@ -4,7 +4,7 @@ import React, { use } from "react";
 import { Typography, Alert, Grid2, Pagination, PaginationItem, Stack } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import ArticleCard from "./EventCard";
+import EventCard from "./EventCard";
 import Event from "@/models/Event";
 
 const EventList = ({ fetchData }: { fetchData: Promise<Event[] | string> }) => {
@@ -56,7 +56,7 @@ const EventList = ({ fetchData }: { fetchData: Promise<Event[] | string> }) => {
                     size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
                     style={{ display: "flex", justifyContent: "center" }}
                   >
-                    <ArticleCard event={event} />
+                    <EventCard event={event} />
                   </Grid2>
                 );
               }

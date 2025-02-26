@@ -89,13 +89,13 @@ const submitAction = async (
       new URL(uploadResult.url).pathname.split("/")[3].split("?")[0]
     }`;
 
-    return updateArticle(data, newImageUrl, file.name);
+    return updateEvent(data, newImageUrl, file.name);
   } else {
-    return updateArticle(data, imageUrl, data.get("image_file") as string);
+    return updateEvent(data, imageUrl, data.get("image_file") as string);
   }
 };
 
-const updateArticle = async (
+const updateEvent = async (
   data: FormData,
   imageUrl: string | null,
   imageFileName: string
@@ -121,7 +121,7 @@ const updateArticle = async (
     : { status: "error", message: "変更の保存に失敗しました。" };
 };
 
-export default function ArticleEdit({ event }: { event: Event }) {
+export default function EventEdit({ event }: { event: Event }) {
   const [formState, formAction, isPending] = useActionState(submitAction, {
     status: null,
     message: null,
@@ -141,7 +141,7 @@ export default function ArticleEdit({ event }: { event: Event }) {
     }
   }, [formState.status]);
 
-  const handleClose = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+  const handleClose = (event: unknown, reason?: SnackbarCloseReason) => {
     if (reason === "clickaway") {
       return;
     }

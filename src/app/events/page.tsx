@@ -9,9 +9,9 @@ import CryptoJS from "crypto-js";
 import Event from "@/models/Event";
 
 export const metadata: Metadata = {
-  title: "記事一覧 - Linkle",
+  title: "イベント一覧 - Linkle",
   description:
-    "Linkleに登録されている同好会が書いた記事一覧です。お知らせやイベント情報などを探せます。",
+    "Linkleに登録されている同好会が書いたイベント一覧です。お知らせやイベント情報などを探せます。",
 };
 
 export default async function Home() {
@@ -61,13 +61,13 @@ export default async function Home() {
         gutterBottom
         mt={5}
       >
-        記事一覧
+        イベント一覧
       </Typography>
       <Typography
         variant="body1"
         gutterBottom
       >
-        Linkleに登録されている記事一覧です。
+        Linkleに登録されているイベント一覧です。
       </Typography>
       <Box
         width={{ xs: "100%", lg: 2 / 5 }}

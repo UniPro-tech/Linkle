@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { Suspense } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { headers } from "next/headers";
-import ArticlePage from "@/components/eventComponent/eventPage/main";
+import EventPage from "@/components/eventComponent/eventPage/main";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const headersData = await headers();
@@ -59,7 +59,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </>
             }
           >
-            <ArticlePage
+            <EventPage
               id={slug[0]}
               apiBase={apiBase}
               sessionID={sessionID}

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import CreateArticle from "./createArticleComponent";
+import CreateEvent from "./createEventComponent";
 import { Metadata } from "next";
 import { forbidden, notFound, unauthorized } from "next/navigation";
 import { Suspense, use } from "react";
@@ -35,7 +35,7 @@ export default async function Page() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <CreateArticleWrapper
+      <CreateEventWrapper
         apiBase={apiBase}
         cookie={cookie}
         email={session?.user?.email as string}
@@ -73,7 +73,7 @@ const getMyClubs = async (
   }
 };
 
-function CreateArticleWrapper({
+function CreateEventWrapper({
   apiBase,
   cookie,
   email,
@@ -95,5 +95,5 @@ function CreateArticleWrapper({
         break;
     }
   }
-  return <CreateArticle ownClubs={clubs} />;
+  return <CreateEvent ownClubs={clubs} />;
 }

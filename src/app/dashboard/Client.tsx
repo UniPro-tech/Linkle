@@ -1,6 +1,6 @@
 "use client";
 
-import ArticleCard from "@/components/eventComponent/EventCard";
+import EventCard from "@/components/eventComponent/EventCard";
 import ClubCard from "@/components/clubComponent/ClubCard";
 import Event from "@/models/Event";
 import Club from "@/models/Club";
@@ -182,7 +182,7 @@ function EventDashboard({ events, page }: { events: Event[]; page: string | null
                     size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
                     style={{ display: "flex", justifyContent: "center" }}
                   >
-                    <ArticleCard
+                    <EventCard
                       event={event}
                       isDashboard={true}
                     />

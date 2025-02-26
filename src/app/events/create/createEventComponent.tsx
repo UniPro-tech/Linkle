@@ -70,13 +70,13 @@ const submitAction = async (
   }
 };
 
-export default function CreateArticle({ ownClubs }: { ownClubs: Club[] }) {
+export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
   const [formState, formAction, isPending] = useActionState(submitAction, {
     status: undefined,
     message: undefined,
   });
 
-  interface ArticlesData {
+  interface EventData {
     title: string;
     public: boolean;
     internal: boolean;
@@ -90,7 +90,7 @@ export default function CreateArticle({ ownClubs }: { ownClubs: Club[] }) {
     tos: boolean;
   }
 
-  const { control, watch } = useForm<ArticlesData>({
+  const { control, watch } = useForm<EventData>({
     defaultValues: {
       title: "",
       public: false,

@@ -1,7 +1,7 @@
 import { fetchErrorResponse } from "@/lib/server/error";
 import { Stack, Typography, Grid2, Alert, Button } from "@mui/material";
 import { use } from "react";
-import ArticleCard from "../EventCard";
+import EventCard from "../EventCard";
 import Event from "@/models/Event";
 
 export default function SearchResultsPage({
@@ -40,7 +40,7 @@ export default function SearchResultsPage({
                   size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
                   style={{ display: "flex", justifyContent: "center" }}
                 >
-                  <ArticleCard event={event} />
+                  <EventCard event={event} />
                 </Grid2>
               );
             })}

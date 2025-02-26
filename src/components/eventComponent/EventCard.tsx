@@ -15,7 +15,7 @@ type EventCardProps = {
   isDashboard?: boolean;
 };
 
-export default function ArticleCard({ event, isDashboard }: EventCardProps) {
+export default function EventCard({ event, isDashboard }: EventCardProps) {
   const { id, title, description, image } = event;
   return (
     <ThemeProvider theme={formTheme}>
