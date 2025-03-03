@@ -6,9 +6,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
-import { ThemeProvider } from "@mui/material";
+import { Chip, ThemeProvider } from "@mui/material";
 import formTheme from "@/theme/form";
 import Event from "@/models/Event";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { timeFormat } from "@/lib/time";
 
 type EventCardProps = {
   event: Event;
@@ -38,6 +40,39 @@ export default function EventCard({ event, isDashboard }: EventCardProps) {
             className="w-[320px] h-[180px]"
           />
           <CardContent>
+            {new Date(event.end_at) < new Date() && (
+              <Chip
+                label="終了"
+                color="error"
+                sx={{
+                  position: "absolute",
+                  top: 10,
+                  left: 10,
+                }}
+              />
+            )}
+            {new Date(event.start_at) > new Date() && (
+              <Chip
+                label="開催予定"
+                color="primary"
+                sx={{
+                  position: "absolute",
+                  top: 10,
+                  left: 10,
+                }}
+              />
+            )}
+            {new Date(event.start_at) < new Date() && new Date(event.end_at) > new Date() && (
+              <Chip
+                label="開催中"
+                color="success"
+                sx={{
+                  position: "absolute",
+                  top: 10,
+                  left: 10,
+                }}
+              />
+            )}
             <Typography
               gutterBottom
               variant="h5"
@@ -45,6 +80,23 @@ export default function EventCard({ event, isDashboard }: EventCardProps) {
             >
               {title}
             </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              display="flex"
+              alignItems="center"
+              justifyContent={"flex-start"}
+              justifyItems={"center"}
+              mx={-0.3}
+              p={0}
+            >
+              <CalendarMonthIcon />
+              <span>
+                {timeFormat(event.start_at, "YYYY/MM/DD hh:mm")}〜
+                {timeFormat(event.end_at, "YYYY/MM/DD hh:mm")}
+              </span>
+            </Typography>
+
             <Typography
               variant="body2"
               sx={{ color: "text.secondary" }}
