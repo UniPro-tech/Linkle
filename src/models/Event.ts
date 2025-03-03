@@ -10,6 +10,8 @@ type Event = {
   image: string;
   image_file: string | undefined;
   visible: number;
+  start_at: Date;
+  end_at: Date;
 };
 
 export default Event;
