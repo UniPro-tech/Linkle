@@ -12,13 +12,13 @@ import { forbidden, notFound, unauthorized } from "next/navigation";
 export default function Club({
   id,
   apiBase,
-  sessionID,
+  email,
 }: {
   id: string;
   apiBase: string;
-  sessionID: string | undefined;
+  email: string | undefined;
 }) {
-  const club = use(getClubById(id, apiBase, sessionID));
+  const club = use(getClubById(id, apiBase, email));
   if (club == "forbidden") forbidden();
   if (club == "notfound") notFound();
   if (club == "unauthorized") unauthorized();
@@ -59,7 +59,7 @@ export default function Club({
                 club.long_description == "" ? "# 説明はありません。" : club.long_description
               }
             />
-            {sessionID == undefined ? null : (
+            {email == undefined ? null : (
               <LongDescription
                 description={
                   `# Slack` +
