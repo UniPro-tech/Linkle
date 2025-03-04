@@ -12,13 +12,13 @@ import { forbidden, notFound, unauthorized } from "next/navigation";
 export default function Club({
   id,
   apiBase,
-  sessionID,
+  email,
 }: {
   id: string;
   apiBase: string;
-  sessionID: string | undefined;
+  email: string | undefined;
 }) {
-  const club = use(getClubById(id, apiBase, sessionID));
+  const club = use(getClubById(id, apiBase, email));
   if (club == "forbidden") forbidden();
   if (club == "notfound") notFound();
   if (club == "unauthorized") unauthorized();
@@ -59,7 +59,7 @@ export default function Club({
                 club.long_description == "" ? "# 説明はありません。" : club.long_description
               }
             />
-            {sessionID == undefined ? null : (
+            {email == undefined ? null : (
               <LongDescription
                 description={
                   `# Slack` +
@@ -151,21 +151,6 @@ export const availableContents = (
   if ((availableOn & 0x1) == 0x1 && (availableOn & 0x2) == 0x2) {
     return (
       <>
-        <Link href={`https://n-jr.slack.com/archives/${slack_link}`}>
-          <Avatar
-            sx={{
-              height: 35,
-              width: 35,
-              borderRadius: "50%",
-              border: "2px solid white",
-              boxShadow: 2,
-              backgroundColor: "#0ae",
-            }}
-            alt="中等部"
-          >
-            中
-          </Avatar>
-        </Link>
         <Link href={`https://n-highschool.slack.com/archives/${slack_link}`}>
           <Avatar
             sx={{
@@ -182,6 +167,21 @@ export const availableContents = (
             alt="高等部"
           >
             高
+          </Avatar>
+        </Link>
+        <Link href={`https://n-jr.slack.com/archives/${slack_link}`}>
+          <Avatar
+            sx={{
+              height: 35,
+              width: 35,
+              borderRadius: "50%",
+              border: "2px solid white",
+              boxShadow: 2,
+              backgroundColor: "#0ae",
+            }}
+            alt="中等部"
+          >
+            中
           </Avatar>
         </Link>
       </>
