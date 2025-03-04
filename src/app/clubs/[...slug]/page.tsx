@@ -77,6 +77,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
     headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
   const cookie = headersData.get("cookie");
   const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
+  const email = (await auth())?.user?.email;
   const apiBase = `${protocol}://${host}`;
   const slug = (await params).slug;
   switch (slug[1]) {
@@ -125,7 +126,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
             <ClubPage
               id={slug[0]}
               apiBase={apiBase}
-              sessionID={sessionID}
+              email={email || undefined}
             />
           </Suspense>
         </Stack>
