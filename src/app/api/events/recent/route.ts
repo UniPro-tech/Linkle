@@ -19,7 +19,7 @@ export const GET = async () => {
   const apiRes = await fetch(
     `${endpoint}/events?size=8&order=created_at,desc&filter1=visible,ge,${
       session || apiCheck ? 0x1 : 0x2
-    }`
+    }&join=clubs,clubs`
   );
   if (apiRes.ok) {
     const data = await apiRes.json();
