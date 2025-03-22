@@ -1,5 +1,5 @@
 import { notFound, unauthorized } from "next/navigation";
-import EditArtucle from "@/components/eventComponent/eventPage/edit";
+import EditEvent from "@/components/eventComponent/eventPage/edit";
 import { auth } from "@/auth";
 
 import { Suspense } from "react";
@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </>
             }
           >
-            <EditArtucle
+            <EditEvent
               id={slug[0]}
               apiBase={apiBase}
               sessionID={sessionID}
