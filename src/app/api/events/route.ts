@@ -14,13 +14,15 @@ export async function POST(req: NextRequest) {
     unauthorized();
   }
   const body = await req.json();
-  const { title, description, club, main_text, visible } = body;
+  const { title, description, club, main_text, visible, start_at, end_at } = body;
   const payload = {
     title,
     description,
     club,
     main_text,
     visible,
+    start_at,
+    end_at,
   };
   console.log(payload);
   const apiRes = await fetch(`${endpoint}/events`, {
