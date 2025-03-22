@@ -8,6 +8,8 @@ import UpdateMetadata from "@/components/TitleChange";
 import { Metadata } from "next";
 import { getEventById } from "@/lib/server/event";
 import Event from "@/models/Event";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { timeFormat } from "@/lib/time";
 
 export default function EventPage({
   id,
@@ -109,15 +111,42 @@ function KeyVisual({ event, imageUrl }: { event: Event; imageUrl: string | undef
         bottom={{ xs: "6%", lg: "15%" }}
         left={0}
       >
-        <Typography
-          variant="h1"
+        <Stack
           bgcolor={"black"}
-          color="white"
           p={{ xs: 1, lg: 3 }}
-          sx={{ opacity: 0.8, fontWeight: "bold", fontSize: { xs: "34px", lg: "94px" } }}
+          sx={{ opacity: 0.8 }}
         >
-          {event.title}
-        </Typography>
+          <Typography
+            variant="h2"
+            color="white"
+            sx={{ fontWeight: "bold", fontSize: { xs: "15px", lg: "28px" } }}
+          >
+            {event.clubs ? event.clubs[0].name : ""}
+          </Typography>
+          <Typography
+            variant="h1"
+            color="white"
+            sx={{ fontWeight: "bold", fontSize: { xs: "34px", lg: "94px" } }}
+          >
+            {event.title}
+          </Typography>
+          <Typography
+            variant="h2"
+            color="white"
+            sx={{ fontWeight: "bold", fontSize: { xs: "15px", lg: "28px" } }}
+            flex={1}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"flex-start"}
+            justifyItems={"center"}
+            gap={1}
+            textAlign={"left"}
+          >
+            <CalendarMonthIcon />
+            {event.start_at ? timeFormat(new Date(event.start_at), "YYYY/MM/DD hh:mm") : ""}
+            {event.end_at ? ` ~ ${timeFormat(new Date(event.end_at), "YYYY/MM/DD hh:mm")}` : ""}
+          </Typography>
+        </Stack>
         <Typography
           variant="body1"
           bgcolor={"black"}
