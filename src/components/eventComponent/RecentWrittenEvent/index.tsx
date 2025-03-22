@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 import { auth } from "@/auth";
 import Event from "@/models/Event";
 
-export default function SearchResultsPageWrappe() {
+export default function RecentCreatedClubs() {
   const searchPromise = new Promise<Event[] | fetchErrorResponse>(async (resolve) => {
     try {
       const headersData = await headers();
@@ -50,7 +50,7 @@ export default function SearchResultsPageWrappe() {
         variant="h4"
         style={{ marginTop: "20px" }}
       >
-        新着同好会
+        新着イベント
       </Typography>
       <Suspense fallback={<CircularProgress />}>
         <SearchResultsPage searchPromise={searchPromise} />
