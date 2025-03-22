@@ -195,7 +195,7 @@ function EventDashboard({ events, page }: { events: Event[]; page: string | null
 
         {events && events.length === 0 && (
           <Grid2 size={16}>
-            <Alert severity="info">クラブが見つかりませんでした。</Alert>
+            <Alert severity="info">イベントが見つかりませんでした。</Alert>
           </Grid2>
         )}
       </Grid2>
