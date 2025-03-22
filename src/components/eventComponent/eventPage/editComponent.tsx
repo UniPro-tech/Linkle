@@ -33,6 +33,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import Event from "@/models/Event";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 const submitAction = async (
   state: { status: string | null; message: string | null },
@@ -164,7 +168,7 @@ export default function EventEdit({ event }: { event: Event }) {
   return (
     <>
       {!isPending ? (
-        <>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Stack
             spacing={1}
             justifyContent={"center"}
@@ -204,8 +208,8 @@ export default function EventEdit({ event }: { event: Event }) {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Typography variant="h3">記事編集</Typography>
-              <Typography variant="body1">ここで記事の編集ができます。</Typography>
+              <Typography variant="h3">イベント編集</Typography>
+              <Typography variant="body1">ここでイベントの編集ができます。</Typography>
             </Stack>
             <Stack
               spacing={2}
@@ -322,6 +326,23 @@ export default function EventEdit({ event }: { event: Event }) {
                       label={<>一般公開</>}
                     />
                   </FormControl>
+                  <Typography variant="h5">日時</Typography>
+                  <DateTimePicker
+                    name="start_at"
+                    label="開始日時"
+                    views={["year", "month", "day", "hours", "minutes"]}
+                    format="YYYY/MM/DD HH:mm"
+                    disablePast
+                    defaultValue={dayjs(event.start_at)}
+                  />
+                  <DateTimePicker
+                    name="end_at"
+                    label="終了日時"
+                    views={["year", "month", "day", "hours", "minutes"]}
+                    format="YYYY/MM/DD HH:mm"
+                    disablePast
+                    defaultValue={dayjs(event.end_at)}
+                  />
                   <Typography variant="h5">長い説明</Typography>
                   <TextField
                     name="main_text"
@@ -398,7 +419,7 @@ export default function EventEdit({ event }: { event: Event }) {
               <AlertDialog id={event.id.toString()} />
             </Stack>
           </Stack>
-        </>
+        </LocalizationProvider>
       ) : (
         <Stack
           spacing={1}
@@ -434,7 +455,7 @@ export function AlertDialog({ id }: { id: string }) {
         color="error"
         onClick={handleClickOpen}
       >
-        同好会を削除する
+        イベントを削除する
       </Button>
       <ThemeProvider theme={formTheme}>
         <Dialog
