@@ -3,7 +3,7 @@ import { use } from "react";
 import EventEdit from "./editComponent";
 import { getEventById } from "@/lib/server/event";
 
-export default function EditArtucle({
+export default function EditEvent({
   id,
   apiBase,
   sessionID,
