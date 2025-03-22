@@ -389,12 +389,14 @@ export default function EventEdit({ event }: { event: Event }) {
                     value={event.image}
                     disableUnderline={true}
                   />
-                  <Input
-                    type="hidden"
-                    name="previous_image_file"
-                    value={event.image_file}
-                    disableUnderline={true}
-                  />
+                  {event.image_file && (
+                    <Input
+                      type="hidden"
+                      name="previous_image_file"
+                      value={event.image_file}
+                      disableUnderline={true}
+                    />
+                  )}
                   <Input
                     type="hidden"
                     name="id"
