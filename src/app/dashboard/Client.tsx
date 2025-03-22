@@ -158,7 +158,7 @@ function EventDashboard({ events, page }: { events: Event[]; page: string | null
       <Button
         variant="contained"
         color="primary"
-        href="/clubs/create"
+        href="/events/create"
       >
         新しいイベントを登録する
       </Button>
