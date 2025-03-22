@@ -149,9 +149,9 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
               {formMessage}
             </Alert>
           </Snackbar>
-          <Typography variant="h3">記事を投稿</Typography>
+          <Typography variant="h3">イベントを作成</Typography>
           <Typography variant="body1">
-            記事を投稿して、他のユーザーにイベント情報やお知らせを共有しましょう。
+            イベントを作成して、他のユーザーにイベント情報やお知らせを共有しましょう。
           </Typography>
           <Stack
             spacing={2}
@@ -168,7 +168,7 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
               注意事項
             </Typography>
             <ul className="list-disc p-5 text-left">
-              <li>記事の投稿は、同好会の代表者または運営者のみが行うことができます。</li>
+              <li>イベントの作成は、同好会の代表者または運営者のみが行うことができます。</li>
               <li>利用規約の禁止事項をもう一度よく読み、違反しないようにしてください。</li>
             </ul>
           </Stack>
@@ -190,7 +190,7 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
                   variant="h6"
                   mt={3}
                 >
-                  記事の情報
+                  イベントの情報
                 </Typography>
                 <Controller
                   name="title"
@@ -218,7 +218,7 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
                     />
                   )}
                 />
-                <FormHelperText>20文字程度。この文はクラブカードに表示されます。</FormHelperText>
+                <FormHelperText>20文字程度。この文はイベントカードに表示されます。</FormHelperText>
                 <Controller
                   name="club"
                   control={control}
