@@ -1,8 +1,10 @@
+import Club from "./Club";
+
 type Event = {
   id: number;
   title: string;
   authors: string[] | undefined;
-  clubs: number[] | undefined;
+  clubs: Club[] | undefined;
   description: string;
   main_text: string;
   created_at: string;

@@ -18,7 +18,7 @@ type EventCardProps = {
 };
 
 export default function EventCard({ event, isDashboard }: EventCardProps) {
-  const { id, title, description, image } = event;
+  const { id, title, description, image, clubs } = event;
   return (
     <ThemeProvider theme={formTheme}>
       <Card
@@ -73,13 +73,8 @@ export default function EventCard({ event, isDashboard }: EventCardProps) {
                 }}
               />
             )}
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-            >
-              {title}
-            </Typography>
+            <Typography variant="body2">{clubs == undefined ? "" : clubs[0]?.name}</Typography>
+            <Typography variant="h5">{title}</Typography>
             <Typography
               variant="body2"
               color="text.secondary"
@@ -88,6 +83,7 @@ export default function EventCard({ event, isDashboard }: EventCardProps) {
               justifyContent={"flex-start"}
               justifyItems={"center"}
               mx={-0.3}
+              my={0.5}
               p={0}
             >
               <CalendarMonthIcon />

@@ -73,7 +73,14 @@ export const GET = async (req: NextRequest) => {
       session = true;
   }
   const apiRes = await fetch(
-    `${endpoint}/events?order=created_at,desc&filter1=visible,ge,${session ? 0x1 : 0x2}`
+    `${endpoint}/events?order=created_at,desc&filter1=visible,ge,${
+      session ? 0x1 : 0x2
+    }&join=clubs,clubs`
+  );
+  console.log(
+    `${endpoint}/events?order=created_at,desc&filter1=visible,ge,${
+      session ? 0x1 : 0x2
+    }&join=clubs,clubs`
   );
   if (apiRes.ok) {
     const data = await apiRes.json();

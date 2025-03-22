@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import Event from "@/models/Event";
 import { NextResponse } from "next/server";
 import CryptoJS from "crypto-js";
+import Club from "@/models/Club";
 
 export const dynamic = "force-dynamic";
 
@@ -26,9 +27,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       sessionEmail.endsWith("@n-jr.jp"));
   if (!(session || checkEmail) && !((eventData.visible & 0x2) == 0x2))
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  const event_managerRes = await fetch(`${endpoint}/event_managers/?filter1=event,eq,${id}`);
+  const event_managerRes = await fetch(
+    `${endpoint}/event_managers/?filter1=event,eq,${id}&join=clubs,clubs`
+  );
   const jsonData = (await event_managerRes.json()) as {
-    records: [{ author: string; club: number }];
+    records: [{ author: string; club: Club }];
   };
   const authorData = jsonData.records.map((record) => record.author);
   const clubData = jsonData.records.map((record) => record.club);
