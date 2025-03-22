@@ -10,8 +10,10 @@ export const getEventById = async (
 ): Promise<Event | fetchErrorResponse> => {
   try {
     const email = (await auth())?.user?.email;
-    if (!email) return "unauthorized";
-    const apiKey = CryptoJS.AES.encrypt(email, process.env.API_ROUTE_SECRET as string).toString();
+    const apiKey = CryptoJS.AES.encrypt(
+      email ?? "No Auth",
+      process.env.API_ROUTE_SECRET as string
+    ).toString();
     const res = await fetch(`${apiBase}/api/events/${id}`, {
       headers: new Headers({
         Cookie: sessionID ?? "",
