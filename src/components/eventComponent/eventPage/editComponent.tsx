@@ -116,6 +116,8 @@ const updateEvent = async (
       main_text: data.get("main_text"),
       image: imageUrl,
       image_file: imageFileName,
+      start_at: data.get("start_at"),
+      end_at: data.get("end_at"),
       visible: (data.get("internal") ? 0x1 : 0) | (data.get("public") ? 0x2 : 0),
     }),
   });
