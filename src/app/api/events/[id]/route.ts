@@ -52,7 +52,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   const { id } = await params;
   const owners = (
     await (await fetch(`${endpoint}/event_managers/?filter1=event,eq,${id}`)).json()
-  ).records.map((record: { user: string }) => record.user);
+  ).records.map((record: { author: string }) => record.author);
   const session = await auth();
   if (!session || !owners.includes(session?.user?.email))
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

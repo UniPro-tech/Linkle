@@ -10,6 +10,8 @@ import {
   FormHelperText,
   Input,
   Link,
+  MenuItem,
+  Select,
   Snackbar,
   SnackbarCloseReason,
   Stack,
@@ -37,6 +39,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import Club from "@/models/Club";
 
 const submitAction = async (
   state: { status: string | null; message: string | null },
@@ -104,6 +107,16 @@ const updateEvent = async (
   imageUrl: string | null,
   imageFileName: string
 ): Promise<{ status: string; message: string }> => {
+  if ((data.get("pre_club") as string) !== (data.get("clubs") as string)) {
+    await fetch(`/api/events/${data.get("id")}/clubs`, {
+      method: "POST",
+      body: JSON.stringify({ club: data.get("clubs") as string }),
+    });
+    await fetch(`/api/events/${data.get("id")}/clubs`, {
+      method: "DELETE",
+      body: JSON.stringify({ club: data.get("pre_club") as string }),
+    });
+  }
   const res = await fetch(`/api/events/${data.get("id")}`, {
     headers: { "Content-Type": "application/json" },
     method: "PUT",
@@ -127,7 +140,7 @@ const updateEvent = async (
     : { status: "error", message: "変更の保存に失敗しました。" };
 };
 
-export default function EventEdit({ event }: { event: Event }) {
+export default function EventEdit({ event, ownClubs }: { event: Event; ownClubs: Club[] }) {
   const [formState, formAction, isPending] = useActionState(submitAction, {
     status: null,
     message: null,
@@ -233,8 +246,8 @@ export default function EventEdit({ event }: { event: Event }) {
                   />
                   <Input
                     type="hidden"
-                    name="club"
-                    value={event.clubs}
+                    name="pre_club"
+                    value={event.clubs ? event.clubs[0].id : ""}
                     disableUnderline={true}
                   />
                   <TextField
@@ -303,6 +316,23 @@ export default function EventEdit({ event }: { event: Event }) {
                     <br />
                     5MB以下のファイルをアップロードしてください。
                   </FormHelperText>
+                  <Select
+                    label="同好会"
+                    name="clubs"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    defaultValue={event.clubs ? event.clubs[0].id : ""}
+                  >
+                    {ownClubs.map((club) => (
+                      <MenuItem
+                        key={club.id}
+                        value={club.id}
+                      >
+                        {club.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
                   <Typography variant="h5">公開設定</Typography>
                   <FormControl>
                     <FormControlLabel

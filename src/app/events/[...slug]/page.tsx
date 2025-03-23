@@ -39,6 +39,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               id={slug[0]}
               apiBase={apiBase}
               sessionID={sessionID}
+              email={session?.user?.email as string}
             />
           </Suspense>
         </Stack>
