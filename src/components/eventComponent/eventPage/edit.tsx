@@ -11,7 +11,6 @@ const getMyClubs = async (
   cookie: string | undefined,
   email: string
 ): Promise<Club[] | fetchErrorResponse> => {
-  if (!cookie) return "unauthorized";
   try {
     const key =
       CryptoJS.AES.encrypt(
@@ -20,7 +19,7 @@ const getMyClubs = async (
       ).toString() || "";
     const res = await fetch(`${apiBase}/api/user?email=${email}`, {
       headers: new Headers({
-        Cookie: cookie,
+        Cookie: cookie || "",
         "X-Api-Key": key,
       }),
     });
@@ -65,7 +64,6 @@ export default function EditEvent({
       case "notfound":
         notFound();
       case "unauthorized":
-        console.log("ownClubs");
         unauthorized();
     }
   }
