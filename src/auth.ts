@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import type { Provider } from "next-auth/providers";
+import type { CookiesOptions } from "@auth/core/types";
 
 import Google from "next-auth/providers/google";
 
@@ -16,6 +17,58 @@ export const providerMap = providers
   })
   .filter((provider) => provider.id !== "credentials");
 
+const cookieOptions = (): Partial<CookiesOptions> | undefined => {
+  const isProduction = process.env.NODE_ENV === "production";
+  if (isProduction) {
+    return {
+      sessionToken: {
+        name: `__Secure-next-auth.session-token`,
+        options: {
+          httpOnly: true,
+          sameSite: "lax",
+        },
+      },
+      csrfToken: {
+        name: `__Secure-next-auth.csrf-token`,
+        options: {
+          httpOnly: true,
+          sameSite: "lax",
+          domain: "linkle.nnn.uniproject.jp",
+        },
+      },
+      pkceCodeVerifier: {
+        name: `__Secure-next-auth.pkce.code_verifier`,
+        options: {
+          httpOnly: true,
+          sameSite: "lax",
+          domain: "linkle.nnn.uniproject.jp",
+        },
+      },
+      callbackUrl: {
+        name: `__Secure-next-auth.callback-url`,
+        options: {
+          sameSite: "lax",
+          domain: "linkle.nnn.uniproject.jp",
+        },
+      },
+      nonce: {
+        name: `__Secure-next-auth.nonce`,
+        options: {
+          sameSite: "lax",
+          domain: "linkle.nnn.uniproject.jp",
+        },
+      },
+      state: {
+        name: `__Secure-next-auth.state`,
+        options: {
+          sameSite: "lax",
+          domain: "linkle.nnn.uniproject.jp",
+        },
+      },
+    };
+  } else return undefined;
+};
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   providers,
@@ -24,4 +77,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signOut: "/signout",
   },
   callbacks: {},
+  cookies: cookieOptions(),
 });
