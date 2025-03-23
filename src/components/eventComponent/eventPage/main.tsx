@@ -99,7 +99,7 @@ function KeyVisual({ event, imageUrl }: { event: Event; imageUrl: string | undef
       overflow={"hidden"}
     >
       <Image
-        src={imageUrl || "/img/noClubImage.jpg"}
+        src={imageUrl || "/img/NoImage.webp"}
         alt={event.title}
         width={"5000"}
         height={0}

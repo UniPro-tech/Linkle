@@ -41,7 +41,7 @@ export default function ClubCard({
       >
         <Link href={`/clubs/${id}`}>
           <Image
-            src={(imageUrl == "" || imageUrl == undefined) ? "/img/noClubImage.jpg" : imageUrl}
+            src={imageUrl == "" || imageUrl == undefined ? "/img/NoImage.webp" : imageUrl}
             alt={name}
             width={"320"}
             height={0}

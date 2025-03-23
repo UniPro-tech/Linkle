@@ -33,7 +33,7 @@ export default function EventCard({ event, isDashboard }: EventCardProps) {
       >
         <Link href={`/events/${id}`}>
           <Image
-            src={image == "" || image == undefined ? "/img/noClubImage.jpg" : image}
+            src={image == "" || image == undefined ? "/img/NoImage.webp" : image}
             alt={title}
             width={"320"}
             height={0}

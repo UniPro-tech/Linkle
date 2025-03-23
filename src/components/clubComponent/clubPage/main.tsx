@@ -89,7 +89,7 @@ function KeyVisual({ club, imageUrl }: { club: ClubType; imageUrl: string | unde
       overflow={"hidden"}
     >
       <Image
-        src={imageUrl || "/img/noClubImage.jpg"}
+        src={imageUrl || "/img/NoImage.webp"}
         alt={club.name}
         width={"5000"}
         height={0}
