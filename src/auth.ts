@@ -36,35 +36,6 @@ const cookieOptions = (): Partial<CookiesOptions> | undefined => {
           domain: "linkle.nnn.uniproject.jp",
         },
       },
-      pkceCodeVerifier: {
-        name: `__Secure-next-auth.pkce.code_verifier`,
-        options: {
-          httpOnly: true,
-          sameSite: "lax",
-          domain: "linkle.nnn.uniproject.jp",
-        },
-      },
-      callbackUrl: {
-        name: `__Secure-next-auth.callback-url`,
-        options: {
-          sameSite: "lax",
-          domain: "linkle.nnn.uniproject.jp",
-        },
-      },
-      nonce: {
-        name: `__Secure-next-auth.nonce`,
-        options: {
-          sameSite: "lax",
-          domain: "linkle.nnn.uniproject.jp",
-        },
-      },
-      state: {
-        name: `__Secure-next-auth.state`,
-        options: {
-          sameSite: "lax",
-          domain: "linkle.nnn.uniproject.jp",
-        },
-      },
     };
   } else return undefined;
 };
