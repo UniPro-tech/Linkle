@@ -1,7 +1,8 @@
-import RecentCreatedClubs from "@/components/RecentCreatedClubs";
+import RecentCreatedClubs from "@/components/clubComponent/RecentCreatedClubs";
 import ClubSearchForm from "@/components/search/SearchBox";
 import TitleLogo from "@/components/TitleLogo";
 import { Box, Stack } from "@mui/material";
+import RecentCreatedEvents from "@/components/eventComponent/RecentWrittenEvent";
 
 import { Metadata } from "next";
 
@@ -40,6 +41,7 @@ export default function Home() {
           </Box>
         </Stack>
         <RecentCreatedClubs />
+        <RecentCreatedEvents />
       </Stack>
     </>
   );

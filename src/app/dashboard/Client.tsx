@@ -1,25 +1,76 @@
 "use client";
 
-import ClubCard from "@/components/ClubCard";
+import EventCard from "@/components/eventComponent/EventCard";
+import ClubCard from "@/components/clubComponent/ClubCard";
+import Event from "@/models/Event";
 import Club from "@/models/Club";
 import { Stack, Typography, Button, Grid2, Pagination, PaginationItem, Alert } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-export default function DashboardContent({ clubs }: { clubs: Club[] }) {
+export default function DashboardContent({ clubs, events }: { clubs: Club[]; events: Event[] }) {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const clubPageNum = searchParams.get("clubpage");
+  const eventPageNum = searchParams.get("eventpage");
   return (
     <Stack
       spacing={2}
       py={10}
       px={{ xs: 2, lg: 10 }}
       justifyContent={"center"}
-      alignItems={"center"}
+      justifyItems={"left"}
+      alignItems={"start"}
       width={"100%"}
     >
-      <Typography variant="h3">ダッシュボード</Typography>
-      <Typography variant="body1">あなたが管理しているクラブの一覧です。</Typography>
+      <Typography
+        variant="h3"
+        width={"100%"}
+      >
+        ダッシュボード
+      </Typography>
+      <Typography
+        variant="h4"
+        width={"100%"}
+        px={2}
+      >
+        管理クラブ一覧
+      </Typography>
+      <ClubDashboard
+        clubs={clubs}
+        page={clubPageNum}
+      />
+      <Typography
+        variant="h4"
+        width={"100%"}
+        px={2}
+      >
+        管理イベント一覧
+      </Typography>
+      <EventDashboard
+        events={events}
+        page={eventPageNum}
+      />
+    </Stack>
+  );
+}
+
+function ClubDashboard({ clubs, page }: { clubs: Club[]; page: string | null }) {
+  return (
+    <Stack
+      spacing={2}
+      py={2}
+      px={4}
+      justifyContent={"center"}
+      justifyItems={"left"}
+      alignItems={"start"}
+      width={"100%"}
+    >
+      <Typography
+        variant="body1"
+        width={"100%"}
+      >
+        ここでは、あなたが管理しているクラブを確認できます。
+      </Typography>
       <Button
         variant="contained"
         color="primary"
@@ -31,8 +82,7 @@ export default function DashboardContent({ clubs }: { clubs: Club[] }) {
         container
         spacing={{ xs: 2, md: 3 }}
         columns={16}
-        p={3}
-        justifyContent="center"
+        justifyContent="left"
         width="100%"
       >
         {clubs && clubs.length > 0 && (
@@ -76,7 +126,87 @@ export default function DashboardContent({ clubs }: { clubs: Club[] }) {
           renderItem={(item) => (
             <PaginationItem
               component={Link}
-              href={`/dashbord${item.page === 1 ? "" : `&page=${item.page}`}`}
+              href={`/dashboard${item.page === 1 ? "" : `&clubpage=${item.page}`}`}
+              {...item}
+              color="primary"
+              variant="outlined"
+            />
+          )}
+        />
+      )}
+    </Stack>
+  );
+}
+
+function EventDashboard({ events, page }: { events: Event[]; page: string | null }) {
+  return (
+    <Stack
+      spacing={2}
+      py={2}
+      px={4}
+      justifyContent={"center"}
+      justifyItems={"left"}
+      alignItems={"start"}
+      width={"100%"}
+    >
+      <Typography
+        variant="body1"
+        width={"100%"}
+      >
+        ここでは、あなたが管理しているイベントを確認できます。
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        href="/events/create"
+      >
+        新しいイベントを登録する
+      </Button>
+      <Grid2
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={16}
+        justifyContent="left"
+        width="100%"
+      >
+        {events && events.length > 0 && (
+          <>
+            {events.map((event, index) => {
+              if (
+                index < 12 * (page ? parseInt(page) : 1) &&
+                index >= 12 * (page ? parseInt(page) - 1 : 0)
+              ) {
+                return (
+                  <Grid2
+                    key={index}
+                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <EventCard
+                      event={event}
+                      isDashboard={true}
+                    />
+                  </Grid2>
+                );
+              }
+            })}
+          </>
+        )}
+
+        {events && events.length === 0 && (
+          <Grid2 size={16}>
+            <Alert severity="info">イベントが見つかりませんでした。</Alert>
+          </Grid2>
+        )}
+      </Grid2>
+      {events && events.length > 0 && (
+        <Pagination
+          page={page ? parseInt(page) : 1}
+          count={Math.ceil(events.length / 12)}
+          renderItem={(item) => (
+            <PaginationItem
+              component={Link}
+              href={`/dashboard${item.page === 1 ? "" : `&page=${item.page}`}`}
               {...item}
               color="primary"
               variant="outlined"

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import ClubList from "@/components/ClubList";
+import ClubList from "@/components/clubComponent/ClubList";
 import ClubSearchForm from "@/components/search/SearchBox";
 import Club from "@/models/Club";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
@@ -25,7 +25,7 @@ export default async function Home() {
   const fetchData = new Promise<Club[]>(async (resolve, reject) => {
     try {
       const session = await auth();
-      const res = await fetch(`${apiBase}/api/clubs/search`, {
+      const res = await fetch(`${apiBase}/api/clubs`, {
         headers: {
           "Content-Type": "application/json",
           "X-Api-key": CryptoJS.AES.encrypt(
