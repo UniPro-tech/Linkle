@@ -22,7 +22,7 @@ const cookieOptions = (): Partial<CookiesOptions> | undefined => {
   if (isProduction) {
     return {
       sessionToken: {
-        name: `__Secure-next-auth.session-token`,
+        name: `__Secure-authjs.session-token`,
         options: {
           httpOnly: true,
           sameSite: "lax",
