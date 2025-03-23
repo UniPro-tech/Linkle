@@ -64,7 +64,6 @@ export default function EditEvent({
       case "notfound":
         notFound();
       case "unauthorized":
-        console.log("ownClubs");
         unauthorized();
     }
   }
