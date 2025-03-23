@@ -65,14 +65,14 @@ export default function MenuList() {
       icon: <GroupsIcon />,
     },
     {
-      label: "ベータ版への参加",
-      href: "/beta",
-      icon: <BiotechIcon />,
-    },
-    {
       label: "イベント一覧",
       href: "/events",
       icon: <EventIcon />,
+    },
+    {
+      label: "ベータ版への参加",
+      href: "/beta",
+      icon: <BiotechIcon />,
     },
     {
       label: "サインイン",
