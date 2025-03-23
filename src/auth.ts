@@ -26,6 +26,7 @@ const cookieOptions = (): Partial<CookiesOptions> | undefined => {
         options: {
           httpOnly: true,
           sameSite: "lax",
+          domain: "linkle.nnn.uniproject.jp",
         },
       },
       csrfToken: {
