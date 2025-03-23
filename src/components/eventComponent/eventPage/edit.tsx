@@ -58,9 +58,6 @@ export default function EditEvent({
         unauthorized();
     }
   }
-  if (!event.authors) {
-    forbidden();
-  }
   if (typeof ownClubs == "string") {
     switch (ownClubs) {
       case "forbidden":
@@ -68,6 +65,7 @@ export default function EditEvent({
       case "notfound":
         notFound();
       case "unauthorized":
+        console.log("ownClubs");
         unauthorized();
     }
   }
