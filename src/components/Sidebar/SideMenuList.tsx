@@ -75,6 +75,11 @@ export default function MenuList() {
       icon: <BiotechIcon />,
     },
     {
+      label: "イベント一覧",
+      href: "/events",
+      icon: <EventIcon />,
+    },
+    {
       label: "サインイン",
       href: "/signin",
       icon: <LoginIcon />,
