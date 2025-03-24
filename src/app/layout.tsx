@@ -51,7 +51,7 @@ export default function RootLayout({
         </AppRouterCacheProvider>
         <SpeedInsights />
       </body>
-      <GoogleAnalytics gaId="G-CYZH2N7NQ0" />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
     </html>
   );
 }
