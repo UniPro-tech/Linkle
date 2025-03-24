@@ -6,7 +6,7 @@ import theme from "@/theme/primary";
 import { Grid2 } from "@mui/material";
 import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -24,6 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID as string} />
       <body className={`${notoSans.variable} antialiased w-full`}>
         <AppRouterCacheProvider>
           <Sidebar>
@@ -51,7 +52,6 @@ export default function RootLayout({
         </AppRouterCacheProvider>
         <SpeedInsights />
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID as string} />
     </html>
   );
 }
