@@ -55,7 +55,7 @@ const submitAction = async (
 
     if (data.get("previous_image_file")) {
       const deleteRes = await fetch(
-        `/api/event/images?filename=${data.get("previous_image_file")}&eventId=${data.get("id")}`,
+        `/api/events/images?filename=${data.get("previous_image_file")}&eventId=${data.get("id")}`,
         { method: "DELETE" }
       );
       if (!deleteRes.ok) {
