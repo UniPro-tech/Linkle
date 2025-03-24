@@ -49,7 +49,7 @@ const submitAction = async (
 
     if (data.get("previous_image_file")) {
       const deleteRes = await fetch(
-        `/api/images?filename=${data.get("previous_image_file")}&clubId=${data.get("id")}`,
+        `/api/clubs/images?filename=${data.get("previous_image_file")}&clubId=${data.get("id")}`,
         { method: "DELETE" }
       );
       if (!deleteRes.ok) {
@@ -68,14 +68,17 @@ const submitAction = async (
       return { status: "error", message: "画像の変換に失敗しました。" };
     }
 
-    const filePostApiRes = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_POST_SCRIPT_URL}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        filename: `${data.get("id")}_${file.name}`,
-        body: base64Data,
-      }),
-    });
+    const filePostApiRes = await fetch(
+      `${process.env.NEXT_PUBLIC_IMAGE_POST_SCRIPT_URL}/club.php`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          filename: `${data.get("id")}_${file.name}`,
+          body: base64Data,
+        }),
+      }
+    );
 
     if (!filePostApiRes.ok) {
       return { status: "error", message: "画像のアップロードに失敗しました。" };
@@ -281,7 +284,7 @@ export default function ClubEdit({ club }: { club: Club }) {
                       <Button
                         onClick={async () => {
                           const res = await fetch(
-                            `/api/images?filename=${club.image_file}&clubId=${club.id}`,
+                            `/api/clubs/images?filename=${club.image_file}&clubId=${club.id}`,
                             {
                               method: "DELETE",
                             }
@@ -289,7 +292,7 @@ export default function ClubEdit({ club }: { club: Club }) {
                           if (res.ok) {
                             const res = await fetch(`/api/clubs/${club.id}`, {
                               method: "PATCH",
-                              body: JSON.stringify({ image: "" }),
+                              body: JSON.stringify({ image: "", image_file: "" }),
                             });
                             if (res.ok)
                               window.location.href = `/clubs/${club.id}/edit?status=success&message=画像を削除しました。`;

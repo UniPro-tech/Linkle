@@ -10,7 +10,7 @@ async function uploadFile(fileName: string, base64Data: string) {
   };
 
   try {
-    const response = await fetch(postScriptUrl as string, {
+    const response = await fetch(`${postScriptUrl as string}/event.php`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,10 +31,10 @@ async function uploadFile(fileName: string, base64Data: string) {
 
 export async function POST(request: NextRequest) {
   const json = await request.json();
-  const { clubId, fileName, base64Data } = json;
+  const { eventId, fileName, base64Data } = json;
 
   try {
-    await uploadFile(clubId + "_" + fileName, base64Data);
+    await uploadFile(eventId + "_" + fileName, base64Data);
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const res = await fetch(`${postScriptUrl as string}?filename=${clubId}_${fileName}`, {
+  const res = await fetch(`${postScriptUrl as string}/event.php?filename=${eventId}_${fileName}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -61,8 +61,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const fileName = await request.nextUrl.searchParams.get("filename");
-  const clubId = await request.nextUrl.searchParams.get("clubId");
-  const res = await fetch(`${postScriptUrl as string}?filename=${clubId}_${fileName}`, {
+  const eventId = await request.nextUrl.searchParams.get("eventId");
+  const res = await fetch(`${postScriptUrl as string}/event.php?filename=${eventId}_${fileName}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -74,13 +74,16 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   const fileName = await request.nextUrl.searchParams.get("filename");
-  const clubId = await request.nextUrl.searchParams.get("clubId");
-  const res = await fetch(`${deleteScriptUrl as string}?filename=${clubId}_${fileName}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const eventId = await request.nextUrl.searchParams.get("eventId");
+  const res = await fetch(
+    `${deleteScriptUrl as string}?type=event&filename=${eventId}_${fileName}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (res.status !== 200) {
     console.log(`[error]/api/images:DELETE
         Code: ${res.status}

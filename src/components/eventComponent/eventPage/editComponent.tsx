@@ -55,7 +55,7 @@ const submitAction = async (
 
     if (data.get("previous_image_file")) {
       const deleteRes = await fetch(
-        `/api/images?filename=${data.get("previous_image_file")}&clubId=${data.get("id")}`,
+        `/api/events/images?filename=${data.get("previous_image_file")}&eventId=${data.get("id")}`,
         { method: "DELETE" }
       );
       if (!deleteRes.ok) {
@@ -74,14 +74,17 @@ const submitAction = async (
       return { status: "error", message: "画像の変換に失敗しました。" };
     }
 
-    const filePostApiRes = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_POST_SCRIPT_URL}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        filename: `${data.get("id")}_${file.name}`,
-        body: base64Data,
-      }),
-    });
+    const filePostApiRes = await fetch(
+      `${process.env.NEXT_PUBLIC_IMAGE_POST_SCRIPT_URL}/event.php`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          filename: `${data.get("id")}_${file.name}`,
+          body: base64Data,
+        }),
+      }
+    );
 
     if (!filePostApiRes.ok) {
       return { status: "error", message: "画像のアップロードに失敗しました。" };
@@ -287,7 +290,7 @@ export default function EventEdit({ event, ownClubs }: { event: Event; ownClubs:
                       <Button
                         onClick={async () => {
                           const res = await fetch(
-                            `/api/images?filename=${event.image_file}&clubId=${event.id}`,
+                            `/api/events/images?filename=${event.image_file}&eventId=${event.id}`,
                             {
                               method: "DELETE",
                             }
@@ -295,7 +298,7 @@ export default function EventEdit({ event, ownClubs }: { event: Event; ownClubs:
                           if (res.ok) {
                             const res = await fetch(`/api/events/${event.id}`, {
                               method: "PATCH",
-                              body: JSON.stringify({ image: "" }),
+                              body: JSON.stringify({ image: "", image_file: "" }),
                             });
                             if (res.ok)
                               window.location.href = `/events/${event.id}/edit?status=success&message=画像を削除しました。`;
