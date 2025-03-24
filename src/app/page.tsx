@@ -5,6 +5,7 @@ import { Box, Stack } from "@mui/material";
 import RecentCreatedEvents from "@/components/eventComponent/RecentWrittenEvent";
 
 import { Metadata } from "next";
+import NowHoldingEventWidget from "@/components/eventComponent/NowHoldingEventWidget";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +42,7 @@ export default function Home() {
           </Box>
         </Stack>
         <RecentCreatedClubs />
+        <NowHoldingEventWidget />
         <RecentCreatedEvents />
       </Stack>
     </>
