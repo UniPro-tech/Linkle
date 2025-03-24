@@ -24,7 +24,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   const recordId = managersData.records.filter(
     (record: { club: number }) => record.club.toString() === prevClubId
   )[0];
-  console.log(recordId);
   const apiRes = await fetch(`${endpoint}/event_managers/${recordId.id}`, {
     method: "DELETE",
   });
@@ -36,13 +35,6 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const body = await request.json();
-  console.log(
-    JSON.stringify({
-      event: id,
-      author: session.user?.email,
-      club: body.club,
-    })
-  );
   const apiRes = await fetch(`${endpoint}/event_managers/`, {
     method: "POST",
     headers: {

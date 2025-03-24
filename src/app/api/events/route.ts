@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
     start_at,
     end_at,
   };
-  console.log(payload);
   const apiRes = await fetch(`${endpoint}/events`, {
     method: "POST",
     headers: {
@@ -73,11 +72,6 @@ export const GET = async (req: NextRequest) => {
       session = true;
   }
   const apiRes = await fetch(
-    `${endpoint}/events?order=created_at,desc&filter1=visible,ge,${
-      session ? 0x1 : 0x2
-    }&join=clubs,clubs`
-  );
-  console.log(
     `${endpoint}/events?order=created_at,desc&filter1=visible,ge,${
       session ? 0x1 : 0x2
     }&join=clubs,clubs`

@@ -24,11 +24,6 @@ export const GET = async () => {
       session || apiCheck ? 0x1 : 0x2
     }&join=clubs,clubs`
   );
-  console.log(
-    `${endpoint}/events?size=8&filter=start_at,ge,${nowDate.toISOString()}&filter=end_at,le,${nowDate.toISOString()}&filter=visible,ge,${
-      session || apiCheck ? 0x1 : 0x2
-    }&join=clubs,clubs`
-  );
   if (apiRes.ok) {
     const data = await apiRes.json();
     return NextResponse.json(data.records);

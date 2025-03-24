@@ -39,8 +39,6 @@ const submitAction = async (
   const tos = data.get("tos");
   const start_at = data.get("start_at");
   const end_at = data.get("end_at");
-  console.log("start_at", start_at);
-  console.log("end_at", end_at);
   if (!tos) {
     return {
       status: "error",
