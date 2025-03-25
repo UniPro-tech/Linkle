@@ -1,5 +1,5 @@
 import RecentCreatedClubs from "@/components/clubComponent/RecentCreatedClubs";
-import ClubSearchForm from "@/components/search/SearchBox";
+import SearchForm from "@/components/search/SearchBox";
 import TitleLogo from "@/components/TitleLogo";
 import { Box, Stack } from "@mui/material";
 import RecentCreatedEvents from "@/components/eventComponent/RecentWrittenEvent";
@@ -38,7 +38,7 @@ export default function Home() {
             width={{ xs: "100%", lg: 2 / 5 }}
             sx={{ p: 5 }}
           >
-            <ClubSearchForm />
+            <SearchForm />
           </Box>
         </Stack>
         <RecentCreatedClubs />

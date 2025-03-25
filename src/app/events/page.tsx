@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import EventList from "@/components/eventComponent/EventList";
-import ClubSearchForm from "@/components/search/SearchBox"; //TODO: 見たらわかると思うけど変更が必要
+import SearchForm from "@/components/search/SearchBox"; //TODO: 見たらわかると思うけど変更が必要
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
 import { headers } from "next/headers";
@@ -73,7 +73,7 @@ export default async function Home() {
         width={{ xs: "100%", lg: 2 / 5 }}
         p={5}
       >
-        <ClubSearchForm />
+        <SearchForm />
       </Box>
       <Suspense fallback={<CircularProgress />}>
         <EventList fetchData={fetchData} />

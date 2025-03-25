@@ -6,37 +6,39 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ClubCard from "../clubComponent/ClubCard";
 import Club from "@/models/Club";
+import Event from "@/models/Event";
+import EventCard from "../eventComponent/EventCard";
 
 const SearchResultsPage = ({
   promise,
   query,
 }: {
-  promise: Promise<Club[] | string>;
+  promise: Promise<Club[] | Event[] | string>;
   query: string;
 }) => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
 
-  const clubs = use(promise);
+  const result = use(promise);
 
-  if (clubs instanceof Error) {
+  if (result instanceof Error) {
     return (
       <Alert
         severity="error"
         style={{ marginTop: "20px" }}
       >
-        {clubs.message}
+        {result.message}
       </Alert>
     );
   }
 
-  if (typeof clubs === "string") {
+  if (typeof result === "string") {
     return (
       <Typography
         style={{ marginTop: "20px" }}
         color="text.primary"
       >
-        {clubs}
+        {result}
       </Typography>
     );
   }
@@ -57,34 +59,55 @@ const SearchResultsPage = ({
         justifyContent="center"
         width={"100%"}
       >
-        {clubs && clubs.length > 0 && (
-          <>
-            {clubs.map((club, index) => {
-              if (
-                index < 12 * (page ? parseInt(page) : 1) &&
-                index >= 12 * (page ? parseInt(page) - 1 : 0)
-              ) {
-                return (
-                  <Grid2
-                    key={index}
-                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <ClubCard
-                      name={club.name}
-                      description={club.short_description}
-                      imageUrl={club.image}
-                      availableOn={club.available_on}
-                      id={club.id}
-                    />
-                  </Grid2>
-                );
-              }
-            })}
-          </>
-        )}
+        {result &&
+          result.length > 0 &&
+          ("start_at" in result[0] ? (
+            <>
+              {(result as Event[]).map((event, index) => {
+                if (
+                  index < 12 * (page ? parseInt(page) : 1) &&
+                  index >= 12 * (page ? parseInt(page) - 1 : 0)
+                ) {
+                  return (
+                    <Grid2
+                      key={index}
+                      size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <EventCard event={event} />
+                    </Grid2>
+                  );
+                }
+              })}
+            </>
+          ) : (
+            <>
+              {(result as Club[]).map((club, index) => {
+                if (
+                  index < 12 * (page ? parseInt(page) : 1) &&
+                  index >= 12 * (page ? parseInt(page) - 1 : 0)
+                ) {
+                  return (
+                    <Grid2
+                      key={index}
+                      size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <ClubCard
+                        name={club.name}
+                        description={club.short_description}
+                        imageUrl={club.image}
+                        availableOn={club.available_on}
+                        id={club.id}
+                      />
+                    </Grid2>
+                  );
+                }
+              })}
+            </>
+          ))}
 
-        {clubs && clubs.length === 0 && (
+        {result && result.length === 0 && (
           <Grid2 size={16}>
             <Typography
               style={{ marginTop: "20px", textAlign: "center" }}
@@ -95,10 +118,10 @@ const SearchResultsPage = ({
           </Grid2>
         )}
       </Grid2>
-      {clubs && clubs.length > 0 && (
+      {result && result.length > 0 && (
         <Pagination
           page={page ? parseInt(page) : 1}
-          count={Math.ceil(clubs.length / 12)}
+          count={Math.ceil(result.length / 12)}
           renderItem={(item) => (
             <PaginationItem
               component={Link}

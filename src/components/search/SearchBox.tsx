@@ -2,12 +2,18 @@
 
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { TextField, Button, Stack, ThemeProvider } from "@mui/material";
+import { TextField, Button, Stack, ThemeProvider, MenuItem, Select } from "@mui/material";
 import { useRouter } from "next/navigation"; // Next.js のルーターを使用
 import theme from "@/theme/primary";
 import formTheme from "@/theme/form";
 
-const ClubSearchForm = ({ query }: { query?: string | undefined }) => {
+const SearchForm = ({
+  query,
+  queryType: queryTypeProps,
+}: {
+  query?: string | undefined;
+  queryType?: string | undefined;
+}) => {
   const { control, handleSubmit } = useForm<{ query: string }>({
     defaultValues: { query: query },
   });
@@ -15,9 +21,16 @@ const ClubSearchForm = ({ query }: { query?: string | undefined }) => {
 
   const onSubmit = (data: { query: string }) => {
     if (data.query.trim() !== "") {
-      router.push(`/search?query=${encodeURIComponent(data.query)}`);
+      router.push(`/search?query=${encodeURIComponent(data.query)}&type=${queryType}`);
     }
   };
+
+  enum QueryType {
+    Club = "club",
+    Event = "event",
+  }
+
+  const [queryType, setQueryType] = React.useState<QueryType>(queryTypeProps as QueryType);
 
   return (
     <ThemeProvider theme={theme}>
@@ -29,13 +42,23 @@ const ClubSearchForm = ({ query }: { query?: string | undefined }) => {
             justifyContent={"center"}
             justifyItems={"center"}
           >
+            <Select
+              displayEmpty
+              defaultValue={"club"}
+              value={queryType}
+              onChange={(e) => setQueryType(e.target.value as QueryType)}
+              sx={{ minWidth: 120 }}
+            >
+              <MenuItem value={"club"}>同好会</MenuItem>
+              <MenuItem value={"event"}>イベント</MenuItem>
+            </Select>
             <Controller
               name="query"
               control={control}
               render={({ field }) => (
                 <TextField
                   color="primary"
-                  label="同好会名"
+                  label={queryType === QueryType.Club ? "同好会名" : "イベント名"}
                   variant="outlined"
                   fullWidth
                   {...field}
@@ -56,4 +79,4 @@ const ClubSearchForm = ({ query }: { query?: string | undefined }) => {
   );
 };
 
-export default ClubSearchForm;
+export default SearchForm;

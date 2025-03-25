@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import ClubList from "@/components/clubComponent/ClubList";
-import ClubSearchForm from "@/components/search/SearchBox";
+import SearchForm from "@/components/search/SearchBox";
 import Club from "@/models/Club";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Metadata } from "next";
@@ -72,7 +72,7 @@ export default async function Home() {
         width={{ xs: "100%", lg: 2 / 5 }}
         p={5}
       >
-        <ClubSearchForm />
+        <SearchForm />
       </Box>
       <Suspense fallback={<CircularProgress />}>
         <ClubList fetchData={fetchData} />
