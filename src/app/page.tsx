@@ -1,9 +1,11 @@
-import RecentCreatedClubs from "@/components/RecentCreatedClubs";
-import ClubSearchForm from "@/components/search/SearchBox";
+import RecentCreatedClubs from "@/components/clubComponent/RecentCreatedClubs";
+import SearchForm from "@/components/search/SearchBox";
 import TitleLogo from "@/components/TitleLogo";
 import { Box, Stack } from "@mui/material";
+import RecentCreatedEvents from "@/components/eventComponent/RecentWrittenEvent";
 
 import { Metadata } from "next";
+import NowHoldingEventWidget from "@/components/eventComponent/NowHoldingEventWidget";
 
 export const dynamic = "force-dynamic";
 
@@ -36,10 +38,12 @@ export default function Home() {
             width={{ xs: "100%", lg: 2 / 5 }}
             sx={{ p: 5 }}
           >
-            <ClubSearchForm />
+            <SearchForm />
           </Box>
         </Stack>
         <RecentCreatedClubs />
+        <NowHoldingEventWidget />
+        <RecentCreatedEvents />
       </Stack>
     </>
   );
