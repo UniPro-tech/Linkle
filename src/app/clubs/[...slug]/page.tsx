@@ -1,6 +1,6 @@
 import { notFound, unauthorized } from "next/navigation";
-import ClubPage from "@/components/clubPage/main";
-import EditClub from "@/components/clubPage/edit";
+import ClubPage from "@/components/clubComponent/clubPage/main";
+import EditClub from "@/components/clubComponent/clubPage/edit";
 import { auth } from "@/auth";
 import { Suspense } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
