@@ -12,6 +12,8 @@ import { metadata as unauthorizedMetadata } from "@/app/unauthorized";
 import Event from "@/models/Event";
 import { Metadata } from "next";
 
+import CryptoJS from "crypto-js";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string[] }> }) {
   const session = await auth();
   const slug = (await params).slug;
