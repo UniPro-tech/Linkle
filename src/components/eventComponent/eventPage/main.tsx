@@ -4,8 +4,6 @@ import "katex/dist/katex.min.css";
 import { LongDescription } from "@/components/md";
 import { use } from "react";
 import { forbidden, notFound, unauthorized } from "next/navigation";
-import UpdateMetadata from "@/components/TitleChange";
-import { Metadata } from "next";
 import { getEventById } from "@/lib/server/event";
 import Event from "@/models/Event";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -26,29 +24,6 @@ export default function EventPage({
   if (event == "unauthorized") unauthorized();
   return (
     <>
-      <UpdateMetadata
-        metadata={
-          {
-            title: `${event.title}`,
-            description: `${event.description}`,
-            openGraph: {
-              title: `${event.title}`,
-              description: `${event.description}`,
-              type: "website",
-              url: `${process.env.DB_API_ENDPOINT}/events/${id}`,
-              images: event.image ?? undefined,
-              siteName: "同好会ポータル Linkle",
-            },
-            twitter: {
-              card: "summary_large_image",
-              site: "@UniPro_digital",
-              title: `${event.title}`,
-              description: `${event.description}`,
-              images: event.image ?? undefined,
-            },
-          } as Metadata
-        }
-      />
       {typeof event == "string" && (
         <Typography>
           {
