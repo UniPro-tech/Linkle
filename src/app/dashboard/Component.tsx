@@ -99,7 +99,7 @@ export default function Dashboard({
   }
   if (clubs instanceof Error) throw clubs;
   if (events instanceof Error) throw events;
-  if (clubs.length)
+  if (typeof clubs.length == "number" && typeof events.length == "number")
     return (
       <DashboardContent
         clubs={clubs}
