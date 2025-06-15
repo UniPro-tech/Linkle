@@ -1,0 +1,16 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: harbor-registry-secret
+  namespace: linkle
+spec:
+  encryptedData:
+    .dockerconfigjson: AgB516AsTWkQntlE1NspkWWFx0F1xNRz/L77cHBpE6FgfFJFkkJGDyyKP+fJF82pzCCaQnXAdu4Ik/hSZ3GWNlTTPCVcnE4eIBYPV+W8Ay/YZ+gRCgJV4DSHBaNJrTsKgBRGNXyJ/mKESWCG/DTCROSJXSV/IODtaQY7n52MDwUgQ7ka0bTyGG+knctYy297jz0Pl7cxeOPTe+40uJjXIeZVPuPAgrAJZh62cbHwVvELezgTIYcE+WDGc6aGLOK9E15RFBShoWrxdLoQVjySfd3m232KB26fhZ813VMSrzWNSjpS1DGDCNH4rG69epIDyhKYXj+tG8hgxTpCTB+uxNQoOhrpZpDSKP0z3iB04wGPYUoOeQUv/kXZD2f9lhe2zR+L+PdILgoPtJ7SOuZukbMJ+bGQQzDd7uJn2iApYTMpofS8GxQTcD8aYK5GMNZcLK4L0e8v22k93+j8/N+BWoOaCMigcQuWH349BjaURvB3RTOj8g1V0sZhRZAySIBJ7sakjRZRag798k2G4gSLzuoAf6fCaOjVM0EzSsfh5wdoKPWr4fjwc/mM5VceMD/NgHTCU7eRq89LyXX4tMzH904rM+fsViTkt5KOZKrimW7W83iGFqju+ob7xdhFplo2zOdrpVvWVOH4h1izWbHXxBpCVnTLIbAho9c1gGnfzGmZyPCiFVfMHGPoLbpWgnZXrrUdkLn5kmmz3FJQjlahe5NX/VlY49sRdOCYH+bWWGfyJgbsPvuSBle8zahYaATBIPJo4YEdW1F5wPcSHkIpN3xLZZJ6J8PUa4GYlsUXVsnV99e5+MxHG//hXWkpK0ZluNPDlxJ5j6hO1l4DVAJOZD+3cS4cB+ZrwYqawwZlEecrExolwJufRi6wnVZTEKCSTv8gFJWfV3zZxGYy3xor6tWwYo67MRoNMP00Lk9yh0R4OXIGsXfMsVNhstXB6LV+HMA5Ypr1Kd6MOV5VCUC26AtjmTVnj+xNuGIvOC4fe/s1yY8zyRui5lUie10pHDsD3TuWtFOqPpN+mr+UVD1Gcafw2KKh0taItD6dNRbgkg==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: harbor-registry-secret
+      namespace: linkle
+    type: kubernetes.io/dockerconfigjson

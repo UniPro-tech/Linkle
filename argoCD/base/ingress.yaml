@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: linkle
+  labels:
+    name: linkle
+  annotations:
+    cert-manager.io/cluster-issuer: le-cf-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: linkle.unipro-n.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: linkle
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - linkle.unipro-n.com
+      secretName: linkle-tls

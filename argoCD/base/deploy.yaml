@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkle
+  labels:
+    app: linkle
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: linkle
+  template:
+    metadata:
+      labels:
+        app: linkle
+    spec:
+      containers:
+        - name: linkle
+          image: registry.uniproject.jp/nnn/linkle:3.4.4
+          envFrom:
+            - secretRef:
+                name: env-linkle
+                optional: true
+          ports:
+            - containerPort: 3000
+              name: default-port
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            httpGet:
+              path: /
+              port: default-port
+              httpHeaders:
+                - name: X-k8s-Header
+                  value: readiness
+          livenessProbe:
+            failureThreshold: 3
+            timeoutSeconds: 5
+            successThreshold: 1
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            httpGet:
+              path: /
+              port: default-port
+              httpHeaders:
+                - name: X-k8s-Header
+                  value: readiness
+      imagePullSecrets:
+        - name: harbor-registry-secret
