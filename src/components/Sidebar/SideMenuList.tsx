@@ -9,7 +9,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import GroupsIcon from "@mui/icons-material/Groups";
 import HomeIcon from "@mui/icons-material/Home";
-import BiotechIcon from "@mui/icons-material/Biotech";
 import EventIcon from "@mui/icons-material/Event";
 
 export default function MenuList() {
@@ -35,11 +34,6 @@ export default function MenuList() {
       label: "イベント一覧",
       href: "/events",
       icon: <EventIcon />,
-    },
-    {
-      label: "ベータ版への参加",
-      href: "/beta",
-      icon: <BiotechIcon />,
     },
     /*{
             label: 'ユーザー一覧',
@@ -68,11 +62,6 @@ export default function MenuList() {
       label: "イベント一覧",
       href: "/events",
       icon: <EventIcon />,
-    },
-    {
-      label: "ベータ版への参加",
-      href: "/beta",
-      icon: <BiotechIcon />,
     },
     {
       label: "サインイン",
