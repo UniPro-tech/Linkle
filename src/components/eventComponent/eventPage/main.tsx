@@ -34,8 +34,8 @@ export default function EventPage({
               {event == "forbidden"
                 ? "権限がありません。"
                 : event == "notfound"
-                ? "記事が見つかりませんでした。"
-                : `エラーが発生しました。\n${event}`}
+                  ? "記事が見つかりませんでした。"
+                  : `エラーが発生しました。\n${event}`}
             </Alert>
           }
         </Typography>

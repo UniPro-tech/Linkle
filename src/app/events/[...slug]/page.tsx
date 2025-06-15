@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const headersData = await headers();
   const host = headersData.get("host");
   const protocol =
-    headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+    (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost")) ? "http" : "https";
   const apiBase = `${protocol}://${host}`;
   const res = await fetch(`${apiBase}/api/events/${slug[0]}`, fetchOption);
   if (res.status == 401) return unauthorizedMetadata;
@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const headersData = await headers();
   const host = headersData.get("host");
   const protocol =
-    headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+    (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost")) ? "http" : "https";
   const cookie = headersData.get("cookie");
   const sessionID = cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token"));
   const apiBase = `${protocol}://${host}`;

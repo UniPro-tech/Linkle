@@ -13,7 +13,7 @@ export default function SearchResultsPageWrappe() {
       const headersData = await headers();
       const host = headersData.get("host");
       const protocol =
-        headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
+        (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost")) ? "http" : "https";
       const cookie = headersData.get("cookie");
       const sessionID =
         cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||

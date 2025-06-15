@@ -34,8 +34,8 @@ export default function Club({
               {club == "forbidden"
                 ? "権限がありません。"
                 : club == "notfound"
-                ? "クラブが見つかりませんでした。"
-                : `エラーが発生しました。\n${club}`}
+                  ? "クラブが見つかりませんでした。"
+                  : `エラーが発生しました。\n${club}`}
             </Alert>
           }
         </Typography>
