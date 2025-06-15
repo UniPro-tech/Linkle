@@ -5,6 +5,19 @@ on:
       - "v*"
 
 jobs:
+  NextBuildCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Check Next.js build
+        run: bun run next build
   BuildAndPush:
     runs-on: ubuntu-latest
     steps:
