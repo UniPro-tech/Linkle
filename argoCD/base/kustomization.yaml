@@ -4,7 +4,7 @@ resources:
   - deploy.yaml
   - ingress.yaml
   - service.yaml
-  - spotify.yaml
+  - env-linkle.yaml
   - registry.yaml
 labels:
   - includeSelectors: true
