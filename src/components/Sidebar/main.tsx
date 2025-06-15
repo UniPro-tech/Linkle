@@ -132,30 +132,66 @@ export default function SidebarMain({
   let environment_chip: React.ReactNode;
   switch (environment) {
     case "dev":
-      environment_chip =
-        <Chip variant="outlined" color="success" size="small" label="dev" />;
+      environment_chip = (
+        <Chip
+          variant="outlined"
+          color="success"
+          size="small"
+          label="dev"
+        />
+      );
       break;
     case "pre-prod":
-      environment_chip =
-        <Chip variant="outlined" color="warning" size="small" label="pre-prod" />;
+      environment_chip = (
+        <Chip
+          variant="outlined"
+          color="warning"
+          size="small"
+          label="pre-prod"
+        />
+      );
       break;
     case "production":
       break;
     case "alpha":
-      environment_chip =
-        <Chip variant="outlined" color="error" size="small" label="alpha" />;
+      environment_chip = (
+        <Chip
+          variant="outlined"
+          color="error"
+          size="small"
+          label="alpha"
+        />
+      );
       break;
     case "rc":
-      environment_chip =
-        <Chip variant="outlined" color="primary" size="small" label="rc" />;
+      environment_chip = (
+        <Chip
+          variant="outlined"
+          color="primary"
+          size="small"
+          label="rc"
+        />
+      );
       break;
     case "pre-alpha":
-      environment_chip =
-        <Chip variant="outlined" color="warning" size="small" label="pre-alpha" />;
+      environment_chip = (
+        <Chip
+          variant="outlined"
+          color="warning"
+          size="small"
+          label="pre-alpha"
+        />
+      );
       break;
     case "pre-rc":
-      environment_chip =
-        <Chip variant="outlined" color="warning" size="small" label="pre-rc" />;
+      environment_chip = (
+        <Chip
+          variant="outlined"
+          color="warning"
+          size="small"
+          label="pre-rc"
+        />
+      );
       break;
   }
 
@@ -191,7 +227,13 @@ export default function SidebarMain({
             >
               <MenuIcon />
             </IconButton>
-            <Stack flex={1} flexDirection={"row"} alignItems="center" justifyContent={"center"} justifyItems={"center"}>
+            <Stack
+              flex={1}
+              flexDirection={"row"}
+              alignItems="center"
+              justifyContent={"center"}
+              justifyItems={"center"}
+            >
               <Typography
                 variant="h5"
                 sx={{
