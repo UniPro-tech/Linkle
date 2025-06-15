@@ -21,6 +21,11 @@ spec:
             - secretRef:
                 name: env-linkle
                 optional: true
+          env:
+            - name: AUTH_TRUST_HOST
+              value: "true"
+            - name: AUTH_URL
+              value: "https://linkle.unipro-n.com/api/auth"
           ports:
             - containerPort: 3000
               name: default-port
