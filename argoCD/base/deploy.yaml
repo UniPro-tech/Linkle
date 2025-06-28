@@ -51,4 +51,4 @@ spec:
                 - name: X-k8s-Header
                   value: readiness
       imagePullSecrets:
-        - name: harbor-registry-secret
+        - name: internal-harbor
