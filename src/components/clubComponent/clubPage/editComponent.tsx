@@ -43,7 +43,7 @@ const submitAction = async (
   const imageUrl = data.get("image") as string;
 
   if (file?.size > 0) {
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       return { status: "error", message: "ファイルサイズが大きすぎます。" };
     }
 
