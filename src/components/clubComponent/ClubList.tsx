@@ -9,10 +9,10 @@ import Club from "@/models/Club";
 
 const ClubList = ({ fetchData }: { fetchData: Promise<Club[] | string> }) => {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-
+  const page = Number(searchParams.get("page")) || 1;
   const clubs = use(fetchData);
 
+  // エラー時
   if (typeof clubs === "string") {
     return (
       <Stack
@@ -26,6 +26,11 @@ const ClubList = ({ fetchData }: { fetchData: Promise<Club[] | string> }) => {
       </Stack>
     );
   }
+
+  // ページング処理
+  const pageSize = 12;
+  const pagedClubs = clubs?.slice(pageSize * (page - 1), pageSize * page) || [];
+  const pageCount = clubs ? Math.ceil(clubs.length / pageSize) : 1;
 
   return (
     <Stack
@@ -43,34 +48,23 @@ const ClubList = ({ fetchData }: { fetchData: Promise<Club[] | string> }) => {
         justifyContent="center"
         width={"100%"}
       >
-        {clubs && clubs.length > 0 && (
-          <>
-            {clubs.map((club, index) => {
-              if (
-                index < 12 * (page ? parseInt(page) : 1) &&
-                index >= 12 * (page ? parseInt(page) - 1 : 0)
-              ) {
-                return (
-                  <Grid2
-                    key={index}
-                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <ClubCard
-                      name={club.name}
-                      description={club.short_description}
-                      imageUrl={club.image}
-                      availableOn={club.available_on}
-                      id={club.id}
-                    />
-                  </Grid2>
-                );
-              }
-            })}
-          </>
-        )}
-
-        {clubs && clubs.length === 0 && (
+        {pagedClubs.length > 0 ? (
+          pagedClubs.map((club) => (
+            <Grid2
+              key={club.id}
+              size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <ClubCard
+                name={club.name}
+                description={club.short_description}
+                imageUrl={club.image}
+                availableOn={club.available_on}
+                id={club.id}
+              />
+            </Grid2>
+          ))
+        ) : (
           <Grid2 size={16}>
             <Typography
               style={{ marginTop: "20px", textAlign: "center" }}
@@ -81,10 +75,10 @@ const ClubList = ({ fetchData }: { fetchData: Promise<Club[] | string> }) => {
           </Grid2>
         )}
       </Grid2>
-      {clubs && clubs.length > 0 && (
+      {pageCount > 1 && (
         <Pagination
-          page={page ? parseInt(page) : 1}
-          count={Math.ceil(clubs.length / 12)}
+          page={page}
+          count={pageCount}
           renderItem={(item) => (
             <PaginationItem
               component={Link}

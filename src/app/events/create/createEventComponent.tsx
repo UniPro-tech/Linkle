@@ -42,11 +42,14 @@ const submitAction = async (
   if (!tos) {
     return {
       status: "error",
-      message: "利用規約に同意していないか、管理者でないため登録できません。",
+      message: "利用規約に同意していないとイベントは登録できません。",
     };
   }
-  if (!title || !description || !main_text || !start_at || !end_at) {
+  if (!title || !description || !main_text) {
     return { status: "error", message: "全ての項目を入力してください。" };
+  }
+  if (!start_at || !end_at) {
+    return { status: "error", message: "開始日時・終了日時は必須です。" };
   }
   const res = await fetch(`/api/events`, {
     method: "POST",
@@ -119,12 +122,26 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
 
   const [main_text, setMain_text] = useState<string>("");
 
+  // 日付のバリデーション（終了日時が開始日時より前にならないように）
+  const [dateError, setDateError] = useState<string | undefined>(undefined);
+
   const [formStatus, setFormStatus] = useState<string | undefined>(undefined);
   const [formMessage, setFormMessage] = useState<string | undefined>(undefined);
   useEffect(() => {
     setFormStatus(formState.status);
     setFormMessage(formState.message);
   }, [formState.status]);
+
+  // 日付のバリデーション
+  useEffect(() => {
+    const start = watch("start_at");
+    const end = watch("end_at");
+    if (start && end && new Date(start) > new Date(end)) {
+      setDateError("終了日時は開始日時より後にしてね！");
+    } else {
+      setDateError(undefined);
+    }
+  }, [watch("start_at"), watch("end_at")]);
 
   const handleClose = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
     if (reason === "clickaway") {
@@ -301,6 +318,7 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
                         label="開始日時"
                         format="YYYY/MM/DD HH:mm"
                         disablePast
+                        slotProps={{ textField: { error: !!dateError, helperText: dateError } }}
                       />
                     )}
                   />
@@ -314,6 +332,7 @@ export default function CreateEvent({ ownClubs }: { ownClubs: Club[] }) {
                         views={["year", "month", "day", "hours", "minutes"]}
                         format="YYYY/MM/DD HH:mm"
                         disablePast
+                        slotProps={{ textField: { error: !!dateError, helperText: dateError } }}
                       />
                     )}
                   />

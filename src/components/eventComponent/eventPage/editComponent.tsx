@@ -281,12 +281,7 @@ export default function EventEdit({ event, ownClubs }: { event: Event; ownClubs:
                   {event.image && event.image_file && (
                     <>
                       <Typography variant="h5">現在の画像</Typography>
-                      <Image
-                        src={event.image}
-                        alt="club image"
-                        width={300}
-                        height={0}
-                      />
+                      <ImgPreview src={event.image} />
                       <Button
                         onClick={async () => {
                           const res = await fetch(
@@ -532,5 +527,22 @@ export function AlertDialog({ id }: { id: string }) {
         </Dialog>
       </ThemeProvider>
     </React.Fragment>
+  );
+}
+
+// 画像プレビュー用の小コンポーネント
+function ImgPreview({ src }: { src: string }) {
+  const [imgSrc, setImgSrc] = React.useState(src || "/img/NoImage.webp");
+  return (
+    <Image
+      src={imgSrc}
+      alt="event image"
+      width={300}
+      height={180}
+      style={{ objectFit: "cover", borderRadius: 8 }}
+      onError={() => setImgSrc("/img/NoImage.webp")}
+      placeholder="blur"
+      blurDataURL="/img/NoImage.webp"
+    />
   );
 }

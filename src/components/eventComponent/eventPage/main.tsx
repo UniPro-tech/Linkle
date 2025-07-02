@@ -1,4 +1,5 @@
 import { Alert, Box, Stack, Typography } from "@mui/material";
+import * as React from "react";
 import Image from "next/image";
 import "katex/dist/katex.min.css";
 import { LongDescription } from "@/components/md";
@@ -34,8 +35,8 @@ export default function EventPage({
               {event == "forbidden"
                 ? "権限がありません。"
                 : event == "notfound"
-                  ? "記事が見つかりませんでした。"
-                  : `エラーが発生しました。\n${event}`}
+                ? "記事が見つかりませんでした。"
+                : `エラーが発生しました。\n${event}`}
             </Alert>
           }
         </Typography>
@@ -65,6 +66,8 @@ export default function EventPage({
 }
 
 function KeyVisual({ event, imageUrl }: { event: Event; imageUrl: string | undefined | null }) {
+  // 画像エラー時NoImageにフォールバック
+  const [imgSrc, setImgSrc] = React.useState(imageUrl || "/img/NoImage.webp");
   return (
     <Box
       position={"relative"}
@@ -74,11 +77,15 @@ function KeyVisual({ event, imageUrl }: { event: Event; imageUrl: string | undef
       overflow={"hidden"}
     >
       <Image
-        src={imageUrl || "/img/NoImage.webp"}
+        src={imgSrc}
         alt={event.title}
-        width={"5000"}
-        height={0}
-        style={{ width: "100%", height: "auto", objectFit: "contain" }}
+        width={1200}
+        height={675}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        onError={() => setImgSrc("/img/NoImage.webp")}
+        placeholder="blur"
+        blurDataURL="/img/NoImage.webp"
+        priority
       />
       <Stack
         spacing={1}

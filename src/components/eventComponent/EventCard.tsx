@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -19,6 +20,9 @@ type EventCardProps = {
 
 export default function EventCard({ event, isDashboard }: EventCardProps) {
   const { id, title, description, image, clubs } = event;
+  const [imgSrc, setImgSrc] = React.useState(
+    image == "" || image == undefined ? "/img/NoImage.webp" : image
+  );
   return (
     <ThemeProvider theme={formTheme}>
       <Card
@@ -33,11 +37,16 @@ export default function EventCard({ event, isDashboard }: EventCardProps) {
       >
         <Link href={`/events/${id}`}>
           <Image
-            src={image == "" || image == undefined ? "/img/NoImage.webp" : image}
+            src={imgSrc}
             alt={title}
-            width={"320"}
-            height={0}
+            width={320}
+            height={180}
             className="w-[320px] h-[180px]"
+            style={{ objectFit: "cover", borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
+            onError={() => setImgSrc("/img/NoImage.webp")}
+            placeholder="blur"
+            blurDataURL="/img/NoImage.webp"
+            priority
           />
           <CardContent>
             {new Date(event.end_at) < new Date() && (

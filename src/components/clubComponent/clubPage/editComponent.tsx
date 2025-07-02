@@ -449,14 +449,20 @@ function CurrentImageSection({ club }: { club: Club }) {
     }
   };
 
+  // 画像エラー時NoImageにフォールバック
+  const [imgSrc, setImgSrc] = React.useState(club.image || "/img/NoImage.webp");
   return (
     <>
       <Typography variant="h5">現在の画像</Typography>
       <Image
-        src={club.image}
+        src={imgSrc}
         alt="club image"
         width={300}
-        height={0}
+        height={180}
+        style={{ objectFit: "cover", borderRadius: 8 }}
+        onError={() => setImgSrc("/img/NoImage.webp")}
+        placeholder="blur"
+        blurDataURL="/img/NoImage.webp"
       />
       <Button
         onClick={handleDelete}

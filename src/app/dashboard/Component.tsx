@@ -45,18 +45,7 @@ export default function Dashboard({
     }
   };
 
-  const clubs = use(getMyClubs(apiBase, cookie, email));
-  switch (clubs) {
-    case "forbidden":
-      forbidden();
-    case "notfound":
-      notFound();
-    case "unauthorized":
-      unauthorized();
-    default:
-      break;
-  }
-
+  // クラブ・イベントをPromise.allで同時取得！
   const getMyEvents = async (
     apiBase: string,
     cookie: string | undefined,
@@ -86,31 +75,58 @@ export default function Dashboard({
     }
   };
 
-  const events = use(getMyEvents(apiBase, cookie, email));
+  const fetchAll = async () => {
+    const [clubs, events] = await Promise.all([
+      getMyClubs(apiBase, cookie, email),
+      getMyEvents(apiBase, cookie, email),
+    ]);
+    return { clubs, events };
+  };
+
+  const { clubs, events } = use(fetchAll());
+
+  // エラーハンドリング
+  switch (clubs) {
+    case "forbidden":
+      forbidden();
+      break;
+    case "notfound":
+      notFound();
+      break;
+    case "unauthorized":
+      unauthorized();
+      break;
+    default:
+      break;
+  }
   switch (events) {
     case "forbidden":
       forbidden();
+      break;
     case "notfound":
       notFound();
+      break;
     case "unauthorized":
       unauthorized();
+      break;
     default:
       break;
   }
   if (clubs instanceof Error) throw clubs;
   if (events instanceof Error) throw events;
-  if (typeof clubs.length == "number" && typeof events.length == "number")
+  if (Array.isArray(clubs) && Array.isArray(events)) {
     return (
       <DashboardContent
         clubs={clubs}
         events={events}
       />
     );
-  else
+  } else {
     return (
       <Stack>
         <Typography variant="h3">ダッシュボード</Typography>
         <Alert severity="error">エラーが発生しました。</Alert>
       </Stack>
     );
+  }
 }

@@ -9,8 +9,7 @@ import Event from "@/models/Event";
 
 const EventList = ({ fetchData }: { fetchData: Promise<Event[] | string> }) => {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-
+  const page = Number(searchParams.get("page")) || 1;
   const events = use(fetchData);
 
   if (typeof events === "string") {
@@ -26,6 +25,10 @@ const EventList = ({ fetchData }: { fetchData: Promise<Event[] | string> }) => {
       </Stack>
     );
   }
+
+  const pageSize = 12;
+  const pagedEvents = events?.slice(pageSize * (page - 1), pageSize * page) || [];
+  const pageCount = events ? Math.ceil(events.length / pageSize) : 1;
 
   return (
     <Stack
@@ -43,28 +46,17 @@ const EventList = ({ fetchData }: { fetchData: Promise<Event[] | string> }) => {
         justifyContent="center"
         width={"100%"}
       >
-        {events && events.length > 0 && (
-          <>
-            {events.map((event, index) => {
-              if (
-                index < 12 * (page ? parseInt(page) : 1) &&
-                index >= 12 * (page ? parseInt(page) - 1 : 0)
-              ) {
-                return (
-                  <Grid2
-                    key={index}
-                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <EventCard event={event} />
-                  </Grid2>
-                );
-              }
-            })}
-          </>
-        )}
-
-        {events && events.length === 0 && (
+        {pagedEvents.length > 0 ? (
+          pagedEvents.map((event) => (
+            <Grid2
+              key={event.id}
+              size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <EventCard event={event} />
+            </Grid2>
+          ))
+        ) : (
           <Grid2 size={16}>
             <Typography
               style={{ marginTop: "20px", textAlign: "center" }}
@@ -75,10 +67,10 @@ const EventList = ({ fetchData }: { fetchData: Promise<Event[] | string> }) => {
           </Grid2>
         )}
       </Grid2>
-      {events && events.length > 0 && (
+      {pageCount > 1 && (
         <Pagination
-          page={page ? parseInt(page) : 1}
-          count={Math.ceil(events.length / 12)}
+          page={page}
+          count={pageCount}
           renderItem={(item) => (
             <PaginationItem
               component={Link}

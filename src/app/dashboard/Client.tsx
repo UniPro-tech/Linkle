@@ -55,6 +55,10 @@ export default function DashboardContent({ clubs, events }: { clubs: Club[]; eve
 }
 
 function ClubDashboard({ clubs, page }: { clubs: Club[]; page: string | null }) {
+  const pageNum = Number(page) || 1;
+  const pageSize = 12;
+  const pagedClubs = clubs?.slice(pageSize * (pageNum - 1), pageSize * pageNum) || [];
+  const pageCount = clubs ? Math.ceil(clubs.length / pageSize) : 1;
   return (
     <Stack
       spacing={2}
@@ -85,44 +89,33 @@ function ClubDashboard({ clubs, page }: { clubs: Club[]; page: string | null }) 
         justifyContent="left"
         width="100%"
       >
-        {clubs && clubs.length > 0 && (
-          <>
-            {clubs.map((club, index) => {
-              if (
-                index < 12 * (page ? parseInt(page) : 1) &&
-                index >= 12 * (page ? parseInt(page) - 1 : 0)
-              ) {
-                return (
-                  <Grid2
-                    key={index}
-                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <ClubCard
-                      name={club.name}
-                      description={club.short_description}
-                      imageUrl={club.image}
-                      availableOn={club.available_on}
-                      id={club.id}
-                      isDashboard={true}
-                    />
-                  </Grid2>
-                );
-              }
-            })}
-          </>
-        )}
-
-        {clubs && clubs.length === 0 && (
+        {pagedClubs.length > 0 ? (
+          pagedClubs.map((club) => (
+            <Grid2
+              key={club.id}
+              size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <ClubCard
+                name={club.name}
+                description={club.short_description}
+                imageUrl={club.image}
+                availableOn={club.available_on}
+                id={club.id}
+                isDashboard={true}
+              />
+            </Grid2>
+          ))
+        ) : (
           <Grid2 size={16}>
             <Alert severity="info">クラブが見つかりませんでした。</Alert>
           </Grid2>
         )}
       </Grid2>
-      {clubs && clubs.length > 0 && (
+      {pageCount > 1 && (
         <Pagination
-          page={page ? parseInt(page) : 1}
-          count={Math.ceil(clubs.length / 12)}
+          page={pageNum}
+          count={pageCount}
           renderItem={(item) => (
             <PaginationItem
               component={Link}
@@ -139,6 +132,10 @@ function ClubDashboard({ clubs, page }: { clubs: Club[]; page: string | null }) 
 }
 
 function EventDashboard({ events, page }: { events: Event[]; page: string | null }) {
+  const pageNum = Number(page) || 1;
+  const pageSize = 12;
+  const pagedEvents = events?.slice(pageSize * (pageNum - 1), pageSize * pageNum) || [];
+  const pageCount = events ? Math.ceil(events.length / pageSize) : 1;
   return (
     <Stack
       spacing={2}
@@ -169,40 +166,29 @@ function EventDashboard({ events, page }: { events: Event[]; page: string | null
         justifyContent="left"
         width="100%"
       >
-        {events && events.length > 0 && (
-          <>
-            {events.map((event, index) => {
-              if (
-                index < 12 * (page ? parseInt(page) : 1) &&
-                index >= 12 * (page ? parseInt(page) - 1 : 0)
-              ) {
-                return (
-                  <Grid2
-                    key={index}
-                    size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <EventCard
-                      event={event}
-                      isDashboard={true}
-                    />
-                  </Grid2>
-                );
-              }
-            })}
-          </>
-        )}
-
-        {events && events.length === 0 && (
+        {pagedEvents.length > 0 ? (
+          pagedEvents.map((event) => (
+            <Grid2
+              key={event.id}
+              size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <EventCard
+                event={event}
+                isDashboard={true}
+              />
+            </Grid2>
+          ))
+        ) : (
           <Grid2 size={16}>
             <Alert severity="info">イベントが見つかりませんでした。</Alert>
           </Grid2>
         )}
       </Grid2>
-      {events && events.length > 0 && (
+      {pageCount > 1 && (
         <Pagination
-          page={page ? parseInt(page) : 1}
-          count={Math.ceil(events.length / 12)}
+          page={pageNum}
+          count={pageCount}
           renderItem={(item) => (
             <PaginationItem
               component={Link}

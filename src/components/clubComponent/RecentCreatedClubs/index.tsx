@@ -8,36 +8,34 @@ import { headers } from "next/headers";
 import { auth } from "@/auth";
 
 export default function SearchResultsPageWrappe() {
-  const searchPromise = new Promise<Club[] | fetchErrorResponse>(async (resolve) => {
-    try {
-      const headersData = await headers();
-      const host = headersData.get("host");
-      const protocol =
-        (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost")) ? "http" : "https";
-      const cookie = headersData.get("cookie");
-      const sessionID =
-        cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
-        cookie?.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token"));
-      const apiBase = `${protocol}://${host}`;
-      const key =
-        crypto.AES.encrypt(
-          ((await auth())?.user?.email as string) || "No Auth",
-          process.env.API_ROUTE_SECRET as string
-        ).toString() || "";
-      const res = await fetch(`${apiBase}/api/clubs/recent`, {
-        headers: new Headers({
-          Cookie: sessionID ?? "",
-          "X-Api-Key": key,
-        }),
-      });
-      if (res.status == 403) resolve("forbidden");
-      const club = (await res.json()) as Club[];
-      if (!club) resolve("notfound");
-      resolve(club);
-    } catch (e) {
-      throw new Error(e as string);
-    }
-  });
+  const searchPromise = (async (): Promise<Club[] | fetchErrorResponse> => {
+    const headersData = await headers();
+    const host = headersData.get("host") || "";
+    // プロトコル判定を修正
+    const protoHeader = headersData.get("x-forwarded-proto");
+    const protocol = protoHeader ? protoHeader : host.startsWith("localhost") ? "http" : "https";
+    const cookie = headersData.get("cookie") || "";
+    const sessionID =
+      cookie.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
+      cookie.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token")) ||
+      "";
+    const apiBase = `${protocol}://${host}`;
+    const userEmail = (await auth())?.user?.email as string | undefined;
+    const key = crypto.AES.encrypt(
+      userEmail || "No Auth",
+      process.env.API_ROUTE_SECRET as string
+    ).toString();
+    const res = await fetch(`${apiBase}/api/clubs/recent`, {
+      headers: new Headers({
+        Cookie: sessionID,
+        "X-Api-Key": key,
+      }),
+    });
+    if (res.status === 403) return "forbidden";
+    const club = (await res.json()) as Club[];
+    if (!club) return "notfound";
+    return club;
+  })();
   return (
     <Stack
       width={"100%"}

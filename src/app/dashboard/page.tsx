@@ -15,19 +15,15 @@ export default async function Page() {
   const session = await auth();
   if (!session) unauthorized();
   const headersData = await headers();
-  const host = headersData.get("host");
-  const protocol =
-    (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost")) ? "http" : "https";
+  const host = headersData.get("host") || "";
+  // protocol判定を分かりやすく
+  const protoHeader = headersData.get("x-forwarded-proto");
+  const protocol = protoHeader ? protoHeader : host.startsWith("localhost") ? "http" : "https";
+  // cookie取得もスッキリ
+  const cookieHeader = headersData.get("cookie") || "";
   const cookie =
-    headersData
-      .get("cookie")
-      ?.split(";")
-      .find((c) => c.trim().startsWith("authjs.session-token=")) ||
-    headersData
-      .get("cookie")
-      ?.split(";")
-      .find((c) => c.trim().startsWith("__Secure-authjs.session-token="))
-      ?.replace("__Secure-", "");
+    cookieHeader.split(";").find((c) => c.trim().startsWith("authjs.session-token=")) ||
+    cookieHeader.split(";").find((c) => c.trim().startsWith("__Secure-authjs.session-token="));
   if (!cookie) unauthorized();
   const apiBase = `${protocol}://${host}`;
   return (

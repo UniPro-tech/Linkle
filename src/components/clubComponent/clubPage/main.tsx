@@ -1,4 +1,5 @@
 import ClubType from "@/models/Club";
+import * as React from "react";
 import { Alert, Avatar, Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
@@ -19,9 +20,19 @@ export default function Club({
   email: string | undefined;
 }) {
   const club = use(getClubById(id, apiBase, email));
-  if (club == "forbidden") forbidden();
-  if (club == "notfound") notFound();
-  if (club == "unauthorized") unauthorized();
+  switch (club) {
+    case "forbidden":
+      forbidden();
+      break;
+    case "notfound":
+      notFound();
+      break;
+    case "unauthorized":
+      unauthorized();
+      break;
+    default:
+      break;
+  }
   return (
     <>
       {typeof club == "string" && (
@@ -34,8 +45,8 @@ export default function Club({
               {club == "forbidden"
                 ? "権限がありません。"
                 : club == "notfound"
-                  ? "クラブが見つかりませんでした。"
-                  : `エラーが発生しました。\n${club}`}
+                ? "クラブが見つかりませんでした。"
+                : `エラーが発生しました。\n${club}`}
             </Alert>
           }
         </Typography>
@@ -80,6 +91,8 @@ export default function Club({
 }
 
 function KeyVisual({ club, imageUrl }: { club: ClubType; imageUrl: string | undefined | null }) {
+  // 画像エラー時NoImageにフォールバック
+  const [imgSrc, setImgSrc] = React.useState(imageUrl || "/img/NoImage.webp");
   return (
     <Box
       position={"relative"}
@@ -89,11 +102,15 @@ function KeyVisual({ club, imageUrl }: { club: ClubType; imageUrl: string | unde
       overflow={"hidden"}
     >
       <Image
-        src={imageUrl || "/img/NoImage.webp"}
+        src={imgSrc}
         alt={club.name}
-        width={"5000"}
-        height={0}
-        style={{ width: "100%", height: "auto", objectFit: "contain" }}
+        width={1200}
+        height={675}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        onError={() => setImgSrc("/img/NoImage.webp")}
+        placeholder="blur"
+        blurDataURL="/img/NoImage.webp"
+        priority
       />
       <Stack
         spacing={1}

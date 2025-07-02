@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -27,6 +28,8 @@ export default function ClubCard({
   availableOn,
   isDashboard,
 }: ClubCardProps) {
+  // 画像のエラー時にNoImageへフォールバックするためのstate
+  const [imgSrc, setImgSrc] = React.useState(!imageUrl ? "/img/NoImage.webp" : imageUrl);
   return (
     <ThemeProvider theme={formTheme}>
       <Card
@@ -41,11 +44,16 @@ export default function ClubCard({
       >
         <Link href={`/clubs/${id}`}>
           <Image
-            src={imageUrl == "" || imageUrl == undefined ? "/img/NoImage.webp" : imageUrl}
+            src={imgSrc}
             alt={name}
-            width={"320"}
-            height={0}
+            width={320}
+            height={180}
+            style={{ objectFit: "cover", borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
             className="w-[320px] h-[180px]"
+            placeholder="blur"
+            blurDataURL="/img/NoImage.webp"
+            onError={() => setImgSrc("/img/NoImage.webp")}
+            priority
           />
           {availableContents(availableOn)}
           <CardContent>

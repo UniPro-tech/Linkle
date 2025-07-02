@@ -31,29 +31,23 @@ export default function SearchResultsPage({
         justifyContent="center"
         width={"100%"}
       >
-        {clubs && clubs.length > 0 && (
-          <>
-            {clubs.map((club, index) => {
-              return (
-                <Grid2
-                  key={index}
-                  size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <ClubCard
-                    name={club.name}
-                    description={club.short_description}
-                    imageUrl={club.image}
-                    availableOn={club.available_on}
-                    id={club.id}
-                  />
-                </Grid2>
-              );
-            })}
-          </>
-        )}
-
-        {clubs && clubs.length === 0 && (
+        {clubs.length > 0 ? (
+          clubs.map((club) => (
+            <Grid2
+              key={club.id}
+              size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <ClubCard
+                name={club.name}
+                description={club.short_description}
+                imageUrl={club.image}
+                availableOn={club.available_on}
+                id={club.id}
+              />
+            </Grid2>
+          ))
+        ) : (
           <Grid2 size={16}>
             <Typography
               style={{ marginTop: "20px", textAlign: "center" }}

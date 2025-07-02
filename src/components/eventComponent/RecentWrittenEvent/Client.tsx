@@ -31,23 +31,17 @@ export default function SearchResultsPage({
         justifyContent="center"
         width={"100%"}
       >
-        {events && events.length > 0 && (
-          <>
-            {events.map((event, index) => {
-              return (
-                <Grid2
-                  key={index}
-                  size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <EventCard event={event} />
-                </Grid2>
-              );
-            })}
-          </>
-        )}
-
-        {events && events.length === 0 && (
+        {events.length > 0 ? (
+          events.map((event) => (
+            <Grid2
+              key={event.id}
+              size={{ xs: 16, sm: 8, md: 4, lg: 4 }}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <EventCard event={event} />
+            </Grid2>
+          ))
+        ) : (
           <Grid2 size={16}>
             <Typography
               style={{ marginTop: "20px", textAlign: "center" }}
