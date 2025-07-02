@@ -1,8 +1,5 @@
 # 同好会ポータル Linkle
 
-[![Vercel Production Deployment](https://github.com/yuito-it/Linkle/actions/workflows/VercelProduct.yaml/badge.svg)](https://github.com/yuito-it/Linkle/actions/workflows/VercelProduct.yaml)
-[![Vercel RC Deployment](https://github.com/yuito-it/Linkle/actions/workflows/VercelRC.yaml/badge.svg)](https://github.com/yuito-it/Linkle/actions/workflows/VercelRC.yaml)
-[![Vercel Alpha Deployment](https://github.com/yuito-it/Linkle/actions/workflows/VercelAlpha.yaml/badge.svg)](https://github.com/yuito-it/Linkle/actions/workflows/VercelAlpha.yaml)
 [![Next.js Lint](https://github.com/yuito-it/Linkle/actions/workflows/lint.yaml/badge.svg)](https://github.com/yuito-it/Linkle/actions/workflows/lint.yaml)
 
 このプロジェクトは、N/S高等学校およびN中等部の同好会を検索しやすくしたWebサービスです。
