@@ -8,8 +8,6 @@ import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 import { GoogleTagManager } from "@next/third-parties/google";
 
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
 const notoSans = Noto_Sans_JP({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
@@ -50,7 +48,6 @@ export default function RootLayout({
             <Footer />
           </Sidebar>
         </AppRouterCacheProvider>
-        <SpeedInsights />
       </body>
     </html>
   );

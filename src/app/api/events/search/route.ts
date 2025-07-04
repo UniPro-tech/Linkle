@@ -22,7 +22,8 @@ export const GET = async (req: NextRequest) => {
       session = true;
   }
   const response = await fetch(
-    `${endpoint}/events?${query ? `&search=${query}` : ""}&order=created_at,desc`
+    `${endpoint}/events?${query ? `&search=${query}` : ""}&order=created_at,desc`,
+    { next: { revalidate: 300 } }
   );
   const resultRaw = await response.json();
   const result = resultRaw.records as Event[];

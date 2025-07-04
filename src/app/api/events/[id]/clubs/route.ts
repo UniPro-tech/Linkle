@@ -5,7 +5,12 @@ const endpoint = process.env.DB_API_ENDPOINT;
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const user_clubRes = await fetch(`${endpoint}/event_managers/?filter1=club,eq,${id}`);
+  const user_clubRes = await fetch(`${endpoint}/event_managers/?filter1=club,eq,${id}`, {
+    next: { revalidate: 300 },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const res = (await user_clubRes.json()) as { records: [{ author: string }] };
   const user_clubData = res.records.map((record) => record.author);
   return Response.json(user_clubData);
@@ -15,7 +20,12 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   const { id } = await params;
   const { club: prevClubId } = await request.json();
   const managersData = await (
-    await fetch(`${endpoint}/event_managers/?filter1=event,eq,${id}`)
+    await fetch(`${endpoint}/event_managers/?filter1=event,eq,${id}`, {
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
   ).json();
   const owners = managersData.records.map((record: { author: string }) => record.author);
   const session = await auth();
@@ -40,6 +50,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "no-store",
     body: JSON.stringify({
       event: id,
       author: session.user?.email,

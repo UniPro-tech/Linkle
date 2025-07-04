@@ -13,7 +13,7 @@ export default function RecentCreatedClubs() {
       const headersData = await headers();
       const host = headersData.get("host");
       const protocol =
-        (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost")) ? "http" : "https";
+        headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost") ? "http" : "https";
       const cookie = headersData.get("cookie");
       const sessionID =
         cookie?.split(";").find((c) => c.trim().startsWith("authjs.session-token")) ||
@@ -29,6 +29,7 @@ export default function RecentCreatedClubs() {
           Cookie: sessionID ?? "",
           "X-Api-Key": key,
         }),
+        next: { revalidate: 60 }, // Cache for 1 minute
       });
       if (res.status == 403) resolve("forbidden");
       const club = (await res.json()) as Event[];

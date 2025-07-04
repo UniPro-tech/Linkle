@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
+    cache: "no-store",
   });
   if (apiRes.ok) {
     return NextResponse.json({ status: 200 });
@@ -37,7 +38,9 @@ export async function PUT(req: NextRequest) {
     unauthorized();
   }
   const body = await req.json();
-  const res = await fetch(`${endpoint}/users?search=${session.user?.email}`);
+  const res = await fetch(`${endpoint}/users?search=${session.user?.email}`, {
+    cache: "no-store",
+  });
   const data = await res.json();
   const user = data.records[0];
   const payload = {
@@ -49,6 +52,7 @@ export async function PUT(req: NextRequest) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
+    cache: "no-store",
   });
   if (apiRes.ok) {
     return NextResponse.json({ status: 200 });
@@ -76,10 +80,13 @@ export async function GET(req: NextRequest) {
   }
   const searchParams = req.nextUrl.searchParams;
   const email = searchParams.get("email");
-  const userApiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`);
+  const userApiRes = await fetch(`${endpoint}/users?filter1=email,eq,${email}`, {
+    next: { revalidate: 60 },
+  });
   const userData = (await userApiRes.json()).records[0] as User;
   const ownClubApiRes = await fetch(
-    `${endpoint}/user_club?filter1=user,eq,${userData.email}&join=club,clubs`
+    `${endpoint}/user_club?filter1=user,eq,${userData.email}&join=club,clubs`,
+    { next: { revalidate: 60 } }
   );
   const ownClubData = await ownClubApiRes.json();
   userData.clubs = ownClubData.records.map((record: { club: Club }) => record.club);

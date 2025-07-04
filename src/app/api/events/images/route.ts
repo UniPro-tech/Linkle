@@ -16,6 +16,7 @@ async function uploadFile(fileName: string, base64Data: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(postData),
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -48,6 +49,7 @@ export async function POST(request: NextRequest) {
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "no-store",
   });
   if (res.status !== 200) {
     console.log(`[error]/api/images:POST
@@ -67,6 +69,7 @@ export async function GET(request: NextRequest) {
     headers: {
       "Content-Type": "application/json",
     },
+    next: { revalidate: 120 },
   });
   const { url } = await res.json();
   return NextResponse.json({ url: url }, { status: 200 });
@@ -82,6 +85,7 @@ export async function DELETE(request: NextRequest) {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     }
   );
   if (res.status !== 200) {

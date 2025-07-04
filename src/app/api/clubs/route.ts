@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
+    cache: "no-store", // Disable caching for this request
   });
   if (apiRes.ok) {
     const id = await apiRes.text();
@@ -41,6 +42,7 @@ export async function POST(req: NextRequest) {
         club: id,
         role: 1,
       }),
+      cache: "no-store", // Disable caching for this request
     });
     if (!api2Res.ok) {
       console.error(api2Res.statusText);
@@ -70,7 +72,8 @@ export const GET = async (req: NextRequest) => {
       session = true;
   }
   const apiRes = await fetch(
-    `${endpoint}/clubs?order=created_at,desc&filter1=visible,ge,${session ? 0x1 : 0x2}`
+    `${endpoint}/clubs?order=created_at,desc&filter1=visible,ge,${session ? 0x1 : 0x2}`,
+    { next: { revalidate: 120 } }
   );
   if (apiRes.ok) {
     const data = await apiRes.json();

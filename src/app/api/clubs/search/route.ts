@@ -22,7 +22,8 @@ export const GET = async (req: NextRequest) => {
       session = true;
   }
   const response = await fetch(
-    `${endpoint}/clubs?${query ? `&search=${query}` : ""}&order=created_at,desc`
+    `${endpoint}/clubs?${query ? `&search=${query}` : ""}&order=created_at,desc`,
+    { next: { revalidate: 120 }, headers: { "Content-Type": "application/json" } }
   );
   const resultRaw = await response.json();
   const result = resultRaw.records as Club[];

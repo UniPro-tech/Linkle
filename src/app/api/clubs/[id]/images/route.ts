@@ -15,6 +15,7 @@ async function uploadFile(fileName: string, base64Data: string) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData),
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -49,6 +50,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const res = await fetch(`${uploadScriptUrl}?filename=${clubFileName}&type=club`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -78,6 +80,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const res = await fetch(`${uploadScriptUrl}?filename=${clubFileName}&type=club`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    next: { revalidate: 120 }, // Cache for 2 minutes
   });
 
   if (!res.ok) {
@@ -102,6 +105,7 @@ export async function DELETE(
   const res = await fetch(`${deleteScriptUrl}?type=club&filename=${clubFileName}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    cache: "no-store",
   });
 
   if (!res.ok) {

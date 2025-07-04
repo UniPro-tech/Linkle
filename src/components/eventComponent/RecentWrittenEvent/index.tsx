@@ -30,6 +30,7 @@ export default function RecentCreatedClubs() {
           Cookie: sessionID,
           "X-Api-Key": key,
         }),
+        next: { revalidate: 60 }, // Cache for 1 minute
       });
       if (res.status === 403) return "forbidden";
       const events = (await res.json()) as Event[];

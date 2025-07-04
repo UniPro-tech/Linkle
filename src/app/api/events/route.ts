@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
         club: club,
         event: eventId,
       }),
+      cache: "no-store",
     });
     if (!api2Res.ok) {
       console.error(api2Res.statusText);

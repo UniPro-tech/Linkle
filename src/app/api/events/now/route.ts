@@ -22,7 +22,8 @@ export const GET = async () => {
   const apiRes = await fetch(
     `${endpoint}/events?size=8&filter=start_at,le,${nowDate.toISOString()}&filter=end_at,ge,${nowDate.toISOString()}&filter=visible,ge,${
       session || apiCheck ? 0x1 : 0x2
-    }&join=clubs,clubs`
+    }&join=clubs,clubs`,
+    { next: { revalidate: 300 } }
   );
   if (apiRes.ok) {
     const data = await apiRes.json();

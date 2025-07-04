@@ -1,7 +1,6 @@
 import { Box, Divider, Stack, ThemeProvider, Typography } from "@mui/material";
 import theme from "@/theme/primary";
 import Link from "next/link";
-import PoweredByVercel from "powered-by-vercel";
 
 export default function Footer() {
   return (
@@ -133,14 +132,6 @@ export default function Footer() {
               src="https://uniproject.instatus.com/embed-status/3559d5ef/light-lg"
               width="245"
               height="61"
-            />
-            <PoweredByVercel
-              utmSource="my-source"
-              target="_blank"
-              rel="noopener noreferrer"
-              svgProps={{
-                width: 245,
-              }}
             />
           </Stack>
         </Stack>

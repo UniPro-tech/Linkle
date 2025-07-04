@@ -26,7 +26,8 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const email = searchParams.get("email");
   const ownClubApiRes = await fetch(
-    `${endpoint}/user_club?filter1=user,eq,${email}&join=club,clubs`
+    `${endpoint}/user_club?filter1=user,eq,${email}&join=club,clubs`,
+    { next: { revalidate: 300 } }
   );
   const ownClubData = ((await ownClubApiRes.json()) as { records: [{ club: Club }] }).records.map(
     (record) => record.club
