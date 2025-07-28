@@ -22,6 +22,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/signin",
     signOut: "/signout",
+    error: "/error/notStudent",
   },
-  callbacks: {},
+  callbacks: {
+    signIn({ user, profile }) {
+      if (user.email?.endsWith("@nnn.ed.jp") || profile?.email?.endsWith("@nnn.ed.jp")) {
+        return true;
+      }
+      if (user.email?.endsWith("@nnn.ac.jp") || profile?.email?.endsWith("@nnn.ac.jp")) {
+        return true;
+      }
+      if (user.email?.endsWith("@n-jr.jp") || profile?.email?.endsWith("@n-jr.jp")) {
+        return true;
+      }
+      return false;
+    },
+  },
 });

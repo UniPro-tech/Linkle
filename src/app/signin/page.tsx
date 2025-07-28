@@ -48,7 +48,7 @@ export default async function SignInPage({
             action={async () => {
               "use server";
               try {
-                await signIn(provider.id, { redirectTo: `/checkAuth?redirect=${callbackUrl}` });
+                await signIn(provider.id, { redirectTo: callbackUrl });
               } catch (error) {
                 if (error instanceof AuthError) {
                   return redirect(`?error=${error.type}`);

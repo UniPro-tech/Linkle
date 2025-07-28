@@ -89,11 +89,9 @@ export default function SidebarMain({
   email,
 }: Readonly<{ children: React.ReactNode; email: string }>) {
   const excludePaths = [
-    "/checkAuth",
     "/register",
     "/signin",
     "/signout",
-    "/api/authErrorSignout",
     "/signouted",
     "/error/notStudent",
     "/tos",
@@ -110,7 +108,7 @@ export default function SidebarMain({
       const data = await res.json();
       setUser(data);
       if (!data && !excludePaths.includes(pathname)) {
-        redirect("/checkAuth");
+        redirect("/register");
       }
     };
     fetchData();
