@@ -40,7 +40,7 @@ spec:
             initialDelaySeconds: 300
             periodSeconds: 20
             httpGet:
-              path: /health
+              path: /api/health
               port: default-port
               httpHeaders:
                 - name: X-k8s-Header
@@ -52,14 +52,14 @@ spec:
             initialDelaySeconds: 300
             periodSeconds: 20
             httpGet:
-              path: /health
+              path: /api/health
               port: default-port
               httpHeaders:
                 - name: X-k8s-Header
                   value: readiness
           startupProbe:
             httpGet:
-              path: /health
+              path: /api/health
               port: default-port
             failureThreshold: 30
             periodSeconds: 20
