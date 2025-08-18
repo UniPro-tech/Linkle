@@ -57,6 +57,12 @@ spec:
               httpHeaders:
                 - name: X-k8s-Header
                   value: readiness
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: liveness-port
+            failureThreshold: 30
+            periodSeconds: 20
 
       imagePullSecrets:
         - name: internal-harbor
